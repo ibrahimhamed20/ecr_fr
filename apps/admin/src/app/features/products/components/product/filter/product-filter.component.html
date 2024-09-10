@@ -1,0 +1,24 @@
+<form class="p-fluid p-formgrid grid" [formGroup]="filterForm" (ngSubmit)="onSubmit()">
+
+  <div class="col-12 md:col-3">
+    <p-dropdown [options]="(filterData$ | async)?.classifications" optionLabel="name" optionValue="id"
+      placeholder="Select a Classification" [filter]="true" formControlName="ClassificationId"
+      filterBy="name"></p-dropdown>
+  </div>
+
+  <div class="col-12 md:col-3">
+    <p-dropdown [options]="(filterData$ | async)?.brands" optionLabel="name" optionValue="id"
+      placeholder="Select a Brand" [filter]="true" formControlName="BrandId" filterBy="name"></p-dropdown>
+  </div>
+
+  <div class="col-12 md:col-3">
+    <p-dropdown [options]="(filterData$ | async)?.categories" optionLabel="name" optionValue="id"
+      placeholder="Select a Category" [filter]="true" formControlName="CategoryId" filterBy="name"></p-dropdown>
+  </div>
+
+  <div class="col-12 md:col-3 flex justify-content-end align-items-center">
+    <p-button type="submit" class="mr-2" label="Filter" [outlined]="true" severity="success"></p-button>
+    <p-button label="Reset" [outlined]="true" severity="warning" (click)="onReset()"></p-button>
+  </div>
+  
+</form>

@@ -1,0 +1,35 @@
+<section class="dialog-side">
+  <shared-ui-table [config]="tableConfig" (onPage)="onPageChange($event)" (onSearch)="searchControl.patchValue($event)"
+    (actionClicked)="onActionClicked($event)">
+    <div class="filters row" filters-area>
+      <div class="filters-item col-2 p-0">{{'GENERAL.FILTERS' | translate}}</div>
+      <div class="filters-actions col-4 p-0">
+        <p-dropdown [options]="classifications" class="w-full" formControlName="classification" optionLabel="name"
+          [filter]="true" filterBy="name" [showClear]="true" (onChange)="onClassificationChange($event)"
+          placeholder="Select a classifications">
+          <ng-template pTemplate="selectedItem" let-selectedOption>
+            <div class="flex align-items-center gap-2">
+              <div>{{ selectedOption.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+    </div>
+  </shared-ui-table>
+  <p-dialog [(visible)]="displayDialog" [modal]="true" [dismissableMask]="true" [position]="'right'"
+    [style]="{ width: '600px', height: '100vh', top: '0', margin: '0', padding: '0' }" [baseZIndex]="10000"
+    [draggable]="false" [blockScroll]="true" [closable]="false">
+    <ng-template pTemplate="header">
+      <div class="dialog-header">
+        <div class="dialog-header__title">{{'UNITS.ADD_NEW_UNIT' | translate}}</div>
+        <button class="dialog-header__close-button" (click)="displayDialog = false">
+          <img src="assets/layout/images/close-icon.svg" alt="Close" class="dialog-header__close-icon" />
+        </button>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="content">
+      <admin-add-edit-units [classifications]="classifications" [unitData]="selectedUnit"
+        (save)="handleSave($event)"></admin-add-edit-units>
+    </ng-template>
+  </p-dialog>
+</section>

@@ -1,0 +1,29 @@
+.error-class {
+  border-radius: 56px;
+  padding: 0.3rem;
+  background: linear-gradient(
+    180deg,
+    rgba(233, 30, 99, 0.4) 10%,
+    rgba(33, 150, 243, 0) 30%
+  );
+}
+
+.access-class {
+  border-radius: 56px;
+  padding: 0.3rem;
+  background: linear-gradient(
+    180deg,
+    rgba(247, 149, 48, 0.4) 10%,
+    rgba(247, 149, 48, 0) 30%
+  );
+}
+
+.notfound-class {
+  border-radius: 56px;
+  padding: 0.3rem;
+  background: linear-gradient(
+    180deg,
+    rgba(33, 150, 243, 0.4) 10%,
+    rgba(33, 150, 243, 0) 30%
+  );
+}

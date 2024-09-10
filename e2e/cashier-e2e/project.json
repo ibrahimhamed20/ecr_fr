@@ -1,0 +1,9 @@
+{
+  "name": "cashier-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "e2e/cashier-e2e/src",
+  "implicitDependencies": ["cashier"],
+  "// targets": "to see all targets run: nx show project cashier-e2e --web",
+  "targets": {}
+}

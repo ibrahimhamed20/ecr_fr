@@ -1,0 +1,49 @@
+<form [formGroup]="form" autocomplete="off">
+    <div class="p-fluid p-formgrid grid" formGroupName="basicinfo">
+        <div class="field col-12 md:col-6">
+            <label for="categoryId">Category</label>
+            <p-dropdown [options]="category" id="categoryId" optionLabel="name" [filter]="true"
+                formControlName="categoryId" filterBy="name" [showClear]="true" placeholder="Find category...">
+            </p-dropdown>
+            @if (formError.hasSpecificError('store.categoryId', 'required')) {
+            <small id="categoryId-error" class="text-error">Please select a category</small>
+            }
+        </div>
+        <div class="field col-12 md:col-6">
+            <label for="categoryId">Sub Category</label>
+            <p-dropdown [options]="category" id="categoryId" optionLabel="name" [filter]="true"
+                formControlName="categoryId" filterBy="name" [showClear]="true" placeholder="Find category...">
+            </p-dropdown>
+            @if (formError.hasSpecificError('store.categoryId', 'required')) {
+            <small id="categoryId-error" class="text-error">Please select a Sub category</small>
+            }
+        </div>
+        <div class="field col-12 md:col-6">
+            <label for="tagIds">Brand</label>
+            <p-dropdown [options]="tags" id="tagIds" optionLabel="name" [filter]="true"
+                formControlName="tagIds" filterBy="name" [showClear]="true" placeholder="Find category...">
+            </p-dropdown>
+            @if (formError.hasSpecificError('store.tagIds', 'required')) {
+            <small id="tagIds-error" class="text-error">Please select a Brand</small>
+            }
+        </div>
+        <div class="field col-12 md:col-6">
+            <label for="tagIds">Tags</label>
+            <p-dropdown [options]="tags" id="tagIds" optionLabel="name" [filter]="true"
+                formControlName="tagIds" filterBy="name" [showClear]="true" placeholder="Find category...">
+            </p-dropdown>
+            @if (formError.hasSpecificError('store.tagIds', 'required')) {
+            <small id="tagIds-error" class="text-error">Please select a Tags</small>
+            }
+        </div>
+        <div class="field col-12 md:col-12">
+            <label for="englishDescription">Description</label>
+            <textarea rows="5" cols="30" id="englishDescription" formControlName="englishDescription"
+                placeholder="Description" pInputTextarea spellcheck="false"
+                [ngClass]="{'ng-dirty ng-invalid': formError.hasError('store.englishDescription')}"></textarea>
+            @if (formError.hasSpecificError('store.englishDescription', 'required')) {
+            <small id="englishDescription-error" class="text-error">Please enter the  description</small>
+            }
+        </div>
+    </div>
+</form>

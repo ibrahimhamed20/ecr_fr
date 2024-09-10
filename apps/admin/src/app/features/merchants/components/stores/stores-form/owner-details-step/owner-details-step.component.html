@@ -1,0 +1,47 @@
+<form [formGroup]="form" autocomplete="off">
+    <h5>Owner Details</h5>
+    <div class="p-fluid p-formgrid grid" formGroupName="owner">
+
+        <div class="field col-12 md:col-6">
+            <label htmlFor="firstname">Firstname</label>
+            <input pInputText formControlName="firstname" id="firstname" type="text"
+                [ngClass]="{'ng-dirty ng-invalid': formError.hasError('owner.firstname')}" />
+            @if (formError.hasSpecificError('owner.firstname', 'required')) {
+            <small id="firstname-error" class="text-error">Please enter first name</small>
+            }
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label htmlFor="lastname">Lastname</label>
+            <input pInputText formControlName="lastname" id="lastname" type="text"
+                [ngClass]="{'ng-dirty ng-invalid': formError.hasError('owner.lastname')}" />
+            @if (formError.hasSpecificError('owner.lastname', 'required')) {
+            <small id="lastname-error" class="text-error">Please enter last name</small>
+            }
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label htmlFor="phone">Phone Number</label>
+            <input pInputText formControlName="phoneNumber" id="phone" type="tel"
+                [ngClass]="{'ng-dirty ng-invalid': formError.hasError('owner.phoneNumber')}" />
+            @if (formError.hasSpecificError('owner.phoneNumber', 'required')) {
+            <small id="phoneNumber-error" class="text-error">Please enter phone number</small>
+            }
+            @if(form.get('owner.phoneNumber')?.pending){
+            <small id="phoneNumber-error">Validating...</small>
+            }
+            @if (formError.hasSpecificError('owner.phoneNumber', 'invalidPhone')) {
+                <small id="phoneNumber-error" class="text-error">Phone number is invalid!</small>
+            }
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label htmlFor="password">Password</label>
+            <p-password formControlName="password" id="password" [toggleMask]="true"
+                [ngClass]="{'ng-dirty ng-invalid': formError.hasError('owner.password')}" />
+            @if (formError.hasSpecificError('owner.password', 'required')) {
+            <small id="password-error" class="text-error">Please enter password</small>
+            }
+        </div>
+    </div>
+</form>

@@ -1,0 +1,33 @@
+<p-stepper [linear]="true" [(activeStep)]="activeStep" (activeStepChange)="onChange.emit()">
+    @for (step of steps; track $index) {
+    <p-stepperPanel>
+        <ng-template pTemplate="header" let-index>
+            <button role="tab" class="p-stepper-action flex flex-column gap-3">
+                <span class="p-stepper-number">{{step.id}}</span>
+                <span class="p-stepper-title">{{step.label}}</span>
+            </button>
+        </ng-template>
+        <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback"
+            let-index="index">
+            <!-- <ng-content [select]="'#step'+step.id"></ng-content> -->
+            @if(index === (step.id - 1)){
+            <ng-container *ngTemplateOutlet="step.template"></ng-container>
+            }
+
+            <div [ngClass]="{'justify-content-end': index === 0,'justify-content-between': index !== 0}"
+                class="flex pt-4">
+                @if (index !== 0) {
+                <p-button label="Back" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()" />
+                }
+                @if (index !== steps.length - 1) {
+                <p-button label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="nextCallback.emit()" />
+                }
+                @if (index === steps.length - 1) {
+                <ng-content select="[completeButton]"></ng-content>
+                <p-button label="Submit" icon="pi pi-arrow-right" iconPos="right" (onClick)="onSubmit.emit()" />
+                }
+            </div>
+        </ng-template>
+    </p-stepperPanel>
+    }
+</p-stepper>

@@ -1,0 +1,7 @@
+<pos-ui-breadcrumb [items]="breadcrumb"></pos-ui-breadcrumb>
+<br>
+<section>
+  <shared-ui-table [config]="tableConfig"
+  (actionClicked)="onActionClicked($event)" (onPage)="onPageChange($event)" (onSearch)="searchControl.patchValue($event)">
+  </shared-ui-table>
+</section>

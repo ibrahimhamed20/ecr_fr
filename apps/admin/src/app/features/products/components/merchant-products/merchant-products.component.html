@@ -1,0 +1,18 @@
+<pos-ui-breadcrumb [items]="breadcrumb"></pos-ui-breadcrumb>
+<br>
+
+<div class="card">
+    <shared-ui-table [config]="tableConfig" (actionClicked)="onActionClicked($event)" (onPage)="onPageChange($event)"
+        (onSearch)="searchControl.patchValue($event)">
+        <ng-template #actions let-row>
+            <div class="flex">
+                <p-button pButton pRipple icon="pi pi-link" class="mr-2" severity="warning" [rounded]="true"
+                    [outlined]="true" (click)="onActionClicked({action: 'LINK', data: row})"/>
+                <p-button pRipple icon="pi pi-check" class="mr-2" severity="primary" [rounded]="true" [outlined]="true"
+                    (click)="onActionClicked({action: 'APPROVE', data: row})" />
+                <p-button pButton pRipple icon="pi pi-times" severity="danger" [rounded]="true" [outlined]="true"
+                    (click)="onActionClicked({action: 'REJECT', data: row})" />
+            </div>
+        </ng-template>
+    </shared-ui-table>
+</div>

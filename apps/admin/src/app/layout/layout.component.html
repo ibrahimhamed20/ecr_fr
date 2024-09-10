@@ -1,0 +1,16 @@
+<div class="layout-wrapper" [ngClass]="containerClass">
+    <admin-navbar></admin-navbar>
+    <div class="layout-sidebar">
+        <admin-sidebar></admin-sidebar>
+    </div>
+    <div class="layout-main-container">
+        <div class="layout-main">
+            <router-outlet></router-outlet>
+        </div>
+        <admin-footer></admin-footer>
+    </div>
+    <admin-config></admin-config>
+    <div class="layout-mask"></div>
+</div>
+
+<shared-ui-confirm-dialog></shared-ui-confirm-dialog>

@@ -1,0 +1,33 @@
+<div class="layout-topbar">
+    <a class="layout-topbar-logo" routerLink="">
+        <img src="assets/system/images/logo/system_logo.svg" alt="logo">
+        <span>{{"CONTROLADMIN"|translate}}</span>
+    </a>
+
+    <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="_layout.onMenuToggle()">
+        <i class="pi pi-bars"></i>
+    </button>
+
+    <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button"
+        (click)="_layout.showProfileSidebar()">
+        <i class="pi pi-ellipsis-v"></i>
+    </button>
+
+    <div #topbarmenu class="layout-topbar-menu"
+        [ngClass]="{'layout-topbar-menu-mobile-active': _layout.state.profileSidebarVisible}">
+        <button class="p-link layout-topbar-button" [pTooltip]="'Profile'" [tooltipPosition]="'bottom'">
+            <i class="pi pi-user"></i>
+            <span>Profile</span>
+        </button>
+        <button (click)="changeLanguage()" class="p-link layout-topbar-button" [pTooltip]="'Settings'"
+            [tooltipPosition]="'bottom'">
+            <i class="pi pi-cog"></i>
+            <span>Settings</span>
+        </button>
+        <button class="p-link layout-topbar-button" [pTooltip]="'Logout'" [tooltipPosition]="'bottom'"
+            (click)="_auth.logout()">
+            <i class="pi pi-power-off"></i>
+            <span>Logout</span>
+        </button>
+    </div>
+</div>

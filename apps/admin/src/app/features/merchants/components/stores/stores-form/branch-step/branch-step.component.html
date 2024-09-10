@@ -1,0 +1,186 @@
+
+<form [formGroup]="form" autocomplete="off">
+    <h5>Branch Details</h5>
+    <div class="p-fluid p-formgrid grid" formGroupName="branch">
+
+        <div class="field col-12 md:col-6">
+            <label for="englishName">Branch Name (En)</label>
+            <input pInputText formControlName="englishName" id="englishName" type="text"
+                [ngClass]="{'ng-dirty ng-invalid': formError.hasError('branch.englishName')}" />
+            @if (formError.hasSpecificError('branch.englishName', 'required')) {
+            <small id="englishName-error" class="text-error">Please enter branch name in English</small>
+            }
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="arabicName">Branch Name (Ar)</label>
+            <input pInputText formControlName="arabicName" id="arabicName" type="text"
+                [ngClass]="{'ng-dirty ng-invalid': formError.hasError('branch.arabicName')}" />
+            @if (formError.hasSpecificError('branch.arabicName', 'required')) {
+            <small id="arabicName-error" class="text-error">Please enter branch name in Arabic</small>
+            }
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="branchType">Branch Type</label>
+            <p-dropdown [options]="dropdownItems" id="branchType" optionLabel="name" [filter]="true"
+                formControlName="branchType" filterBy="name" [showClear]="true" placeholder="Search for Branch Type"
+                [ngClass]="{'ng-dirty ng-invalid': formError.hasError('branch.branchType')}"></p-dropdown>
+            @if (formError.hasSpecificError('branch.branchType', 'required')) {
+            <small id="branchType-error" class="text-error">Please select a branch type</small>
+            }
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="branchTagIds">Branch Tags</label>
+            <p-multiSelect [options]="selections" formControlName="branchTagIds" placeholder="Select Tags"
+                optionLabel="name" display="chip" [showClear]="true" inputId="branchTagIds" />
+        </div>
+
+        <div class="col-12">
+            <hr>
+            <h5>Branch Address</h5>
+        </div>
+        <ng-container formGroupName="address">
+            <div class="field col-12 md:col-4">
+                <label for="countryId">Country</label>
+                <input pInputText formControlName="countryId" id="countryId" type="text"
+                    [ngClass]="{'ng-dirty ng-invalid': formError.hasError('branch.address.countryId')}" />
+                @if (formError.hasSpecificError('branch.address.countryId', 'required')) {
+                <small id="countryId-error" class="text-error">Please enter the country</small>
+                }
+            </div>
+
+            <div class="field col-12 md:col-4">
+                <label for="cityId">City</label>
+                <input pInputText formControlName="cityId" id="cityId" type="text"
+                    [ngClass]="{'ng-dirty ng-invalid': formError.hasError('branch.address.cityId')}" />
+                @if (formError.hasSpecificError('branch.address.cityId', 'required')) {
+                <small id="cityId-error" class="text-error">Please enter the city</small>
+                }
+            </div>
+
+            <div class="field col-12 md:col-4">
+                <label for="localityId">Locality</label>
+                <input pInputText formControlName="localityId" id="localityId" type="text"
+                    [ngClass]="{'ng-dirty ng-invalid': formError.hasError('branch.address.localityId')}" />
+                @if (formError.hasSpecificError('branch.address.localityId', 'required')) {
+                <small id="localityId-error" class="text-error">Please enter the locality</small>
+                }
+            </div>
+
+            <div class="field col-12 md:col-4">
+                <label for="subLocalityId">Sub Locality</label>
+                <input pInputText formControlName="subLocalityId" id="subLocalityId" type="text"
+                    [ngClass]="{'ng-dirty ng-invalid': formError.hasError('branch.address.subLocalityId')}" />
+                @if (formError.hasSpecificError('branch.address.subLocalityId', 'required')) {
+                <small id="subLocalityId-error" class="text-error">Please enter the sub locality</small>
+                }
+            </div>
+
+            <div class="field col-12 md:col-4">
+                <label for="street">Street</label>
+                <input pInputText formControlName="street" id="street" type="text"
+                    [ngClass]="{'ng-dirty ng-invalid': formError.hasError('branch.address.street')}" />
+                @if (formError.hasSpecificError('branch.address.street', 'required')) {
+                <small id="street-error" class="text-error">Please enter the street</small>
+                }
+            </div>
+
+            <div class="field col-12 md:col-4">
+                <label for="streetNo">Building No.</label>
+                <input pInputText formControlName="streetNo" id="streetNo" type="text"
+                    [ngClass]="{'ng-dirty ng-invalid': formError.hasError('branch.address.streetNo')}" />
+                @if (formError.hasSpecificError('branch.address.streetNo', 'required')) {
+                <small id="streetNo-error" class="text-error">Please enter the building number</small>
+                }
+            </div>
+        </ng-container>
+        <div class="col-12">
+            <hr>
+            <h5>Address Tags</h5>
+        </div>
+        <div class="field col-12">
+            <input pInputText formControlName="addressTags" id="addressTags" type="text" />
+        </div>
+        <div class="col-12">
+            <h6>Work Time </h6>
+          </div>
+        <div class="field col-12 md:col-4">
+            <label for="icondisplay" class="mb-2">working Hours From </label>
+            <p-calendar formControlName="workingHoursFrom" [iconDisplay]="'input'" [showIcon]="true" [timeOnly]="true"
+                inputId="templatedisplay">
+                <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
+                    <i class="pi pi-clock pointer-events-none" (click)="clickCallBack($event)"></i>
+                </ng-template>
+            </p-calendar>
+        </div>
+        <div class="field col-12 md:col-4">
+            <label for="icondisplay" class="mb-2">working Hours To </label>
+
+            <p-calendar formControlName="workingHoursTo" [iconDisplay]="'input'" [showIcon]="true" [timeOnly]="true"
+                inputId="templatedisplay">
+                <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
+                    <i class="pi pi-clock  pointer-events-none" (click)="clickCallBack($event)"></i>
+                </ng-template>
+            </p-calendar>
+        </div>
+
+        <div class="field col-12 md:col-4">
+            <label for="branchDaysOff">Vacancies</label>
+            <p-multiSelect [options]="dropdownItems" optionLabel="name" formControlName="branchDaysOff"
+                placeholder="Select Days"></p-multiSelect>
+        </div>0
+
+      
+        <div class="field col-12" formArrayName="contacts">
+            <label for="contacts">Contacts</label>
+            @for (item of branchContacts.controls; track $index) {
+            <div class="grid">
+                <div class="col-11">
+                    <p-inputGroup [formGroupName]="$index">
+                        <p-inputGroupAddon>
+                            <select formControlName="contactType" class="custom-select">
+                                <option *ngFor="let contact of contacts" [value]="contact.code">
+                                    {{contact.name}}
+                                </option>
+                            </select>
+                        </p-inputGroupAddon>
+                        <input type="text" pInputText [id]="'contact-'+$index" formControlName="contact" />
+                    </p-inputGroup>
+                </div>
+                <div class="col-1 flex justify-content-end">
+                    <button pButton type="button" severity="danger" class="w-fit" (click)="removeContact($index)">
+                        <i class="pi pi-trash"></i>
+                    </button>
+                </div>
+            </div>
+       
+            }
+            <button pButton type="button" class="p-button-link w-fit" (click)="addContact()">
+                <i class="pi pi-plus mr-2"></i> Add Contact
+            </button>
+        </div>
+
+
+        <div class="col-12">
+            <hr>
+            <h5>Branch Album</h5>
+        </div>
+
+        <div class="field col-12">
+            <label for="test">Choose Images</label>
+            <p-fileUpload name="iconImage" [showUploadButton]="false" [showCancelButton]="false"
+                (onUpload)="onUpload($event)" [multiple]="true" id="icon" accept="image/*"
+                [maxFileSize]="1000000"></p-fileUpload>
+        </div>
+
+        <div class="field col-12">
+            <label for="icon">360 Images</label>
+            <p-fileUpload name="iconImage" [showUploadButton]="false" [showCancelButton]="false"
+                (onUpload)="onUpload($event)" [multiple]="true" id="icon" accept="image/*"
+                [maxFileSize]="1000000"></p-fileUpload>
+        </div>
+
+    </div>
+</form>

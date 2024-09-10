@@ -1,0 +1,140 @@
+@if (config) {
+<!--  [paginator]="true" (onPage)="onPage($event)"  -->
+<p-table #dt [value]="config.rows || []" [columns]="exportedColumns || []" responsiveLayout="scroll"
+    [(rows)]="config.rowsPerPage" [lazy]="true" [paginator]="true"
+    [totalRecords]="config.totalRecords || config.rows?.length || 0" [selectionMode]="config.selectionMode"
+    [exportFilename]="config.exportFilename ||'products'" [globalFilterFields]="config.globalFilterFields"
+    [rowsPerPageOptions]="config.rowsPerPageOptions" [showCurrentPageReport]="true" [rowHover]="true" dataKey="id"
+    [(selection)]="selectedRows" styleClass="p-datatable-gridlines"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" (onPage)="onPageChange($event)">
+    <ng-template pTemplate="caption">
+        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+            <div class="m-0 flex flex-row gap-2">
+                <span class="block mt-2 md:mt-0 p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="onFilter(dt, $event)" placeholder="Search..."
+                        class="w-full sm:w-auto" />
+                </span>
+                <p-button severity="info" icon="pi pi-sliders-v" label="Filters"
+                    (onClick)="showFilter = !showFilter"></p-button>
+            </div>
+            <div class="m-0">
+                @for (action of config.actions; track $index) {
+                @switch (action) {
+                @case ('CREATE') {
+                <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                    (click)="actionClicked.emit({action: 'CREATE'})"></button>
+                }
+                @case ('DELETE_ALL') {
+                <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2"
+                    (click)="actionClicked.emit({action: 'DELETE_ALL', data: selectedRows})"
+                    [disabled]="!selectedRows || !selectedRows.length"></button>
+                }
+                @case ('IMPORT') {
+                <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import"
+                    class="mr-2 inline-block"></p-fileUpload>
+                }
+                @case ('EXPORT') {
+                <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help mr-2"
+                    (click)="onExport(dt)"></button>
+                }
+                }
+                }
+            </div>
+        </div>
+        @if (showFilter) {
+        <hr /><ng-content select="[filters-area]" />
+        }
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            @for (col of config.columns; track $index) {
+            @if (col.type === 'checkbox') {
+            <th style="width: 3rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            } @else {
+            @if (col.sortable) {
+            <th [pSortableColumn]="col.field">
+                {{config.locale + col.header | translate}} <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+            } @else {
+            <th>{{config.locale + col.header | translate}}</th>
+            }
+            }
+            }
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-row>
+        <tr>
+            @for (col of config.columns; track $index) {
+            @if (col.type === 'checkbox') {
+            <td><p-tableCheckbox [value]="row"></p-tableCheckbox></td>
+            } @else if (col.type === 'link') {
+            <td style="width:14%; min-width:10rem;">
+                <span class="p-column-title">{{col.header}}</span>
+                <a href="javascript:void(0)" (click)="actionClicked.emit({action: 'NAVIGATE', data: row})">
+                    {{row[col.field]}}
+                </a>
+            </td>
+            } @else if (col.type === 'label') {
+            <td style="width:14%; min-width:10rem;">
+                <span class="p-column-title">{{col.header}}</span>
+                {{row[col.field] ? row[col.field] :'-'}}
+            </td>
+            } @else if (col.type === 'image') {
+            <td style="width:14%; min-width:10rem;">
+                <span class="p-column-title">{{col.header}}</span>
+                <img [src]="row[col.field]" [alt]="col.header" width="100" class="shadow-4" />
+            </td>
+            } @else if (col.type === 'money') {
+            <td style="width:14%; min-width:8rem;">
+                <span class="p-column-title">{{col.header}}</span>
+                {{row[col.field] | currency:'USD'}}
+            </td>
+            } @else if(col.type === 'rating') {
+            <td style="width:14%; min-width: 10rem;">
+                <span class="p-column-title">{{col.header}}</span>
+                <p-rating [ngModel]="row[col.field]" [readonly]="true" [cancel]="false"></p-rating>
+            </td>
+            } @else if (col.type === 'status') {
+            <td style="width:14%; min-width: 10rem;"><span class="p-column-title">{{col.header}}</span>
+                <span
+                    [class]="'store-badge status-' + (row[col.field] ? row[col.field].toLowerCase() : '')">{{row[col.field]}}</span>
+            </td>
+            } @else if (col.type === 'date') {
+            <td style="width:14%; min-width:10rem;">
+                <span class="p-column-title">{{col.header}}</span>
+                {{row[col.field] | date: 'dd/MM/yyyy'}}
+            </td>
+            } @else if(col.type === 'actions') {
+
+            @if(actionsTemplateRef){
+            <td style="width: 10%; white-space: nowrap">
+                <ng-container [ngTemplateOutlet]="actionsTemplateRef" [ngTemplateOutletContext]="{ $implicit: row }">
+                </ng-container>
+            </td>
+            } @else {
+            <td style="width: 10%; white-space: nowrap">
+                <div class="d-flex align-items-center ms-2">
+                    <p-button icon="pi pi-ellipsis-v" [rounded]="true" [outlined]="true"
+                        (onClick)="toggleMenu($event, row, menu)" />
+                </div>
+            </td>
+            }
+            }
+            }
+        </tr>
+    </ng-template>
+</p-table>
+}
+
+<p-menu #menu [model]="allowedActions" [popup]="true">
+    <ng-template pTemplate="item" let-item>
+        <a pRipple class="flex align-items-center p-menuitem-link"
+            [ngStyle]="{'color': item.label === 'DELETE' ? 'red' : 'black'}">
+            <span [class]="item.icon"></span>
+            <span class="ml-2">{{ item.label |titlecase }}</span>
+        </a>
+    </ng-template>
+</p-menu>

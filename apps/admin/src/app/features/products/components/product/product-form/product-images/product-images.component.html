@@ -1,0 +1,19 @@
+<form [formGroup]="form" autocomplete="off">
+    <div class="p-fluid p-formgrid grid" formGroupName="productImage">
+<div class="field col-12">
+    <label for="icon">Browse</label>
+    <p-fileUpload 
+      name="iconImage" 
+      [showUploadButton]="false" 
+      [showCancelButton]="false" 
+      (onUpload)="onUpload($event)"
+      (onError)="onError($event)"
+      [multiple]="true" 
+      id="icon" 
+      accept="image/*" 
+      [maxFileSize]="2000000">
+    </p-fileUpload>
+  </div>
+    </div>
+</form>
+  

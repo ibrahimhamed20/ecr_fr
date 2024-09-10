@@ -1,0 +1,21 @@
+<pos-ui-breadcrumb [items]="breadcrumb"></pos-ui-breadcrumb>
+<br>
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <shared-ui-stepper [steps]="steps" (onSubmit)="submit()"></shared-ui-stepper>
+        </div>
+    </div>
+</div>
+
+<ng-template #ownerDetails>
+    <admin-owner-details-step class=".step1" [form]="storeForm" [formError]="formError"></admin-owner-details-step>
+</ng-template>
+
+<ng-template #storeInfo>
+    <admin-store-info-step class=".step2" [form]="storeForm" [formError]="formError"></admin-store-info-step>
+</ng-template>
+
+<ng-template #branch>
+    <admin-branch-step class=".step3" [form]="storeForm" [formError]="formError"></admin-branch-step>
+</ng-template>

@@ -1,0 +1,11 @@
+<pos-ui-breadcrumb [items]="breadcrumb"></pos-ui-breadcrumb>
+<br>
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-tabMenu [model]="items" [(activeItem)]="activeItem" (activeItemChange)="activateTab($event)" />
+            <shared-ui-table [config]="tableConfig" (actionClicked)="onActionClicked($event)"></shared-ui-table>
+        </div>
+    </div>
+</div>
+{{'CUSTOMER'  |translate}}

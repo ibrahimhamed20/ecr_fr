@@ -1,0 +1,30 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@admin-auth/*": ["apps/admin/src/app/auth/*"],
+      "@admin-core/*": ["apps/admin/src/app/core/*"],
+      "@admin-env/*": ["apps/admin/src/environments/*"],
+      "@admin-features/*": ["apps/admin/src/app/features/*"],
+      "@admin-layout/*": ["apps/admin/src/app/layout/*"],
+      "@admin-shared/*": ["apps/admin/src/app/shared/*"],
+      "@shared-auth/*": ["libs/auth/src/*"],
+      "@shared-ui": ["libs/shared/ui/src/index.ts"],
+      "@shared-utils": ["libs/shared/utils/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

@@ -1,0 +1,253 @@
+<!-- <form [formGroup]="form" autocomplete="off">
+    <div class="p-fluid p-formgrid grid" formGroupName="basicinfo">
+        <div class="field col-12 md:col-6">
+            <label for="countryId">Country</label>
+            <p-dropdown [options]="Countries" id="countryId" optionLabel="name" [filter]="true"
+                formControlName="countryId" filterBy="name" [showClear]="true" placeholder="Find Country...">
+            </p-dropdown>
+            <small *ngIf="formError.hasSpecificError('basicinfo.countryId', 'required')" id="countryId-error"
+                class="text-error">Please select a country</small>
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="classificationId">Classification</label>
+            <p-dropdown [options]="classifications" id="classificationId" optionLabel="name" [filter]="true"
+                formControlName="classificationId" filterBy="name" [showClear]="true"
+                placeholder="Find Classification...">
+            </p-dropdown>
+
+            @if (formError.hasSpecificError('store.largeUnit', 'required')) {
+            <small id="classificationId-error" class="text-error">Please select a classification</small>
+            }
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="productName">Product Name</label>
+            <input pInputText formControlName="productName" id="productName" type="text"
+                [ngClass]="{'ng-dirty ng-invalid': formError.hasError('basicinfo.productName')}" />
+            @if (formError.hasSpecificError('store.largeUnit', 'required')) {
+            <small id="productName-error" class="text-error">Please enter product Name</small>
+            }
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="unitIds">Unit</label>
+            <input pInputText formControlName="unitIds" id="unitIds" type="text"
+                [ngClass]="{'ng-dirty ng-invalid': formError.hasError('basicinfo.unitIds')}" />
+            @if (formError.hasSpecificError('store.largeUnit', 'required')) {
+            <small id="unitIds-error" class="text-error">Please enter Unit</small>
+            }
+        </div>
+
+        <div class="field col-12 md:col-4">
+            <p-checkbox binary="true" formControlName="hasSerialNumber" label="Has serial number?"></p-checkbox>
+        </div>
+
+        <div class="field col-12 md:col-4">
+            <p-checkbox binary="true" formControlName="hasExpiryDate" label="Has expiry date?"></p-checkbox>
+        </div>
+
+        <div class="field col-12 md:col-4">
+            <p-checkbox binary="true" formControlName="expirationDateAlarm" label="Expiration date alarm?"></p-checkbox>
+        </div>
+
+        <div class="field col-12" formArrayName="timeUnit">
+            <label for="timeUnit">Time Unit</label>
+            <div *ngFor="let item of timeUnites.controls; let i = index" [formGroupName]="i" class="grid">
+                <div class="col-11">
+                    <p-inputGroup>
+                        <p-inputGroupAddon>
+                            <select formControlName="contactType" class="custom-select">
+                                <option *ngFor="let contact of timeUnit" [value]="contact.code">
+                                    {{contact.name}}
+                                </option>
+                            </select>
+                        </p-inputGroupAddon>
+                        <input type="text" pInputText [id]="'contact-'+i" formControlName="contact" />
+                    </p-inputGroup>
+                </div>
+            </div>
+        </div>
+
+        <div class="field col-12 md:col-12">
+            <p-checkbox binary="true" formControlName="hasUnits" label="Has units?" (onChange)="getForm()"></p-checkbox>
+        </div>
+        {{form.get('hasUnits')?.value}}
+
+        <div class="field col-12 md:col-4" *ngIf="form.get('basicinfo.hasUnits')?.value">
+            <label for="smallUnit">Small Unit</label>
+            <p-dropdown [options]="dropdownItems" id="smallUnit" optionLabel="name" [filter]="true"
+                formControlName="smallUnit" filterBy="name" [showClear]="true" placeholder="Find Small Unit...">
+            </p-dropdown>
+            @if (formError.hasSpecificError('store.largeUnit', 'required')) {
+            <small id="smallUnit-error" class="text-error">Please select a small unit</small>
+            }
+        </div>
+
+        <div class="field col-12 md:col-4" *ngIf="form.get('basicinfo.hasUnits')?.value">
+            <label for="mediumUnit">Medium Unit</label>
+            <p-dropdown [options]="dropdownItems" id="mediumUnit" optionLabel="name" [filter]="true"
+                formControlName="mediumUnit" filterBy="name" [showClear]="true" placeholder="Find Medium Unit...">
+            </p-dropdown>
+            @if (formError.hasSpecificError('store.largeUnit', 'required')) {
+            <small id="mediumUnit-error" class="text-error">Please select a medium unit</small>
+            }
+        </div>
+
+        <div class="field col-12 md:col-4" *ngIf="form.get('basicinfo.hasUnits')?.value">
+            <label for="largeUnit">Large Unit</label>
+            <p-dropdown [options]="dropdownItems" id="largeUnit" optionLabel="name" [filter]="true"
+                formControlName="largeUnit" filterBy="name" [showClear]="true" placeholder="Find Large Unit...">
+            </p-dropdown>
+            @if (formError.hasSpecificError('store.largeUnit', 'required')) {
+            <small id="largeUnit-error" class="text-error">Please select a large unit</small>
+            }
+        </div>
+    </div>
+</form> -->
+
+<form [formGroup]="form" autocomplete="off">
+    <div class="p-fluid p-formgrid grid" formGroupName="basicinfo">
+        <div class="field col-12 md:col-6">
+            <label for="countryId">Country</label>
+            <p-dropdown [options]="Countries" id="countryId" optionLabel="name" [filter]="true"
+                formControlName="countryId" filterBy="name" [showClear]="true" placeholder="Find Country...">
+            </p-dropdown>
+            @if (formError.hasSpecificError('basicinfo.countryId', 'required')) {
+            <small id="countryId-error" class="text-error">Please select a country</small>
+            }
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="classificationId">Classification</label>
+            <p-dropdown [options]="classifications" id="classificationId" optionLabel="name" [filter]="true"
+                formControlName="classificationId" filterBy="name" [showClear]="true"
+                placeholder="Find Classification...">
+            </p-dropdown>
+            @if (formError.hasSpecificError('basicinfo.classificationId', 'required')) {
+            <small id="classificationId-error" class="text-error">Please select a classification</small>
+            }
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="productName">Product Name</label>
+            <input pInputText formControlName="productName" id="productName" type="text"
+                [ngClass]="{'ng-dirty ng-invalid': formError.hasError('basicinfo.productName')}" />
+            <small *ngIf="formError.hasSpecificError('basicinfo.productName', 'required')" id="productName-error"
+                class="text-error">Please enter product Name</small>
+            @if (form.get('productName')?.value.length > 100) {
+            <!-- <small id="classificationId-error" class="text-error">Please select a classification</small> -->
+            <small id="productName-error" class="text-error">لقد تخطيت الحد الأقصى للحروف = 100</small>
+            }
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="unitIds">Unit</label>
+            <p-dropdown [options]="dropdownItems" id="unitIds" optionLabel="name" [filter]="true"
+                formControlName="unitIds" filterBy="name" [showClear]="true" placeholder="Find Unit...">
+            </p-dropdown>
+            @if (formError.hasSpecificError('basicinfo.unitIds', 'required')) {
+            <small id="unitIds-error" class="text-error">Please select a unit</small>
+            }
+        </div>
+
+        <div class="field col-12 md:col-4">
+            <p-checkbox binary="true" formControlName="hasSerialNumber" label="Has serial number?"></p-checkbox>
+        </div>
+
+        <div class="field col-12 md:col-4">
+            <p-checkbox binary="true" formControlName="hasExpiryDate" label="Has expiry date?"></p-checkbox>
+        </div>
+
+        <div class="field col-12 md:col-4">
+            <p-checkbox binary="true" formControlName="expirationDateAlarm" label="Expiration date alarm?"></p-checkbox>
+        </div>
+
+        <div class="field col-12" formArrayName="timeUnit" *ngIf="form.get('basicinfo.hasExpiryDate')?.value">
+            <label for="timeUnit">Time Unit</label>
+            <div *ngFor="let item of timeUnites.controls; let i = index" [formGroupName]="i" class="grid">
+                <div class="col-11">
+                    <p-inputGroup>
+                        <p-inputGroupAddon>
+                            <select formControlName="contactType" class="custom-select">
+                                <option *ngFor="let contact of timeUnit" [value]="contact.code">
+                                    {{contact.name}}
+                                </option>
+                            </select>
+                        </p-inputGroupAddon>
+                        <input type="text" pInputText [id]="'contact-'+i" formControlName="contact" />
+                    </p-inputGroup>
+                </div>
+            </div>
+        </div>
+
+        <div class="field col-12 md:col-12">
+            <p-checkbox binary="true" formControlName="hasUnits" label="Has units?"></p-checkbox>
+        </div>
+        <!-- {{form.get('hasUnits')?.value}} -->
+
+        <div class="field col-12 md:col-4" *ngIf="form.get('basicinfo.hasUnits')?.value">
+            <label for="smallUnit">Small Unit</label>
+            <p-dropdown [options]="dropdownItems" id="smallUnit" optionLabel="name" [filter]="true"
+                formControlName="smallUnit" filterBy="name" [showClear]="true" placeholder="Find Small Unit...">
+            </p-dropdown>
+            @if (formError.hasSpecificError('basicinfo.smallUnit', 'required')) {
+            <small id="smallUnit-error" class="text-error">Please select a small unit</small>
+            }
+        </div>
+
+        <div class="field col-12 md:col-4" *ngIf="form.get('basicinfo.hasUnits')?.value">
+            <label for="mediumUnit">Medium Unit</label>
+            <p-dropdown [options]="dropdownItems" id="mediumUnit" optionLabel="name" [filter]="true"
+                formControlName="mediumUnit" filterBy="name" [showClear]="true" placeholder="Find Medium Unit...">
+            </p-dropdown>
+            <small *ngIf="formError.hasSpecificError('basicinfo.mediumUnit', 'required')" id="mediumUnit-error"
+                class="text-error">Please select a medium unit</small>
+            <div class="mt-3" *ngIf="form.get('basicinfo.mediumUnit')?.value">
+                <label for="mediumUnitCount">Medium Unit Count</label>
+                <input class="mt-2" pInputText formControlName="mediumUnitCount" id="mediumUnitCount" type="number"
+                    [ngClass]="{'ng-dirty ng-invalid': formError.hasError('basicinfo.mediumUnitCount')}" />
+                @if (formError.hasSpecificError('basicinfo.mediumUnitCount', 'required')) {
+                <small id="mediumUnitCount-error" class="text-error">Please enter the number of medium units</small>
+                }
+            </div>
+        </div>
+
+        <div class="field col-12 md:col-4" *ngIf="form.get('basicinfo.hasUnits')?.value">
+            <label for="largeUnit">Large Unit</label>
+            <p-dropdown [options]="dropdownItems" id="largeUnit" optionLabel="name" [filter]="true"
+                formControlName="largeUnit" filterBy="name" [showClear]="true" placeholder="Find Large Unit...">
+            </p-dropdown>
+            @if (formError.hasSpecificError('basicinfo.largeUnit', 'required')) {
+            <small id="largeUnit-error" class="text-error">Please select a large unit</small>
+            }
+
+            <div class="mt-3" *ngIf="form.get('basicinfo.largeUnit')?.value">
+                <label for="largeUnitCount">Large Unit Count</label>
+                <input class="mt-2" pInputText formControlName="largeUnitCount" id="largeUnitCount" type="number"
+                    [ngClass]="{'ng-dirty ng-invalid': formError.hasError('basicinfo.largeUnitCount')}" />
+
+                @if (formError.hasSpecificError('basicinfo.largeUnitCount', 'required')) {
+                <small id="largeUnitCount-error" class="text-error">Please enter the number of large units</small>
+                }
+            </div>
+        </div>
+
+        <div class="field col-12 md:col-4" *ngIf="form.get('basicinfo.hasUnits')?.value">
+            <label for="variantType">Variant Type</label>
+            <p-dropdown [options]="dropdownItems" id="variantType" optionLabel="name" [filter]="true"
+                formControlName="variantType" filterBy="name" [showClear]="true" placeholder="Find Variant Type...">
+            </p-dropdown>
+            <small *ngIf="formError.hasSpecificError('basicinfo.variantType', 'required')" id="variantType-error"
+                class="text-error">Please select a variant type</small>
+        </div>
+
+        <div class="field col-12 md:col-4" *ngIf="form.get('basicinfo.variantType')?.value">
+            <label for="variantValue">Variant Value</label>
+            <input pInputText formControlName="variantValue" id="variantValue" type="text"
+                [ngClass]="{'ng-dirty ng-invalid': formError.hasError('basicinfo.variantValue')}" />
+            <small *ngIf="formError.hasSpecificError('basicinfo.variantValue', 'required')" id="variantValue-error"
+                class="text-error">Please enter a variant value</small>
+        </div>
+    </div>
+</form>

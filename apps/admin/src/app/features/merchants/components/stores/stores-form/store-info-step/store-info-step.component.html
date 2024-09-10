@@ -1,0 +1,145 @@
+<form [formGroup]="form" autocomplete="off">
+    <h5>Store Info</h5>
+    <div class="p-fluid p-formgrid grid" formGroupName="store">
+        <div class="field col-12 md:col-6">
+            <label for="classificationId">Classification</label>
+            <p-dropdown [options]="dropdownItems" id="classificationId" optionLabel="name" [filter]="true"
+                formControlName="classificationId" filterBy="name" [showClear]="true"
+                placeholder="Search for Classification"
+                [ngClass]="{'ng-dirty ng-invalid': formError.hasError('store.classificationId')}"></p-dropdown>
+            @if (formError.hasSpecificError('store.classificationId', 'required')) {
+            <small id="classificationId-error" class="text-error">Please select a classification</small>
+            }
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="shortName">Shop Short Name</label>
+            <input pInputText formControlName="shortName" id="shortName" type="text"
+                [ngClass]="{'ng-dirty ng-invalid': formError.hasError('store.shortName')}" />
+            @if (formError.hasSpecificError('store.shortName', 'required')) {
+            <small id="shortName-error" class="text-error">Please enter the shop's short name</small>
+            }
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="englishName">Shop Name (En)</label>
+            <input pInputText formControlName="englishName" id="englishName" type="text"
+                [ngClass]="{'ng-dirty ng-invalid': formError.hasError('store.englishName')}" />
+            @if (formError.hasSpecificError('store.englishName', 'required')) {
+            <small id="englishName-error" class="text-error">Please enter the shop's English name</small>
+            }
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="arabicName">Shop Name (Ar)</label>
+            <input pInputText formControlName="arabicName" id="arabicName" type="text"
+                [ngClass]="{'ng-dirty ng-invalid': formError.hasError('store.arabicName')}" />
+            @if (formError.hasSpecificError('store.arabicName', 'required')) {
+            <small id="arabicName-error" class="text-error">Please enter the shop's Arabic name</small>
+            }
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="englishDescription">Store Description (En)</label>
+            <textarea rows="5" cols="30" id="englishDescription" formControlName="englishDescription"
+                placeholder="English Store Description" pInputTextarea spellcheck="false"
+                [ngClass]="{'ng-dirty ng-invalid': formError.hasError('store.englishDescription')}"></textarea>
+            @if (formError.hasSpecificError('store.englishDescription', 'required')) {
+            <small id="englishDescription-error" class="text-error">Please enter the store's English description</small>
+            }
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="arabicDescription">Store Description (Ar)</label>
+            <textarea rows="5" cols="30" id="arabicDescription" formControlName="arabicDescription"
+                placeholder="Arabic Store Description" pInputTextarea spellcheck="false"
+                [ngClass]="{'ng-dirty ng-invalid': formError.hasError('store.arabicDescription')}"></textarea>
+            @if (formError.hasSpecificError('store.arabicDescription', 'required')) {
+            <small id="arabicDescription-error" class="text-error">Please enter the store's Arabic description</small>
+            }
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="merchantCategoryIds">Categories</label>
+            <p-multiSelect [options]="categories" formControlName="merchantCategoryIds" placeholder="Select Categories"
+                optionLabel="name" display="chip" [showClear]="true" inputId="merchantCategoryIds"
+                [ngClass]="{'ng-dirty ng-invalid': formError.hasError('store.merchantCategoryIds')}" />
+            @if (formError.hasSpecificError('store.merchantCategoryIds', 'required')) {
+            <small id="merchantCategoryIds-error" class="text-error">Please select at least one category</small>
+            }
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="merchantTagsIds">Tags</label>
+            <p-multiSelect [options]="categories" formControlName="merchantTagsIds" placeholder="Select Tags"
+                optionLabel="name" display="chip" [showClear]="true" inputId="merchantTagsIds" />
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="merchantType">Sales Type</label>
+            <div class="grid formgrid" id="merchantType">
+                <div class="col-12 md:col-4">
+                    <div class="field-radiobutton">
+                        <p-radioButton name="merchantType" value="1" formControlName="merchantType"
+                            inputId="merchantType1"></p-radioButton>
+                        <label for="merchantType1">Wholesaler</label>
+                    </div>
+                </div>
+                <div class="col-12 md:col-4">
+                    <div class="field-radiobutton">
+                        <p-radioButton name="merchantType" value="2" formControlName="merchantType"
+                            inputId="merchantType2"></p-radioButton>
+                        <label for="merchantType2">Retailer</label>
+                    </div>
+                </div>
+                <div class="col-12 md:col-4">
+                    <div class="field-radiobutton">
+                        <p-radioButton name="merchantType" value="3" formControlName="merchantType"
+                            inputId="merchantType3"></p-radioButton>
+                        <label for="merchantType3">Wholesaler & Retailer</label>
+                    </div>
+                </div>
+            </div>
+            @if (formError.hasSpecificError('store.merchantType', 'required')) {
+            <small id="merchantType-error" class="text-error">Please select a sales type</small>
+            }
+        </div>
+
+        <div class="field col-12" formArrayName="contacts">
+            <label for="contacts">Contacts</label>
+            @for (item of storeContacts.controls; track $index) {
+            <div class="grid">
+                <div class="col-11">
+                    <p-inputGroup [formGroupName]="$index">
+                        <p-inputGroupAddon>
+                            <select formControlName="contactType" class="custom-select">
+                                @for (contact of contacts; track $index) {
+                                <option [value]="contact.code">{{contact.name}}</option>
+                                }
+                            </select>
+                        </p-inputGroupAddon>
+                        <input type="text" pInputText [id]="'contact-'+$index" formControlName="contact" />
+                    </p-inputGroup>
+                </div>
+                <div class="col-1 flex justify-content-end">
+                    <button pButton type="button" severity="danger" class="w-fit" (click)="removeContact($index)">
+                        <i class="pi pi-trash"></i>
+                    </button>
+                </div>
+            </div>
+
+            }
+            <button pButton type="button" class="p-button-link w-fit" (click)="addContact()">
+                <i class="pi pi-plus mr-2"></i> Add Contact
+            </button>
+        </div>
+
+        <div class="field col-12">
+            <label for="icon">Icon</label>
+            <p-fileUpload name="iconImage" [showUploadButton]="false" [showCancelButton]="false"
+                (onUpload)="onUpload($event)" [multiple]="false" id="icon" accept="image/*"
+                [maxFileSize]="1000000"></p-fileUpload>
+        </div>
+
+    </div>
+</form>
