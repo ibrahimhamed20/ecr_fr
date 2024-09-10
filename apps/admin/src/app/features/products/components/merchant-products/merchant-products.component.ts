@@ -13,6 +13,7 @@ import { FormControl } from '@angular/forms';
 import { PaginatorState } from 'primeng/paginator';
 import { MenuItem } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
+import { MerchantProductParams } from '@admin-features/products/interfaces/products.interface';
 
 @Component({
   selector: 'admin-merchantproducts',
