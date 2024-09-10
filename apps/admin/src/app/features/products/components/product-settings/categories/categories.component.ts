@@ -1,20 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BreadcrumbComponent, TableComponent, TableConfig } from '@shared-ui';
+import { TableComponent, TableConfig } from '@shared-ui';
 import { ConfirmDialogService } from 'libs/shared/ui/src/lib/confirm-dialog/confirm-dialog.service';
 import { debounceTime, filter, Subject, switchMap, takeUntil } from 'rxjs';
+import { CategoryTableConfig} from '@admin-features/products/products.config';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { ApiResponse, Classification, ClassificationsResponse, DropdownEvent, SubCategory, CategoriesData } from '@admin-features/products/interfaces/products.interface';
+import { ProductsService } from '@admin-features/products/services/products.service';
 import { PaginatorState } from 'primeng/paginator';
 import { FormControl } from '@angular/forms';
 import { AddEditCategoryComponent } from './components/add-edit-category/add-edit-category.component';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Category } from '@admin-features/products/interfaces/product.interface';
-import { CategoryService } from './services/category.service';
-import { CategoryTableConfig } from './categories.config';
-import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'admin-categories',
@@ -24,7 +23,6 @@ import { MenuItem } from 'primeng/api';
     TableComponent,
     DropdownModule,
     DialogModule,
-    BreadcrumbComponent,
     AddEditCategoryComponent,
     TranslateModule
   ],
@@ -42,11 +40,10 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   first = 0;
   keyword= "";
   searchControl: FormControl = new FormControl();
-  breadcrumb!: MenuItem[];
 
   constructor(
     private _confirm: ConfirmDialogService,
-    private _category: CategoryService,
+    private _product: ProductsService,
     private _toastr: ToastrService,
     private _translate: TranslateService
   ) {}
@@ -54,19 +51,12 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getClassifications();
     this.getAllCategories();
-    this.setBreadcrumb();
     this.onSearch();
     this.tableConfig = CategoryTableConfig;
   }
-  setBreadcrumb(): void {
-    this.breadcrumb = [
-      { icon: 'pi pi-home', route: '/' },
-      { label: this._translate.instant('CATEGORY.PRODUCT_MANAGEMENT') },
-      { label: this._translate.instant('CATEGORY.NAME'), route: '/categories' },
-    ];
-  }
+
   getClassifications(): void {
-    this._category
+    this._product
       .getClassifications()
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((res: ClassificationsResponse) => {
@@ -94,7 +84,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
     console.log('data',data)
     this._confirm.confirm('delete').subscribe((res) => {
       if (res) {
-        this._category
+        this._product
           .deleteCategory(data.id)
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe((response) => {
@@ -111,7 +101,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
     this.filterCategories();
   }
   getAllCategories(): void {
-    this._category
+    this._product
       .getAllCategories(this.pageSize, this.pageNumber, this.keyword)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((response: ApiResponse<Category>) => {
@@ -130,7 +120,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 
   filterCategories(): void {
     if (this.selectedClassification) {
-      this._category
+      this._product
         .getAllCategories(this.pageSize, this.pageNumber, this.keyword)
         .pipe(takeUntil(this._unsubscribeAll))
         .subscribe((res) => {
@@ -174,7 +164,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
     this.searchControl.valueChanges.pipe(
       filter((k: string) => k.trim().length >= 0),
       debounceTime(400),
-      switchMap(word => this._category.getAllCategories(
+      switchMap(word => this._product.getAllCategories(
         this.pageSize,
         this.pageNumber,
         word.trim()
@@ -199,9 +189,10 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   getCategoryById(data: CategoriesData) {
     const id = typeof data.id === 'string' ? Number(data.id) : data.id;
     if (id) {
-      this._category.getCategoryById(id).subscribe((res) => {
+      this._product.getCategoryById(id).subscribe((res) => {
         if (res.data) {
           this.displayDialog = true;
+          console.log('SELECTED',res.data)
           this.selectedData = res.data;
         }
       });
@@ -209,7 +200,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   }
   handleSave(data: CategoriesData): void {
     if (!this.selectedData) {
-      this._category
+      this._product
         .addCategory(data)
         .pipe(takeUntil(this._unsubscribeAll))
         .subscribe(() => {
@@ -219,7 +210,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 
         });
     } else {
-      this._category
+      this._product
         .editCategory({ ...data, id: this.selectedData.id })
         .pipe(takeUntil(this._unsubscribeAll))
         .subscribe((response) => {

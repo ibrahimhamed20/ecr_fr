@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { ConfirmDialogService } from 'libs/shared/ui/src/lib/confirm-dialog/confirm-dialog.service';
 import { debounceTime, filter, Subject, switchMap, takeUntil } from 'rxjs';
 import { MerchantProductsTableConfig } from './merchants.config';
-import { MerchantProductsService } from '@admin-features/products/services/merchant-products-services.service';
+import { MerchantProductsService } from '@admin-features/products/services/merchant-products-services';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
@@ -13,6 +13,7 @@ import { FormControl } from '@angular/forms';
 import { PaginatorState } from 'primeng/paginator';
 import { MerchantProductParams } from '@admin-features/products/interfaces/product.interface';
 import { MenuItem } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'admin-merchantproducts',
@@ -24,23 +25,30 @@ export class MerchantproductsComponent implements OnInit {
   private _unsubscribeAll: Subject<void> = new Subject<void>();
   tableConfig!: TableConfig;
   searchControl: FormControl = new FormControl();
+  breadcrumb!:MenuItem[];
   filters: MerchantProductParams = { pageNumber: 1, pageSize: 10 };
-  breadcrumb: MenuItem[] = [
-    { icon: 'pi pi-home', route: '/' },
-    { label: 'Merchant Management' },
-    { label: 'merchant', route: '' },
-  ];
+  
   constructor(
     private _router: Router,
     private _toast: ToastrService,
     private _confirm: ConfirmDialogService,
+    private _translate:TranslateService ,
     private _merchantProducts: MerchantProductsService) { }
 
   ngOnInit(): void {
     this.getMerchantProducts(this.filters);
     this.onSearchData();
+    this.setBreadcrumb();
   }
+  
 
+  setBreadcrumb(): void {
+    this.breadcrumb = [
+      { icon: 'pi pi-home', route: '/' },
+      { label: this._translate.instant('MERCHANTS_PRODUCTS.MERCHANTPRODUCTS') },
+      { label: this._translate.instant('MERCHANTS_PRODUCTS.NAME'), route: '/' },
+    ];
+  }
   onSearchData() {
     this.searchControl.valueChanges.pipe(
       filter((k: string) => k.trim()?.length > 0),

@@ -1,3 +1,55 @@
-<div>   
-    <shared-ui-table [config]="tableConfig" (actionClicked)="onActionClicked($event)"></shared-ui-table>
-</div>
+
+<pos-ui-breadcrumb [items]="breadcrumb"></pos-ui-breadcrumb>
+<section class="dialog-side">
+    <shared-ui-table [config]="tableConfig" (actionClicked)="onActionClicked($event)" (onPage)="onPageChange($event)" (onSearch)="searchControl.patchValue($event)">
+      <div class="filters p-grid" filters-area>
+        <div class="filters-item col-2 p-0">{{'GENERAL.FILTERS' | translate}}</div>
+        <div class="filters-actions col-4 p-0">
+          <p-dropdown [options]="classifications" class="w-full" formControlName="classification" optionLabel="name"
+            [filter]="true" filterBy="name" [showClear]="true" (onChange)="onClassificationChange($event)"
+            placeholder="Select a classifications">
+            <ng-template pTemplate="selectedItem" let-selectedOption>
+              <div class="flex align-items-center gap-2">
+                <div>{{ selectedOption.name }}</div>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+      </div>
+    </shared-ui-table>
+    <p-dialog [(visible)]="displayDialog" [modal]="true" [dismissableMask]="true" [position]="'right'"
+    [style]="{ width: '600px', height: '100vh', top: '0', margin: '0', padding: '0' }" [baseZIndex]="10000"
+    [draggable]="false" [blockScroll]="true" [closable]="false">
+    <ng-template pTemplate="header">
+      <div class="dialog-header">
+        <div class="dialog-header__title">{{'VARIANTS.ADD_NEW_VARIANT' | translate}}</div>
+        <button class="dialog-header__close-button" (click)="displayDialog = false">
+          <img src="assets/layout/images/close-icon.svg" alt="Close" class="dialog-header__close-icon" />
+        </button>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="content">
+      <!-- Content of your create item form or component -->
+      <!-- [classifications]="classifications" [variantData]="selectedVariant" -->
+      <admin-add-edit-variants (closeVariantValue)="onDialogClose('ADD_FULL')" [classifications]="classifications" [variantsData]="selectedVariant"  (save)="handleSave($event)"></admin-add-edit-variants>
+    </ng-template>
+  </p-dialog>
+  <p-dialog [(visible)]="displayVariantValueDialog" [modal]="true" [dismissableMask]="true" [position]="'right'"
+    [style]="{ width: '600px', height: '100vh', top: '0', margin: '0', padding: '0' }" [baseZIndex]="10000"
+    [draggable]="false" [blockScroll]="true" [closable]="false">
+    <ng-template pTemplate="header">
+      <div class="dialog-header">
+        <div class="dialog-header__title">{{'VARIANTS.ADD_NEW_VARIANT' | translate}}</div>
+        <button class="dialog-header__close-button" (click)="displayVariantValueDialog = false">
+          <img src="assets/layout/images/close-icon.svg" alt="Close" class="dialog-header__close-icon" />
+        </button>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="content">
+      <!-- Content of your create item form or component -->
+
+      <admin-add-variants-value [classifications]="classifications" [variantsData]="selectedVariant" (closeVariantValue)="onDialogClose('ADD_VARIANT_VALUE')" (save)="handleVariantValueSave($event)"></admin-add-variants-value>
+    </ng-template>
+  </p-dialog>
+  </section>
+ 

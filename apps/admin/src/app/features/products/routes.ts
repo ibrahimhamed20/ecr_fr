@@ -12,19 +12,43 @@ export const productsRoutes: Route[] = [
       },
       {
         path: 'product/:id',
-        loadComponent: () => import('./components').then((c) => c.ProductFormComponent),
+        loadComponent: () => import('./components/product/product-form/product-form.component').then((c) => c.ProductFormComponent),
       },
       {
         path: 'product-details/:id',
-        loadComponent: () => import('../products/components').then((c) => c.ProductDetailsComponent),
+        loadComponent: () => import('../products/components/product/product-details/product-details.component').then((c) => c.ProductDetailsComponent),
+      },
+      {
+        path: 'brands',
+        loadComponent: () => import('./components').then((c) => c.BrandsComponent),
       },
       {
         path: 'merchant',
-        loadComponent: () => import('./components').then((c) => c.MerchantproductsComponent),
+        loadComponent: () => import('./components/merchant-products/merchant-products.component').then((c) => c.MerchantproductsComponent),
       },
       {
-        path: 'metadata',
-        loadComponent: () => import('./components').then((c) => c.ProductSettingsComponent),
+        path: 'categories',
+        loadComponent: () => import('./components').then((c) => c.CategoriesComponent),
+      },
+      {
+        path: 'classifications',
+        loadComponent: () => import('./components').then((c) => c.ClassificationsComponent),
+      },
+      {
+        path: 'variants',
+        loadComponent: () => import('./components').then((c) => c.VariantsComponent),
+      },
+      {
+        path: 'tags',
+        loadComponent: () => import('./components').then((c) => c.TagsComponent),
+      },
+      {
+        path: 'units',
+        loadComponent: () => import('./components').then((c) => c.UnitsComponent),
+      },
+      {
+        path: 'categories',
+        loadComponent: () => import('./components').then((c) => c.CategoriesComponent),
       },
       {
         path: 'products-catalog',

@@ -1,4 +1,4 @@
-import { MerchantProductsService } from '@admin-features/products/services/merchant-products-services.service';
+import { MerchantProductsService } from '@admin-features/products/services/merchant-products-services';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { debounceTime, filter, Subject, switchMap, takeUntil } from 'rxjs';
@@ -12,6 +12,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
+import { TranslateModule } from '@ngx-translate/core';
 
 const PRIMENG_MODULES = [
   TableModule,
@@ -20,6 +21,7 @@ const PRIMENG_MODULES = [
   PaginatorModule,
   IconFieldModule,
   InputIconModule,
+  TranslateModule,
   InputTextModule
 ];
 

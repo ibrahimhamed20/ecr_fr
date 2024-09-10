@@ -1,44 +1,75 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableComponent, TableConfig } from '@shared-ui';
-import { Router, ActivatedRoute } from '@angular/router';
-import { ConfirmDialogService } from 'libs/shared/ui/src/lib/confirm-dialog/confirm-dialog.service';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { ClassificationsTableConfig } from '@admin-features/products/products.config';
+import { ClassificationsData } from '@admin-features/products/interfaces/classifications.interface';
+import { ClassificationsService } from '@admin-features/products/services/classifications.service';
+import { ApiResponse, Data } from '@admin-features/products/interfaces/products.interface';
+import { DialogModule } from 'primeng/dialog';
+import { AddEditClassificationComponent } from './components/add-edit-classification.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'admin-classifications',
   standalone: true,
-  imports: [CommonModule, TableComponent],
+  imports: [CommonModule, TableComponent,DialogModule,AddEditClassificationComponent,TranslateModule],
   templateUrl: './classifications.component.html',
 })
 export class ClassificationsComponent implements OnInit, OnDestroy {
   private _unsubscribeAll: Subject<void> = new Subject<void>();
+  displayDialog = false;
+  filters: any = { number: 1, size: 10 };
 
   constructor(
-    private _router: Router,
-    private _route: ActivatedRoute,
-    private _confirm: ConfirmDialogService
+    private _classifications: ClassificationsService
   ) {}
 
   ngOnInit(): void {
-    this.tableConfig = ClassificationsTableConfig;
+    this.getAllClassifications(this.filters);
+  }
+  getAllClassifications(params: any): void {
+    this._classifications
+      .getAllClassifications(params)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((res: any) => {
+        this.tableConfig =  {...ClassificationsTableConfig,rows: res.data.classifications,  totalRecords: res.data.rowCount} || [];
+      });
   }
 
   tableConfig!: TableConfig;
   onActionClicked(ev: { action: string; data?: any }) {
     switch (ev.action) {
       case 'CREATE':
-        this._router.navigate(['0'], { relativeTo: this._route });
+      
         break;
-      case 'DELETE':
-        this._confirm.confirm('delete').subscribe((res) => {
-          res && console.log('Nothing its just delete for test');
-        });
+      case 'EDIT':
+        this.getClassificationById(ev.data)
         break;
       default:
         break;
     }
+  }
+  selectedClassification: ClassificationsData | null = null; // Use the defined interface
+  getClassificationById(data: ClassificationsData) {
+    const id = typeof data.id === 'string' ? Number(data.id) : data.id;
+    if (id) {
+      this._classifications.getClassificationById(id).subscribe((res: Data<ClassificationsData>) => {
+        if (res.data) {
+          this.displayDialog = true;
+          this.selectedClassification = res.data; // Should match UnitData
+        }
+      });
+    }
+  }
+  handleSave(ev :any){
+
+  }
+  openCreateDialog(): void {
+    this.displayDialog = true;
+  }
+  onDialogClose(): void {
+    this.displayDialog = false;
   }
 
   ngOnDestroy(): void {

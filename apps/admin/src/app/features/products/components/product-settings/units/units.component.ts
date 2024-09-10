@@ -3,8 +3,10 @@ import { CommonModule } from '@angular/common';
 import { BreadcrumbComponent, TableComponent, TableConfig } from '@shared-ui';
 import { Subject } from 'rxjs';
 import { debounceTime, filter, switchMap, takeUntil } from 'rxjs/operators';
+import { ProductsService } from '@admin-features/products/services/products.service';
 import { MenuItem } from 'primeng/api';
 import { DropdownModule } from 'primeng/dropdown';
+import { UnitsTableConfig } from '@admin-features/products/products.config';
 import { ApiResponse, Classification, ClassificationsResponse, Data, DropdownEvent, ProductInterface, UnitData, UnitResponse } from '@admin-features/products/interfaces/products.interface';
 import { AddEditUnitsComponent } from './components/add-edit-units/add-edit-units.component';
 import { DialogModule } from 'primeng/dialog';
@@ -13,8 +15,6 @@ import { ConfirmDialogService } from 'libs/shared/ui/src/lib/confirm-dialog/conf
 import { FormControl } from '@angular/forms';
 import { PaginatorState } from 'primeng/paginator';
 import { TranslateService, LangChangeEvent, TranslateModule } from '@ngx-translate/core'; // Import LangChangeEvent
-import { UnitsService } from './services/units.service';
-import { UnitsTableConfig } from './units.config';
 
 @Component({
   selector: 'admin-units',
@@ -42,7 +42,6 @@ export class UnitsComponent implements OnInit, OnDestroy {
   breadcrumb!: MenuItem[];
 
   tableConfig!: TableConfig;
-  originalData:any;
   classifications: Classification[] = [];
   selectedClassification: Classification | null = null;
 
@@ -50,7 +49,7 @@ export class UnitsComponent implements OnInit, OnDestroy {
     private _toastr: ToastrService,
     private _confirm: ConfirmDialogService,
     private _translate: TranslateService,
-    private _units: UnitsService
+    private _product: ProductsService
   ) { }
 
   ngOnInit(): void {
@@ -75,7 +74,7 @@ export class UnitsComponent implements OnInit, OnDestroy {
   }
 
   getClassifications(): void {
-    this._units
+    this._product
       .getClassifications()
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((res: ClassificationsResponse) => {
@@ -84,7 +83,7 @@ export class UnitsComponent implements OnInit, OnDestroy {
   }
 
   getAllUnits(): void {
-    this._units
+    this._product
       .getAllUnits(this.pageSize, this.pageNumber, this.keyword)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((response: ApiResponse<UnitData>) => {
@@ -135,7 +134,7 @@ export class UnitsComponent implements OnInit, OnDestroy {
   onActionDelete(data: ProductInterface): void {
     this._confirm.confirm('delete').subscribe((res) => {
       if (res) {
-        this._units
+        this._product
           .deleteUnit(data.id)
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe((response) => {
@@ -149,7 +148,7 @@ export class UnitsComponent implements OnInit, OnDestroy {
 
   handleSave(data: UnitData): void {
     if (!this.selectedUnit) {
-      this._units
+      this._product
         .addUnit(data)
         .pipe(takeUntil(this._unsubscribeAll))
         .subscribe(() => {
@@ -159,7 +158,7 @@ export class UnitsComponent implements OnInit, OnDestroy {
 
         });
     } else {
-      this._units
+      this._product
         .editUnit({ ...data, id: this.selectedUnit.id })
         .pipe(takeUntil(this._unsubscribeAll))
         .subscribe((response) => {
@@ -176,7 +175,7 @@ export class UnitsComponent implements OnInit, OnDestroy {
   getUnitById(data: UnitData) {
     const id = typeof data.id === 'string' ? Number(data.id) : data.id;
     if (id) {
-      this._units.getUnitById(id).subscribe((res: Data<UnitData>) => {
+      this._product.getUnitById(id).subscribe((res: Data<UnitData>) => {
         if (res.data) {
           this.displayDialog = true;
           this.selectedUnit = res.data; // Should match UnitData
@@ -191,24 +190,28 @@ export class UnitsComponent implements OnInit, OnDestroy {
   }
 
   filterUnits(): void {
-    if (this.selectedClassification && Array.isArray(this.tableConfig?.rows)) {
-      // Filter based on the selected classification
-      this.tableConfig.rows = this.tableConfig.rows.filter(
-        unit => unit.classification === this.selectedClassification?.name
-      );
+    if (this.selectedClassification) {
+      this._product.getAllUnits(this.pageSize, this.pageNumber, this.keyword).pipe(takeUntil(this._unsubscribeAll))
+        .subscribe((res: UnitResponse) => {
+          const filteredUnits = res.data.result.filter((unit) =>
+            unit.classification?.id === this.selectedClassification?.id
+          );
+          this.tableConfig.rows = filteredUnits.map((el) => ({
+            ...el,
+            classification: el.classification?.name,
+          }));
+        });
     } else {
-      // If no classification is selected, reload the data
-      this.getAllUnits(); // Call the method to re-fetch the data
+      // If no classification is selected, reset the table to show all units
+      this.getAllUnits();
     }
   }
-
-
 
   onSearch() {
     this.searchControl.valueChanges.pipe(
       filter((k: string) => k.trim().length >= 0),
       debounceTime(400),
-      switchMap(word => this._units.getAllUnits(
+      switchMap(word => this._product.getAllUnits(
         this.pageSize,
         this.pageNumber,
         word.trim()

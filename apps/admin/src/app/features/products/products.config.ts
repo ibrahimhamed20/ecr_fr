@@ -1,14 +1,49 @@
 import { TableConfig } from '@shared-ui';
 
 export const ProductTableConfig: TableConfig = {
-
   columns: [
-    { field: 'name', header: 'Name', type: 'link', exported: false , sortable: true },
-    { field: 'sKU', header: 'SKU', type: 'label', exported: true , sortable: true},
-    { field: 'unit', header: 'Unit', type: 'label', exported: true , sortable: true},
-    { field: 'barcode', header: 'Barcode', type: 'label', exported: true , sortable: true},
-    { field: 'cost', header: 'Cost', type: 'label', exported: true , sortable: true},
-    { field: 'price', header: 'Price', type: 'label', exported: true, sortable: true },
+    {
+      field: 'name',
+      header: 'Name',
+      type: 'link',
+      exported: false,
+      sortable: true,
+    },
+    {
+      field: 'sKU',
+      header: 'SKU',
+      type: 'label',
+      exported: true,
+      sortable: true,
+    },
+    {
+      field: 'unit',
+      header: 'Unit',
+      type: 'label',
+      exported: true,
+      sortable: true,
+    },
+    {
+      field: 'barcode',
+      header: 'Barcode',
+      type: 'label',
+      exported: true,
+      sortable: true,
+    },
+    {
+      field: 'cost',
+      header: 'Cost',
+      type: 'label',
+      exported: true,
+      sortable: true,
+    },
+    {
+      field: 'price',
+      header: 'Price',
+      type: 'label',
+      exported: true,
+      sortable: true,
+    },
     { field: 'actions', header: 'Actions', type: 'actions', exported: false },
   ],
   rowsPerPage: 10,
@@ -17,8 +52,7 @@ export const ProductTableConfig: TableConfig = {
   actions: ['EXPORT', 'IMPORT', 'CREATE'],
   rowsActions: ['EDIT', 'DELETE'],
   paginator: true,
-  dataLoading: 'server'
-
+  dataLoading: 'server',
 };
 
 // Configuration for the Merchant Products table
@@ -50,7 +84,7 @@ export const MerchantProductsTableConfig: TableConfig = {
   rowsPerPageOptions: [5, 10, 15, 20, 25, 50, 100],
   selectionMode: 'single',
   paginator: true,
-  dataLoading: 'server'
+  dataLoading: 'server',
 };
 
 // Configuration for the Brand table
@@ -92,18 +126,29 @@ export const BrandTableConfig: TableConfig = {
   selectionMode: 'single',
   actions: ['CREATE'],
   rowsActions: ['EDIT', 'DELETE'],
-  paginator: true
+  paginator: true,
 };
 
-
-// Configuration for the Classifications table
-export const ClassificationsTableConfig: TableConfig = {
+// Configuration for the Category table
+export const CategoryTableConfig: TableConfig = {
   columns: [
     {
-      field: 'classificationname',
-      header: 'Classification Name',
+      field: 'name',
+      header: 'Category name',
       type: 'label',
       exported: false,
+    },
+    {
+      field: 'subCategories',
+      header: 'Subcategory',
+      type: 'label',
+      exported: true,
+    },
+    {
+      field: 'classification',
+      header: 'Classification',
+      type: 'label',
+      exported: true,
     },
     { field: 'actions', header: 'Actions', type: 'actions', exported: false },
   ],
@@ -112,38 +157,68 @@ export const ClassificationsTableConfig: TableConfig = {
   selectionMode: 'single',
   actions: ['CREATE'],
   rowsActions: ['EDIT', 'DELETE'],
-  paginator: true
+  paginator: true,
+  dataLoading: 'server',
+};
+
+// Configuration for the Classifications table
+export const ClassificationsTableConfig: TableConfig = {
+  columns: [
+    {
+      field: 'id',
+      header: 'ID',
+      type: 'label',
+      exported: false,
+    },
+    {
+      field: 'name',
+      header: 'CLASSIFICATION',
+      type: 'label',
+      exported: false,
+    },
+    { field: 'actions', header: 'ACTIONS', type: 'actions', exported: false },
+  ],
+  rowsPerPage: 10,
+  rowsPerPageOptions: [5, 10, 15, 20, 25, 50, 100],
+  selectionMode: 'single',
+  actions: ['CREATE'],
+  rowsActions: ['EDIT'],
+  paginator: true,
+  dataLoading: 'server',
+  locale: 'FIELDS.',
 };
 
 // Configuration for the Variants table
 export const VariantsTableConfig: TableConfig = {
   columns: [
     {
-      field: 'variantname',
-      header: 'Variant Name',
+      field: 'arabicName',
+      header: 'VARIANTNAME',
       type: 'label',
       exported: false,
     },
     {
-      field: 'variantvalue',
-      header: 'Variant value',
+      field: 'variantsValueProp',
+      header: 'VARIANTVALUE',
       type: 'label',
       exported: false,
     },
     {
       field: 'classification',
-      header: 'Classification',
+      header: 'CLASSIFICATION',
       type: 'label',
       exported: false,
     },
-    { field: 'actions', header: 'Actions', type: 'actions', exported: false },
+    { field: 'actions', header: 'ACTIONS', type: 'actions', exported: false },
   ],
   rowsPerPage: 10,
   rowsPerPageOptions: [5, 10, 15, 20, 25, 50, 100],
   selectionMode: 'single',
   actions: ['CREATE'],
-  rowsActions: ['EDIT', 'DELETE'],
-  paginator: true
+  rowsActions: ['EDIT', 'DELETE', 'ADD_VARIANT_VALUE'],
+  paginator: true,
+  dataLoading: 'server',
+  locale: 'FIELDS.',
 };
 
 // Configuration for the Tags table
@@ -163,7 +238,35 @@ export const TagsTableConfig: TableConfig = {
   selectionMode: 'single',
   actions: ['CREATE'],
   rowsActions: ['EDIT', 'DELETE'],
-  paginator: true
+  paginator: true,
+};
+
+// Configuration for the Units table
+export const UnitsTableConfig: TableConfig = {
+  columns: [
+    { field: 'name', header: 'Unit Name', type: 'label', exported: false },
+    {
+      field: 'shortName',
+      header: 'Short Name',
+      type: 'label',
+      exported: false,
+    },
+    {
+      field: 'classification',
+      header: 'Classification',
+      type: 'label',
+      exported: false,
+    },
+    { field: 'actions', header: 'Actions', type: 'actions', exported: false },
+  ],
+  rowsPerPage: 10,
+  rowsPerPageOptions: [5, 10, 15, 20, 25, 50, 100],
+  selectionMode: 'single',
+  locale: 'FIELDS.',
+  actions: ['CREATE'],
+  rowsActions: ['EDIT', 'DELETE'],
+  dataLoading: 'server',
+  paginator: true,
 };
 
 // Configuration for the Catalog table
@@ -207,5 +310,5 @@ export const CatalogTableConfig: TableConfig = {
   actions: ['CREATE'],
   rowsActions: ['EDIT', 'DELETE'],
   dataLoading: 'server',
-  paginator: true
+  paginator: true,
 };
