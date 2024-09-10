@@ -55,6 +55,10 @@ export const productsRoutes: Route[] = [
         loadComponent: () => import('./components').then((c) => c.CategoriesComponent),
       },
       {
+        path: 'metadata',
+        loadComponent: () => import('./components/product-settings/product-settings.component').then((c) => c.ProductSettingsComponent),
+      },
+      {
         path: 'products-catalog',
         loadComponent: () => import('./components').then((c) => c.ProductsCatalogComponent),
       },

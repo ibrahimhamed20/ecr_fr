@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { BreadcrumbComponent, TableComponent, TableConfig } from '@shared-ui';
 import { ConfirmDialogService } from 'libs/shared/ui/src/lib/confirm-dialog/confirm-dialog.service';
 import { debounceTime, filter, Subject, switchMap, takeUntil } from 'rxjs';
-import { VariantsTableConfig } from '@admin-features/products/products.config';
 import { DropdownModule } from 'primeng/dropdown';
 import { DialogModule } from 'primeng/dialog';
 import {
@@ -27,6 +26,7 @@ import { FormControl } from '@angular/forms';
 import { PaginatorState } from 'primeng/paginator';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AddVariantsValueComponent } from './components/add-variants-value/add-variants-value.component';
+import { VariantsTableConfig } from './variants.config';
 
 @Component({
   selector: 'admin-variants',
@@ -67,15 +67,8 @@ export class VariantsComponent implements OnInit, OnDestroy {
     this.getClassifications();
     this.getAllVariants(this.filters);
     this.onSearchData();
-    this.setBreadcrumb();
   }
-  setBreadcrumb(): void {
-    this.breadcrumb = [
-      { icon: 'pi pi-home', route: '/' },
-      { label: this._translate.instant('VARIANTS.PRODUCT_MANAGEMENT') },
-      { label: this._translate.instant('VARIANTS.NAME'), route: '/variants' },
-    ];
-  }
+
 
   onSearchData() {
     this.searchControl.valueChanges
