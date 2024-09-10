@@ -1,14 +1,49 @@
 import { TableConfig } from '@shared-ui';
 
 export const ProductTableConfig: TableConfig = {
-
   columns: [
-    { field: 'name', header: 'Name', type: 'link', exported: false , sortable: true },
-    { field: 'sKU', header: 'SKU', type: 'label', exported: true , sortable: true},
-    { field: 'unit', header: 'Unit', type: 'label', exported: true , sortable: true},
-    { field: 'barcode', header: 'Barcode', type: 'label', exported: true , sortable: true},
-    { field: 'cost', header: 'Cost', type: 'label', exported: true , sortable: true},
-    { field: 'price', header: 'Price', type: 'label', exported: true, sortable: true },
+    {
+      field: 'name',
+      header: 'Name',
+      type: 'link',
+      exported: false,
+      sortable: true,
+    },
+    {
+      field: 'sKU',
+      header: 'SKU',
+      type: 'label',
+      exported: true,
+      sortable: true,
+    },
+    {
+      field: 'unit',
+      header: 'Unit',
+      type: 'label',
+      exported: true,
+      sortable: true,
+    },
+    {
+      field: 'barcode',
+      header: 'Barcode',
+      type: 'label',
+      exported: true,
+      sortable: true,
+    },
+    {
+      field: 'cost',
+      header: 'Cost',
+      type: 'label',
+      exported: true,
+      sortable: true,
+    },
+    {
+      field: 'price',
+      header: 'Price',
+      type: 'label',
+      exported: true,
+      sortable: true,
+    },
     { field: 'actions', header: 'Actions', type: 'actions', exported: false },
   ],
   rowsPerPage: 10,
@@ -17,8 +52,7 @@ export const ProductTableConfig: TableConfig = {
   actions: ['EXPORT', 'IMPORT', 'CREATE'],
   rowsActions: ['EDIT', 'DELETE'],
   paginator: true,
-  dataLoading: 'server'
-
+  dataLoading: 'server',
 };
 
 // Configuration for the Merchant Products table
@@ -50,49 +84,7 @@ export const MerchantProductsTableConfig: TableConfig = {
   rowsPerPageOptions: [5, 10, 15, 20, 25, 50, 100],
   selectionMode: 'single',
   paginator: true,
-  dataLoading: 'server'
-};
-
-// Configuration for the Brand table
-export const BrandTableConfig: TableConfig = {
-  columns: [
-    {
-      field: 'brandname',
-      header: 'Brand name',
-      type: 'label',
-      exported: false,
-    },
-    {
-      field: 'classification',
-      header: 'Classification',
-      type: 'label',
-      exported: true,
-    },
-    { field: 'actions', header: 'Actions', type: 'actions', exported: false },
-  ],
-  rows: [
-    {
-      brandname: 'brandname',
-      classification: 'classification',
-      brand: 'brand',
-    },
-    {
-      brandname: 'brandname',
-      classification: 'classification',
-      brand: 'brand',
-    },
-    {
-      brandname: 'brandname',
-      classification: 'classification',
-      brand: 'brand',
-    },
-  ],
-  rowsPerPage: 10,
-  rowsPerPageOptions: [5, 10, 15, 20, 25, 50, 100],
-  selectionMode: 'single',
-  actions: ['CREATE'],
-  rowsActions: ['EDIT', 'DELETE'],
-  paginator: true
+  dataLoading: 'server',
 };
 
 
@@ -112,7 +104,7 @@ export const ClassificationsTableConfig: TableConfig = {
   selectionMode: 'single',
   actions: ['CREATE'],
   rowsActions: ['EDIT', 'DELETE'],
-  paginator: true
+  paginator: true,
 };
 
 // Configuration for the Variants table
@@ -143,15 +135,15 @@ export const VariantsTableConfig: TableConfig = {
   selectionMode: 'single',
   actions: ['CREATE'],
   rowsActions: ['EDIT', 'DELETE'],
-  paginator: true
+  paginator: true,
 };
 
 // Configuration for the Tags table
 export const TagsTableConfig: TableConfig = {
   columns: [
-    { field: 'tag name', header: 'Tag Name', type: 'label', exported: false },
+    { field: 'tagName', header: 'Tag Name', type: 'label', exported: false },
     {
-      field: 'classification',
+      field: 'classifications',
       header: 'Classification',
       type: 'label',
       exported: false,
@@ -163,7 +155,8 @@ export const TagsTableConfig: TableConfig = {
   selectionMode: 'single',
   actions: ['CREATE'],
   rowsActions: ['EDIT', 'DELETE'],
-  paginator: true
+  dataLoading: 'server',
+  paginator: true,
 };
 
 // Configuration for the Catalog table
@@ -207,5 +200,5 @@ export const CatalogTableConfig: TableConfig = {
   actions: ['CREATE'],
   rowsActions: ['EDIT', 'DELETE'],
   dataLoading: 'server',
-  paginator: true
+  paginator: true,
 };

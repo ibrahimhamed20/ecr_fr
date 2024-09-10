@@ -19,6 +19,10 @@ export const productsRoutes: Route[] = [
         loadComponent: () => import('../products/components').then((c) => c.ProductDetailsComponent),
       },
       {
+        path: 'tags',
+        loadComponent: () => import('../products/components').then((c) => c.TagsComponent),
+      },
+      {
         path: 'merchant',
         loadComponent: () => import('./components').then((c) => c.MerchantproductsComponent),
       },

@@ -9,6 +9,11 @@
     "PRODUCT_MANAGEMENT":"Products Management",
     "ADD_NEW_CATEGORY":"Add New Category"
   },
+  "BRAND":{
+    "ADD_NEW_BRAND":"Add New Brand"
+  },
+
+  
   "FIELDS": {
     "SHORT_ARABIC_NAME": "Short Arabic Name",
     "SHORT_ENGLISH_NAME": "Short English Name",
@@ -21,7 +26,8 @@
     "SHORT_NAME":"Short Name",
     "ACTIONS":"Actions",
     "CATEGORY_NAME":"Category name",
-    "SUB_CATAGORY":"Sub Category"
+    "SUB_CATAGORY":"Sub Category",
+"CLASSIFICATIONS":"Classification"
 
 
   },
@@ -33,6 +39,8 @@
     "SAVE":"Save",
     "UPDATE":"Update",
     "MAX_LENGTH_EXCEEDED": "You have exceeded the maximum character limit of {{maxLength}}",
-    "CHOOSE":"Choose"
+    "CHOOSE":"Choose",
+    "BRAND_DELETED_SUCCESS": "Brand deleted successfully",
+    "BRAND_DELETE_FAILED": "Failed to delete brand. Please try again."
   }
 }

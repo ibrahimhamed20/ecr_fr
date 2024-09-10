@@ -1,13 +1,16 @@
 {
-  "UNITS":{
-    "NAME":"وحدات",
-    "PRODUCT_MANAGEMENT":"إدارة المنتجات",
-    "ADD_NEW_UNIT":"إضافة وحدة جديدة"
+  "UNITS": {
+    "NAME": "وحدات",
+    "PRODUCT_MANAGEMENT": "إدارة المنتجات",
+    "ADD_NEW_UNIT": "إضافة وحدة جديدة"
   },
   "CATEGORY": {
     "NAME": "فئة",
     "PRODUCT_MANAGEMENT": "إدارة المنتجات",
     "ADD_NEW_CATEGORY": "إضافة فئة جديدة"
+  },
+  "BRAND": {
+    "ADD_NEW_BRAND": "Add New Brand"
   },
   "FIELDS": {
     "SHORT_ARABIC_NAME": "الاسم العربي",
@@ -16,23 +19,24 @@
     "ARABIC_NAME": "الاسم العربي",
     "CLASSIFICATION": "التصنيف",
     "ALLOW_DECIMAL": "السماح بالأرقام العشرية",
-    "BAR_CODE_NO":"رقم الباركود",
+    "BAR_CODE_NO": "رقم الباركود",
     "UNIT_NAME": "اسم الوحدة",
     "SHORT_NAME": "الاسم المختصر",
     "ACTIONS": "الإجراءات",
     "CATEGORY_NAME": "اسم الفئة",
-    "SUB_CATAGORY": "الفئة الفرعية"
-
+    "SUB_CATAGORY": "الفئة الفرعية",
+    "CLASSIFICATIONS": "Classification"
   },
-  "GENERAL":{
+  "GENERAL": {
     "ADDED_SUCCESSFULLY": "تمت إضافة {{name}} بنجاح",
     "UPDATED_SUCCESSFULLY": "تم تحديث {{name}} بنجاح",
-    "FILTERS":"بحث",
+    "FILTERS": "بحث",
     "FIELD_REQUIRED": "{{fieldName}} مطلوب",
-    "SAVE":"حفظ",
-    "UPDATE":"تحديث",
+    "SAVE": "حفظ",
+    "UPDATE": "تحديث",
     "MAX_LENGTH_EXCEEDED": "لقد تخطيت الحد الأقصى للحروف {{maxLength}}",
-    "CHOOSE":"إختر"
-
+    "CHOOSE": "إختر",
+    "BRAND_DELETED_SUCCESS": "Brand deleted successfully",
+    "BRAND_DELETE_FAILED": "Failed to delete brand. Please try again."
   }
 }

@@ -2,10 +2,10 @@ import { Component, EventEmitter, OnInit, Output, ChangeDetectionStrategy } from
 import { CommonModule } from '@angular/common';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ProductService } from '@admin-features/products/Service/product-service';
 import { Observable, forkJoin } from 'rxjs';
-import { Classification, Brand, Category } from '@admin-features/products/interfaces/product.interface';
 import { ButtonModule } from 'primeng/button';
+import { ProductsService } from '@admin-features/products/services/products.service';
+import { Classification, Brand, Category } from '@admin-features/products/interfaces/products.interface';
 
 interface FilterData {
   classifications: Classification[];
@@ -34,7 +34,7 @@ export class ProductFilterComponent implements OnInit {
 
   constructor(
     private _fb: FormBuilder,
-    private _product: ProductService) { }
+    private _product: ProductsService) { }
 
   ngOnInit(): void {
     this.filterForm = this.initializeForm();

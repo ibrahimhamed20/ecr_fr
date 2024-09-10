@@ -1,19 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BreadcrumbComponent, TableComponent, TableConfig } from '@shared-ui';
-import { debounceTime, filter, retry, Subject, switchMap, takeUntil } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfirmDialogService } from 'libs/shared/ui/src/lib/confirm-dialog/confirm-dialog.service';
 import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
-import { ProductService } from '@admin-features/products/Service/product-service';
 import { DropdownModule } from 'primeng/dropdown';
 import { ProductFilterComponent } from './filter/product-filter.component';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
-import { ProductParams } from '@admin-features/products/interfaces/product.interface';
-import { downloadFile } from '../../helpers/download-file';
-import { ProductTableConfig } from '@admin-features/products/products.config';
+import { downloadFile } from '../../helpers/helpers';
+import { ProductsService } from '@admin-features/products/services/products.service';
 import { FormControl } from '@angular/forms';
+import { ProductInterface, ProductParams } from '@admin-features/products/interfaces/products.interface';
+import { ProductTableConfig } from '@admin-features/products/products.config';
+import { Subject, takeUntil, filter, debounceTime, switchMap } from 'rxjs';
+
 
 @Component({
   selector: 'admin-product',
@@ -44,15 +45,13 @@ export class ProductComponent implements OnInit, OnDestroy {
     { label: 'Products Management' },
     { label: 'Product', route: '/product' },
   ];
-
   searchControl: FormControl = new FormControl();
-
   constructor(
     private _router: Router,
     private _route: ActivatedRoute,
     private _confirm: ConfirmDialogService,
-    private productService: ProductService
-  ) { }
+    private productService: ProductsService
+  ) {}
 
   ngOnInit(): void {
     this.getProducts({ pageSize: this.rows, pageNumber: this.currentPage });
@@ -64,27 +63,50 @@ export class ProductComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((response) => {
         if (response && response.data) {
+          const mappedProducts = response.data.result.map((product: ProductInterface) => ({
+            ...product,
+            unit: product.unit ? product.unit.name : '-', 
+            classification: product.classification
+              ? product.classification.name
+              : 'No Classification',
+          }));
+  
           this.tableConfig = {
             ...ProductTableConfig,
-            rows: response.data.result,
+            rows: mappedProducts,
             totalRecords: response.data.rowCount,
             rowsActions: ['EDIT', 'DELETE'],
           };
+  
           this.totalRecords = response.data.rowCount;
         }
       });
   }
-
+  
+  // getProducts(page: ProductParams): void {
+  //   this.productService
+  //     .getProducts(page)
+  //     .pipe(takeUntil(this._unsubscribeAll))
+  //     .subscribe((response) => {
+  //       if (response && response.data) {
+  //         this.tableConfig = {
+  //           ...ProductTableConfig,
+  //           rows: response.data.result,
+  //           totalRecords: response.data.rowCount,
+  //           rowsActions: ['EDIT', 'DELETE'],
+  //         };
+  //         this.totalRecords = response.data.rowCount;
+  //       }
+  //     });
+  // }
   deleteProduct(id?: any): void {
-    this._confirm.confirm('delete').subscribe((confirmed) => {
-      if (confirmed) {
-        this.productService.deleteProduct(id).subscribe(() => {
-          this.getProducts({
-            pageSize: this.rows,
-            pageNumber: this.currentPage,
-          });
+    this.productService.deleteProduct(id).subscribe({
+      next: () => {
+        this.getProducts({
+          pageSize: this.rows,
+          pageNumber: this.currentPage,
         });
-      }
+      },
     });
   }
 
@@ -109,9 +131,9 @@ export class ProductComponent implements OnInit, OnDestroy {
         this._router.navigate(['product/id'], { relativeTo: this._route });
         break;
       case 'DELETE':
-        this._confirm.confirm('delete').subscribe((res) => {
-          if (res) {
-            this.deleteProduct(ev.data?.id);
+        this._confirm.confirm('delete').subscribe((confirmed) => {
+          if (confirmed && ev.data?.id) {
+            this.deleteProduct(ev.data.id);
           }
         });
         // case 'DELETE':
@@ -120,8 +142,8 @@ export class ProductComponent implements OnInit, OnDestroy {
         //     res && console.log("Nothing, it's just delete for test");
         //   });
         break;
-      case 'EXPORT':
-        this.exportProducts();
+        case 'EXPORT':
+          this.exportProducts();
         break;
       case 'NAVIGATE':
         this._router.navigate(['products/product-details', ev.data?.id]);
@@ -140,15 +162,6 @@ export class ProductComponent implements OnInit, OnDestroy {
       CategoryId: e.CategoryId,
     });
   }
-
-  // onSearch(e: any) {
-  //   console.log('onSearch', e);
-  //   this.getProducts({
-  //     pageSize: this.rows,
-  //     pageNumber: this.currentPage,
-  //     Keyword: e,
-  //   });
-  // }
 
   onSearch() {
     this.searchControl.valueChanges.pipe(

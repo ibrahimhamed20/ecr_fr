@@ -32,7 +32,8 @@ $gutter: 1rem; //for primeflex grid system
 @import 'assets/system/styles/badges.scss';
 @import 'assets/system/styles/code.scss';
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-:dir(rtl) .p-datatable .p-datatable-thead > tr > th  ,:dir(rtl) .p-datatable .p-datatable-tbody > tr > td{
+:dir(rtl) .p-datatable .p-datatable-thead > tr > th,
+:dir(rtl) .p-datatable .p-datatable-tbody > tr > td {
   text-align: right;
 }
 :dir(rtl) .p-breadcrumb .p-breadcrumb-list li.p-menuitem-separator {
@@ -42,7 +43,7 @@ $gutter: 1rem; //for primeflex grid system
   display: flex;
   flex-wrap: wrap;
 }
- .dialog-side  {
+admin-units,admin-tags,admin-brands {
   .p-dialog {
     max-height: 100% !important;
   }
@@ -53,11 +54,11 @@ $gutter: 1rem; //for primeflex grid system
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #D5E7FF;
+    background-color: #d5e7ff;
     width: 100%;
     padding: 16px 32px;
     &__title {
-      font-size: 20px;
+      font-size: 16px;
       font-weight: 500;
     }
 
@@ -77,8 +78,8 @@ $gutter: 1rem; //for primeflex grid system
     }
 
     &__close-icon {
-      width: 18px;
-      height: 18px;
+      width: 14px;
+      height: 14px;
     }
   }
   .p-dialog-content {
@@ -112,7 +113,7 @@ $gutter: 1rem; //for primeflex grid system
     width: 100%;
   }
 }
- .btn-tasheel {
+.btn-tasheel {
   button {
     padding: 8px 16px;
     border-radius: 4px;
@@ -121,12 +122,11 @@ $gutter: 1rem; //for primeflex grid system
     line-height: 20px;
     border: none;
     width: 100%;
-
   }
 }
-  .btn-primary {
+.btn-primary {
   button {
-    background: #FF7F3E;
+    background: #ff7f3e;
     color: #222222;
   }
 }

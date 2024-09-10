@@ -1,0 +1,56 @@
+<form [formGroup]="brandForm" autocomplete="off">
+    <div class="p-fluid p-formgrid grid">
+        <div class="field col-12">
+            <label for="classificationIds">{{ 'FIELDS.CLASSIFICATIONS' | translate }}</label>
+            <p-multiSelect [options]="classifications" formControlName="classificationIds" optionLabel="name"
+                optionValue="id" [filter]="true" filterBy="name" [showClear]="true"
+                (onChange)="onClassificationChange($event)" [placeholder]="'FIELDS.CLASSIFICATIONS' | translate">
+            </p-multiSelect>
+            <div *ngIf="brandForm.get('classificationIds')?.touched && brandForm.get('classificationIds')?.errors?.['required']"
+                class="error-message">
+                {{ 'GENERAL.FIELD_REQUIRED' | translate: { fieldName: ('FIELDS.CLASSIFICATIONS' | translate) } }}
+            </div>
+
+        </div>
+        <div class="field col-12 md:col-6">
+
+            <label for="englishName">{{ 'FIELDS.ENGLISH_NAME' | translate }}</label>
+            <input pInputText type="text" pInputText formControlName="englishName" class="w-full"
+                [placeholder]="'FIELDS.ENGLISH_NAME' | translate" />
+            <div *ngIf="brandForm.get('englishName')?.touched && brandForm.get('englishName')?.errors?.['required']"
+                class="error-message">
+                {{ 'GENERAL.FIELD_REQUIRED' | translate: { fieldName: ('FIELDS.ENGLISH_NAME' | translate) } }}
+            </div>
+            <div *ngIf="brandForm.get('englishName')?.touched && brandForm.get('englishName')?.errors?.['maxlength']"
+                class="error-message">
+                {{ 'GENERAL.MAX_LENGTH_EXCEEDED' | translate: { maxLength: 50 } }}
+            </div>
+
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="arabicName">{{ 'FIELDS.ARABIC_NAME' | translate }}</label>
+            <input type="text" pInputText formControlName="arabicName" class="w-full"
+                [placeholder]="'FIELDS.ARABIC_NAME' | translate" />
+            <div *ngIf="brandForm.get('arabicName')?.touched && brandForm.get('arabicName')?.errors?.['required']"
+                class="error-message">
+                {{ 'GENERAL.FIELD_REQUIRED' | translate: { fieldName: ('FIELDS.ARABIC_NAME' | translate) } }}
+            </div>
+            <div *ngIf="brandForm.get('arabicName')?.touched && brandForm.get('arabicName')?.errors?.['maxlength']"
+                class="error-message">
+                {{ 'GENERAL.MAX_LENGTH_EXCEEDED' | translate: { maxLength: 50 } }}
+            </div>
+        </div>
+        <div class="field col-12">
+            <label for="iconUrl">icon</label>
+            <p-fileUpload  name="iconUrl" [showUploadButton]="false" [showCancelButton]="false"
+                (onUpload)="onUpload($event)" [multiple]="true" id="iconUrl" accept="image/*"
+                [maxFileSize]="1000000"></p-fileUpload>
+        </div>
+        <div class="field col-12 md:col-6">
+            <p-button [label]="brandData ? ('GENERAL.UPDATE' | translate) : ('GENERAL.SAVE' | translate)"
+                class="p-element btn-tasheel btn-primary w-full" (onClick)="onSave()">
+            </p-button>
+        </div>
+    </div>
+</form>

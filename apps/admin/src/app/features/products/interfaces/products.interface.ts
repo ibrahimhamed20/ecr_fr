@@ -1,21 +1,38 @@
 export interface ProductInterface {
-  id: number,
-  name: string,
-  shortName: string,
-  classification: {
-      id: number,
-      name: string,
-      icon: any
-  },
-  [_key: string]: any
+  rowCount: any;
+  id: number;
+  name: string;
+  shortName: string;
+  barcode: string;
+  cost: number;
+  price: number;
+  unit: {
+    id: number;
+    name: string;
+    shortName: string;
+  } | null;
+  parentProduct: any;
+  variantValues: any[];
+  classification?: {
+    id: number;
+    name: string;
+    icon: any;
+  };
+  [key: string]: any;
+}
+
+export interface PaginationParams {
+  pageSize: number;
+  pageNumber: number;
+  Keyword?:string
 }
 
 export interface ProductsPagingInteface {
-  pageNumber: number,
-  pageCount: number,
-  pageSize: number,
-  rowCount: number,
-  result: ProductInterface[]
+  pageNumber: number;
+  pageCount: number;
+  pageSize: number;
+  rowCount: number;
+  result: ProductInterface[];
 }
 export interface Classification {
   id: number;
@@ -26,10 +43,9 @@ export interface Classification {
     id: number;
     name: string;
     icon: any;
-    shortName?: string | null;  // Adjust to allow null
+    shortName?: string | null; // Adjust to allow null
     isDecimal?: boolean;
   };
-
 }
 
 export interface ClassificationsResponse {
@@ -47,13 +63,25 @@ export interface UnitResponse {
     result: ProductInterface[];
   };
 }
+export interface TagsResponse {
+  data: {
+    result: ProductInterface[];
+    rowCount?: number;
+  };
+}
+export interface BransResponse {
+  data: {
+    result: ProductInterface[];
+    rowCount?: number;
+  };
+}
 
 export interface UnitData {
   id: number | string;
   arabicName: string;
   englishName: string;
   classificationId: number;
-  classifications:any[];
+  classifications: any[];
   shortArabicName: string;
   shortEnglishName: string;
   isDecimal: boolean;
@@ -65,6 +93,29 @@ export interface UnitData {
   };
 }
 
+export interface TagInterface {
+  tagId: number;
+  tagName: string;
+  tagTypeName: string;
+  classifications: string;
+}
+export interface TagData {
+  id?: number | string;
+  arabicName?: string;
+  englishName?: string;
+  classificationIds?: number[];
+  tagTypeId?: any;
+}
+
+export interface BrandData {
+  id: number;
+  arabicName: string;
+  englishName: string;
+  classification: Classification[];
+  icon:any;
+  countryIds: number[];
+ classificationIds: number[];
+}
 export interface OriginalEvent {
   isTrusted: boolean;
 }
@@ -94,13 +145,31 @@ export interface SubCategory {
   name: string;
 }
 
-
-
 export interface ApiResponse<T> {
   data: Data<T>;
   developerMessage: string | null;
   errorMessage: string | null;
   errorCode: string | null;
+  validationErrors: any[]; // Adjust type if you have a specific structure for validation errors
+}
+
+export interface ProductParams {
+  pageNumber: number;
+  pageSize: number;
+  ClassificationId?: number;
+  Keyword?: string;
+  BrandId?: number;
+  CategoryId?: number;
+}
+
+export interface Brand {
+  id: number;
+  name: string;
+}
+
+export interface Category {
+  id: number;
+  name: string;
   validationErrors: any[]; // Keep this as any[] unless you have a specific structure for validation errors
 }
 // Update the response interface if the result property is present
@@ -115,8 +184,6 @@ export interface Data<T> {
   rowCount: number;
   result: any[];
 }
-
-
 
 export interface FileEvent {
   originalEvent: OriginalEvent;
@@ -137,8 +204,14 @@ export interface CategoriesData {
   barcodeNumber: number;
   englishName: string;
   arabicName: string;
-  parentId: number | null;  // Can be null if no parent
-  icon: Icon | null;  // Can be null if no icon
+  parentId: number | null; // Can be null if no parent
+  icon: Icon | null; // Can be null if no icon
   classifications: Classification[];
-  countries: any[];  // Assuming countries is an array of objects, you can replace `any` with a more specific type if available
+  countries: any[]; // Assuming countries is an array of objects, you can replace `any` with a more specific type if available
+}
+
+export interface MerchantProductParams {
+  pageNumber: number;
+  pageSize: number;
+  Status?: string;
 }
