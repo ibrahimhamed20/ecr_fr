@@ -18,9 +18,9 @@ export class AppComponent {
 
   constructor(private primengConfig: PrimeNGConfig, private translate: TranslateService) {
     this.currentLaguage = localStorage.getItem('lang');
-    if (this.currentLaguage == 'en' || this.currentLaguage == null) {
-      this.translate.setDefaultLang('en');
-      localStorage.setItem('lang', 'en');
+    if (this.currentLaguage == 'null' || this.currentLaguage == null) {
+      this.translate.setDefaultLang('ar');
+      localStorage.setItem('lang', 'ar');
       this.currentLaguage = localStorage.getItem('lang');
       this.getLanguage();
     } else {

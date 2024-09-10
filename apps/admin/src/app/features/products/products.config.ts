@@ -87,15 +87,26 @@ export const MerchantProductsTableConfig: TableConfig = {
   dataLoading: 'server',
 };
 
-
-// Configuration for the Classifications table
-export const ClassificationsTableConfig: TableConfig = {
+// Configuration for the Category table
+export const CategoryTableConfig: TableConfig = {
   columns: [
     {
-      field: 'classificationname',
-      header: 'Classification Name',
+      field: 'name',
+      header: 'Category name',
       type: 'label',
       exported: false,
+    },
+    {
+      field: 'subCategories',
+      header: 'Subcategory',
+      type: 'label',
+      exported: true,
+    },
+    {
+      field: 'classification',
+      header: 'Classification',
+      type: 'label',
+      exported: true,
     },
     { field: 'actions', header: 'Actions', type: 'actions', exported: false },
   ],
@@ -111,24 +122,24 @@ export const ClassificationsTableConfig: TableConfig = {
 export const VariantsTableConfig: TableConfig = {
   columns: [
     {
-      field: 'variantname',
-      header: 'Variant Name',
+      field: 'arabicName',
+      header: 'VARIANTNAME',
       type: 'label',
       exported: false,
     },
     {
-      field: 'variantvalue',
-      header: 'Variant value',
+      field: 'variantsValueProp',
+      header: 'VARIANTVALUE',
       type: 'label',
       exported: false,
     },
     {
       field: 'classification',
-      header: 'Classification',
+      header: 'CLASSIFICATION',
       type: 'label',
       exported: false,
     },
-    { field: 'actions', header: 'Actions', type: 'actions', exported: false },
+    { field: 'actions', header: 'ACTIONS', type: 'actions', exported: false },
   ],
   rowsPerPage: 10,
   rowsPerPageOptions: [5, 10, 15, 20, 25, 50, 100],

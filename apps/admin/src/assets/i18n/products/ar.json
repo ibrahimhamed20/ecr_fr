@@ -20,6 +20,25 @@
     "CLASSIFICATION": "التصنيف",
     "ALLOW_DECIMAL": "السماح بالأرقام العشرية",
     "BAR_CODE_NO": "رقم الباركود",
+    "PRODUCTNAME": "اسم المنتج",
+    "PRICE": "السعر",
+    "COST": "التكلفة",
+    "BARCODE": "باركود",
+    "SEARCH": "بحث",
+    "CATEGORY": "الفئة",
+    "BRAND": "الماركة",
+    "CLASSIFICATIONNAME": "اسم التصنيف",
+    "VARIANTNAME": "اسم المتغير",
+    "VARIANTVALUE": "قيمة المتغير",
+    "ADDVARIANTVALUE": "اضافة قيمة المتغير",
+    "ACTIONS": "الاجراءات",
+    "ID": "كود"
+  },
+  "VARIANTS": {
+    "NAME": "متغيرات",
+    "PRODUCT_MANAGEMENT": "إدارة المنتجات",
+    "ADD_NEW_VARIANT": "إضافة متغير  جديد",
+    "BAR_CODE_NO": "رقم الباركود",
     "UNIT_NAME": "اسم الوحدة",
     "SHORT_NAME": "الاسم المختصر",
     "ACTIONS": "الإجراءات",
@@ -30,11 +49,24 @@
   "GENERAL": {
     "ADDED_SUCCESSFULLY": "تمت إضافة {{name}} بنجاح",
     "UPDATED_SUCCESSFULLY": "تم تحديث {{name}} بنجاح",
+    "APPROVED_SUCCESSFULLY": "تم الموافقة {{name}} بنجاح",
     "FILTERS": "بحث",
     "FIELD_REQUIRED": "{{fieldName}} مطلوب",
     "SAVE": "حفظ",
     "UPDATE": "تحديث",
     "MAX_LENGTH_EXCEEDED": "لقد تخطيت الحد الأقصى للحروف {{maxLength}}",
+    "CHOOSE": "إختر",
+    "NODATA": "لا يوجد بيانات",
+    "DELETE": "حذف",
+    "EDIT": "تعديل",
+    "CANCEL": "الغاء"
+  },
+  "MERCHANTS_PRODUCTS": {
+    "MERCHANTPRODUCTS": "اداره منتجات التجار",
+    "NAME": "منتجات"
+  },
+  "ERROR_MESSAGES": {
+    "CANNOT_DELETE_CLASSIFICATION": "لايمكن حذف هذا المتغير مستخدم ",
     "CHOOSE": "إختر",
     "BRAND_DELETED_SUCCESS": "Brand deleted successfully",
     "BRAND_DELETE_FAILED": "Failed to delete brand. Please try again."

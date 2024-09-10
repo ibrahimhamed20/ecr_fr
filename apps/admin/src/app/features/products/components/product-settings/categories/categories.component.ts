@@ -1,19 +1,26 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BreadcrumbComponent, TableComponent, TableConfig } from '@shared-ui';
+import { TableComponent, TableConfig } from '@shared-ui';
 import { ConfirmDialogService } from 'libs/shared/ui/src/lib/confirm-dialog/confirm-dialog.service';
 import { debounceTime, filter, Subject, switchMap, takeUntil } from 'rxjs';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
-import { ApiResponse, Classification, ClassificationsResponse, DropdownEvent, SubCategory, CategoriesData, Category } from '@admin-features/products/interfaces/products.interface';
+import {
+  ApiResponse,
+  Classification,
+  ClassificationsResponse,
+  DropdownEvent,
+  SubCategory,
+  CategoriesData,
+  Category,
+} from '@admin-features/products/interfaces/products.interface';
 import { PaginatorState } from 'primeng/paginator';
 import { FormControl } from '@angular/forms';
 import { AddEditCategoryComponent } from './components/add-edit-category/add-edit-category.component';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { CategoryService } from './services/category.service';
 import { CategoryTableConfig } from './categories.config';
-import { MenuItem } from 'primeng/api';
+import { ProductsService } from '@admin-features/products/services/products.service';
 
 @Component({
   selector: 'admin-categories',
@@ -23,9 +30,8 @@ import { MenuItem } from 'primeng/api';
     TableComponent,
     DropdownModule,
     DialogModule,
-    BreadcrumbComponent,
     AddEditCategoryComponent,
-    TranslateModule
+    TranslateModule,
   ],
   templateUrl: './categories.component.html',
 })
@@ -39,13 +45,12 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   pageNumber = 1;
   totalRecords = 0;
   first = 0;
-  keyword= "";
+  keyword = '';
   searchControl: FormControl = new FormControl();
-  breadcrumb!: MenuItem[];
 
   constructor(
     private _confirm: ConfirmDialogService,
-    private _category: CategoryService,
+    private _product: ProductsService,
     private _toastr: ToastrService,
     private _translate: TranslateService
   ) {}
@@ -53,24 +58,15 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getClassifications();
     this.getAllCategories();
-    this.setBreadcrumb();
     this.onSearch();
     this.tableConfig = CategoryTableConfig;
   }
-  setBreadcrumb(): void {
-    this.breadcrumb = [
-      { icon: 'pi pi-home', route: '/' },
-      { label: this._translate.instant('CATEGORY.PRODUCT_MANAGEMENT') },
-      { label: this._translate.instant('CATEGORY.NAME'), route: '/categories' },
-    ];
-  }
+
   getClassifications(): void {
-    this._category
+    this._product
       .getClassifications()
       .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((res: ClassificationsResponse) => {
-        this.classifications = res.data.classifications;
-      });
+      .subscribe((res) => (this.classifications = res));
   }
 
   onActionClicked(ev: { action: string; data?: any }) {
@@ -79,8 +75,8 @@ export class CategoriesComponent implements OnInit, OnDestroy {
         this.selectedData = null;
         this.openCreateDialog();
         break;
-        case 'EDIT':
-          this.getCategoryById(ev.data);
+      case 'EDIT':
+        this.getCategoryById(ev.data);
         break;
       case 'DELETE':
         this.onActionDelete(ev.data);
@@ -89,18 +85,17 @@ export class CategoriesComponent implements OnInit, OnDestroy {
         break;
     }
   }
-  onActionDelete(data: {id:number}): void {
-    console.log('data',data)
+  onActionDelete(data: { id: number }): void {
+    console.log('data', data);
     this._confirm.confirm('delete').subscribe((res) => {
       if (res) {
-        this._category
+        this._product
           .deleteCategory(data.id)
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe((response) => {
             if (response.data) {
               this.getAllCategories();
             }
-
           });
       }
     });
@@ -110,17 +105,22 @@ export class CategoriesComponent implements OnInit, OnDestroy {
     this.filterCategories();
   }
   getAllCategories(): void {
-    this._category
+    this._product
       .getAllCategories(this.pageSize, this.pageNumber, this.keyword)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((response: ApiResponse<Category>) => {
         this.tableConfig = {
           ...CategoryTableConfig,
-          rows: response.data.result.map((el) => ({
-            ...el,
-            classification: el?.classification.map((item: Classification) => item.name).join(', '),
-            subCategories: el?.subCategories.map((item: SubCategory) => item.name).join(', '),
-          })) || [],
+          rows:
+            response.data.result.map((el) => ({
+              ...el,
+              classification: el?.classification
+                .map((item: Classification) => item.name)
+                .join(', '),
+              subCategories: el?.subCategories
+                .map((item: SubCategory) => item.name)
+                .join(', '),
+            })) || [],
           totalRecords: response.data.rowCount,
           rowsActions: ['EDIT', 'DELETE'],
         };
@@ -129,14 +129,17 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 
   filterCategories(): void {
     if (this.selectedClassification) {
-      this._category
+      this._product
         .getAllCategories(this.pageSize, this.pageNumber, this.keyword)
         .pipe(takeUntil(this._unsubscribeAll))
         .subscribe((res) => {
           const filteredCategories = res.data.result.filter((category) => {
             // Check if category.classification is an array and contains the selected classification
             return Array.isArray(category.classification)
-              ? category.classification.some((cls:{id:number}) => cls.id === this.selectedClassification?.id)
+              ? category.classification.some(
+                  (cls: { id: number }) =>
+                    cls.id === this.selectedClassification?.id
+                )
               : category.classification?.id === this.selectedClassification?.id;
           });
 
@@ -145,17 +148,19 @@ export class CategoriesComponent implements OnInit, OnDestroy {
             ...el,
             // Join classification names if it is an array, or just use the single name
             classification: Array.isArray(el.classification)
-              ? el.classification.map((cls:{name:string}) => cls.name).join(', ')
+              ? el.classification
+                  .map((cls: { name: string }) => cls.name)
+                  .join(', ')
               : el.classification?.name,
-            subCategories: el.subCategories.map((item:{name:string}) => item.name).join(', '),
-
+            subCategories: el.subCategories
+              .map((item: { name: string }) => item.name)
+              .join(', '),
           }));
         });
     } else {
       this.getAllCategories();
     }
   }
-
 
   onPageChange(event: PaginatorState): void {
     this.first = event.first || 0;
@@ -170,37 +175,47 @@ export class CategoriesComponent implements OnInit, OnDestroy {
     this.displayDialog = false;
   }
   onSearch() {
-    this.searchControl.valueChanges.pipe(
-      filter((k: string) => k.trim().length >= 0),
-      debounceTime(400),
-      switchMap(word => this._category.getAllCategories(
-        this.pageSize,
-        this.pageNumber,
-        word.trim()
-      ))
-    ).subscribe((response: ApiResponse<Category>) => {
-      if (response && response.data) {
-        this.tableConfig = {
-          ...CategoryTableConfig,
-          rows: response.data.result.map((el) => ({
-            ...el,
-            classification: el.classification.map((item:{name:string}) => item.name).join(', '),
-            subCategories: el.subCategories.map((item:{name:string}) => item.name).join(', '),
-          })) || [],
-          totalRecords: response.data.rowCount,
-          rowsActions: ['EDIT', 'DELETE'],
-        };
-      }
-    });
+    this.searchControl.valueChanges
+      .pipe(
+        filter((k: string) => k.trim().length >= 0),
+        debounceTime(400),
+        switchMap((word) =>
+          this._product.getAllCategories(
+            this.pageSize,
+            this.pageNumber,
+            word.trim()
+          )
+        )
+      )
+      .subscribe((response: ApiResponse<Category>) => {
+        if (response && response.data) {
+          this.tableConfig = {
+            ...CategoryTableConfig,
+            rows:
+              response.data.result.map((el) => ({
+                ...el,
+                classification: el.classification
+                  .map((item: { name: string }) => item.name)
+                  .join(', '),
+                subCategories: el.subCategories
+                  .map((item: { name: string }) => item.name)
+                  .join(', '),
+              })) || [],
+            totalRecords: response.data.rowCount,
+            rowsActions: ['EDIT', 'DELETE'],
+          };
+        }
+      });
   }
 
   selectedData: CategoriesData | null = null; // Use the defined interface
   getCategoryById(data: CategoriesData) {
     const id = typeof data.id === 'string' ? Number(data.id) : data.id;
     if (id) {
-      this._category.getCategoryById(id).subscribe((res) => {
+      this._product.getCategoryById(id).subscribe((res) => {
         if (res.data) {
           this.displayDialog = true;
+          console.log('SELECTED', res.data);
           this.selectedData = res.data;
         }
       });
@@ -208,22 +223,29 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   }
   handleSave(data: CategoriesData): void {
     if (!this.selectedData) {
-      this._category
+      this._product
         .addCategory(data)
         .pipe(takeUntil(this._unsubscribeAll))
         .subscribe(() => {
           this.getAllCategories();
           this.displayDialog = false;
-          this._toastr.success(this._translate.instant('GENERAL.ADDED_SUCCESSFULLY', { name: 'CATEGORY.NAME' }));
-
+          this._toastr.success(
+            this._translate.instant('GENERAL.ADDED_SUCCESSFULLY', {
+              name: 'CATEGORY.NAME',
+            })
+          );
         });
     } else {
-      this._category
+      this._product
         .editCategory({ ...data, id: this.selectedData.id })
         .pipe(takeUntil(this._unsubscribeAll))
         .subscribe((response) => {
           if (response.data) {
-            this._toastr.success(this._translate.instant('GENERAL.UPDATED_SUCCESSFULLY', { name: 'CATEGORY.NAME' }));
+            this._toastr.success(
+              this._translate.instant('GENERAL.UPDATED_SUCCESSFULLY', {
+                name: 'CATEGORY.NAME',
+              })
+            );
             this.getAllCategories();
             this.displayDialog = false;
           }

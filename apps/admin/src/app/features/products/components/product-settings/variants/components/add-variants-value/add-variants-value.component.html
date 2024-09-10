@@ -1,0 +1,57 @@
+<div [formGroup]="addVariantValueForm"  class="p-fluid  formgrid">
+  <div formArrayName="variantValues">
+    <div *ngFor="let value of variantValues.controls; let i = index" [formGroupName]="i">
+      <div class="grid">
+        <div class="flex align-items-center">
+          <div class="field col-5">
+       
+            <div class="flex flex-column gap-2">
+              <label for="arabicName">{{'FIELDS.ARABIC_NAME'|translate}}</label>
+              <input pInputText [placeholder]="'FIELDS.ARABIC_NAME'|translate" formControlName="arabicName"
+                id="arabicName{{i}}" aria-describedby="arabicName-help" />
+              <div
+                *ngIf="variantValues.at(i).get('arabicName')?.touched && variantValues.at(i).get('arabicName')?.hasError('required')"
+                class="error-message">
+                {{ 'GENERAL.FIELD_REQUIRED' | translate: { fieldName: ('FIELDS.ARABIC_NAME' | translate) } }}
+              </div>
+              <div
+                *ngIf="variantValues.at(i).get('arabicName')?.touched && variantValues.at(i).get('arabicName')?.hasError('maxlength')"
+                class="error-message">
+                {{ 'GENERAL.MAX_LENGTH_EXCEEDED' | translate: { maxLength: 50 } }}
+              </div>
+            </div>
+            <!-- Max length validation -->
+          </div>
+          <div class="field  md:col-5">
+            <div class="flex flex-column gap-2">
+              <label for="arabicName">{{'FIELDS.ENGLISH_NAME'|translate}}</label>
+
+              <input pInputText id="englishName{{i}}" [placeholder]="'FIELDS.ENGLISH_NAME' | translate" type="text"
+                formControlName="englishName" >
+              <div
+                *ngIf="variantValues.at(i).get('englishName')?.touched && variantValues.at(i).get('englishName')?.hasError('required')"
+                class="error-message">
+                {{ 'GENERAL.FIELD_REQUIRED' | translate: { fieldName: ('FIELDS.ENGLISH_NAME' | translate) } }}
+              </div>
+              <div
+                *ngIf="variantValues.at(i).get('englishName')?.touched && variantValues.at(i).get('englishName')?.hasError('maxlength')"
+                class="error-message">
+                {{ 'GENERAL.MAX_LENGTH_EXCEEDED' | translate: { maxLength: 50 } }}
+              </div>
+            </div>
+          </div>
+          <div class="field col-2">
+            <div class="flex gap-2 mt-1 align-items-center justify-content-end">
+              <p-button severity="primary" (click)="addNewVariants()" icon="pi pi-plus" />
+              <p-button severity="danger" (click)="removeVariants(i)" icon="pi pi-minus" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex gap-2 align-items-center justify-content-end">
+    <p-button [label]="'GENERAL.CANCEL'|translate" severity="danger" (onClick)="onClose()" />
+    <p-button [disabled]="addVariantValueForm.invalid" [label]="'GENERAL.SAVE' | translate" severity="primary" (onClick)="onSave()" />
+  </div>
+</div>

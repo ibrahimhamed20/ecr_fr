@@ -3,10 +3,10 @@ import { TableConfig } from "@shared-ui";
 // Configuration for the Merchant Products table
 export const MerchantProductsTableConfig: TableConfig = {
     columns: [
-      { field: 'name', header: 'Name', type: 'label', exported: false },
-      { field: 'category', header: 'Category', type: 'label', exported: true },
-      { field: 'brand', header: 'Brand', type: 'label', exported: true },
-      { field: 'actions', header: 'Actions', type: 'actions', exported: false },
+      { field: 'name', header: 'PRODUCTNAME', type: 'label', exported: false },
+      { field: 'category', header: 'CATEGORY', type: 'label', exported: true },
+      { field: 'brand', header: 'BRAND', type: 'label', exported: true },
+      { field: 'actions', header: 'ACTIONS', type: 'actions', exported: false },
     ],
     rows: [
       {
@@ -31,7 +31,8 @@ export const MerchantProductsTableConfig: TableConfig = {
     rowsActions: ['EDIT', 'DELETE'],
     actions:['Link'],
     paginator: true,
-    dataLoading:'server'
+    dataLoading:'server',
+   locale:'FIELDS.',
   };
 
   export const LinkTableConfig: TableConfig = {
@@ -64,5 +65,6 @@ export const MerchantProductsTableConfig: TableConfig = {
     rowsActions: ['EDIT', 'DELETE'],
     actions:['Link',],
     paginator: true,
-    dataLoading:'server'
+    dataLoading:'server',
+    locale:'FIELDS.',
   };

@@ -9,17 +9,17 @@
                     <div class="flex">
                         <p-iconField iconPosition="left" class="ml-auto">
                             <p-inputIcon><i class="pi pi-search"></i></p-inputIcon>
-                            <input pInputText type="text" #mprodsearch placeholder="Search keyword"
+                            <input pInputText type="text" #mprodsearch placeholder="{{'FIELDS.SEARCH'|translate}}"
                                 (input)="dt1.filterGlobal(mprodsearch.value, 'contains')" />
                         </p-iconField>
                     </div>
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <th>Product Name</th>
-                        <th>Barcode</th>
-                        <th>Cost</th>
-                        <th>Price</th>
+                        <th>{{"FIELDS.PRODUCTNAME"|translate}}</th>
+                        <th>{{"FIELDS.BARCODE"|translate}}</th>
+                        <th>{{"FIELDS.COST"|translate}}</th>
+                        <th>{{"FIELDS.PRICE"|translate}}</th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-merchantproduct>
@@ -38,7 +38,7 @@
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                     <tr>
-                        <td colspan="2">No Merchant Products found.</td>
+                        <td colspan="4">{{'GENERAL.NODATA'|translate}}</td>
                     </tr>
                 </ng-template>
             </p-table>
@@ -50,15 +50,15 @@
                     <div class="flex">
                         <p-iconField iconPosition="left" class="ml-auto">
                             <p-inputIcon><i class="pi pi-search"></i></p-inputIcon>
-                            <input pInputText type="text" #prodsearch placeholder="Search keyword"
+                            <input pInputText type="text" #prodsearch placeholder="{{'FIELDS.SEARCH'|translate}}"
                                 (input)="searchControl.patchValue(prodsearch.value)" />
                         </p-iconField>
                     </div>
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <th>Product Name</th>
-                        <th>Barcode</th>
+                        <th>{{"FIELDS.PRODUCTNAME"|translate}}</th>
+                        <th>{{"FIELDS.BARCODE"|translate}}</th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-product>
@@ -75,7 +75,7 @@
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                     <tr>
-                        <td colspan="2">No Products found.</td>
+                        <td colspan="2">{{'GENERAL.NODATA'|translate}}</td>
                     </tr>
                 </ng-template>
             </p-table>

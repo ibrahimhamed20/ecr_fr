@@ -7,7 +7,6 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { TranslateModule } from '@ngx-translate/core';
-import { EliminateSpecialCharsDirective } from '@shared-utils';
 
 @Component({
   selector: 'admin-add-edit-units',
@@ -16,7 +15,6 @@ import { EliminateSpecialCharsDirective } from '@shared-utils';
     CommonModule,
     FormsModule,
     DropdownModule,
-    EliminateSpecialCharsDirective,
     TranslateModule,
     CheckboxModule,
     ReactiveFormsModule,

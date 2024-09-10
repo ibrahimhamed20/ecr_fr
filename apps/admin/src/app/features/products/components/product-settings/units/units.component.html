@@ -1,6 +1,9 @@
 <section class="dialog-side">
-  <shared-ui-table [config]="tableConfig" (onPage)="onPageChange($event)" (onSearch)="searchControl.patchValue($event)"
-    (actionClicked)="onActionClicked($event)">
+  <pos-ui-breadcrumb [items]="breadcrumb"></pos-ui-breadcrumb>
+  <shared-ui-table [config]="tableConfig"
+  (onPage)="onPageChange($event)"
+  (onSearch)="searchControl.patchValue($event)"
+  (actionClicked)="onActionClicked($event)">
     <div class="filters row" filters-area>
       <div class="filters-item col-2 p-0">{{'GENERAL.FILTERS' | translate}}</div>
       <div class="filters-actions col-4 p-0">
@@ -32,4 +35,5 @@
         (save)="handleSave($event)"></admin-add-edit-units>
     </ng-template>
   </p-dialog>
+
 </section>
