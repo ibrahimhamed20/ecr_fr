@@ -6,14 +6,15 @@ import { debounceTime, filter, Subject, switchMap, takeUntil } from 'rxjs';
 import { CategoryTableConfig} from '@admin-features/products/products.config';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
-import { ApiResponse, Classification, ClassificationsResponse, DropdownEvent, SubCategory, CategoriesData } from '@admin-features/products/interfaces/products.interface';
-import { ProductsService } from '@admin-features/products/services/products.service';
+import { ApiResponse, Classification, ClassificationsResponse, DropdownEvent, SubCategory, CategoriesData, Category } from '@admin-features/products/interfaces/products.interface';
 import { PaginatorState } from 'primeng/paginator';
 import { FormControl } from '@angular/forms';
 import { AddEditCategoryComponent } from './components/add-edit-category/add-edit-category.component';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Category } from '@admin-features/products/interfaces/product.interface';
+import { CategoryService } from './services/category.service';
+import { CategoryTableConfig } from './categories.config';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'admin-categories',

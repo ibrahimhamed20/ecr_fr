@@ -11,7 +11,6 @@ import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { FormControl } from '@angular/forms';
 import { PaginatorState } from 'primeng/paginator';
-import { MerchantProductParams } from '@admin-features/products/interfaces/product.interface';
 import { MenuItem } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
 

@@ -1,0 +1,45 @@
+<form [formGroup]="TagFormData" autocomplete="off">
+
+    <div class="p-fluid p-formgrid grid">
+        <div class="field col-12">
+            <p-multiSelect [options]="classifications" formControlName="classificationIds" optionLabel="name"
+                optionValue="id" [filter]="true" filterBy="name" [showClear]="true"
+                (onChange)="onClassificationChange($event)" placeholder="Select a classifications" />
+            <!-- @if (formError?.hasSpecificError('TagFormData.classifications', 'required')) {
+            <small id="classifications-error" class="text-error">Please select a classification</small>
+            } -->
+            <small
+                *ngIf="TagFormData.get('classifications')?.hasError('required') && (TagFormData.get('classifications')?.touched || TagFormData.get('classifications')?.dirty)"
+                class="text-error"> Please select a classification </small>
+        </div>
+        <div class="field col-12 md:col-6">
+            <label for="englishName">English Name</label>
+            <input pInputText formControlName="englishName" id="englishName" type="text" />
+            <!-- @if (formError?.hasSpecificError('TagFormData.englishName', 'required')) {
+            <small id="englishName-error" class="text-error">Please enter the name in English
+            </small>
+            } -->
+            <small
+                *ngIf="TagFormData.get('englishName')?.hasError('required') && (TagFormData.get('englishName')?.touched || TagFormData.get('englishName')?.dirty)"
+                class="text-error">
+                Please enter the name in English
+            </small>
+
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="arabicName">Arabic Name</label>
+            <input pInputText formControlName="arabicName" id="arabicName" type="text" />
+
+            <small
+                *ngIf="TagFormData.get('arabicName')?.hasError('required') && (TagFormData.get('arabicName')?.touched || TagFormData.get('arabicName')?.dirty)"
+                class="text-error">
+                Please enter the name in Arabic </small>
+        </div>
+        <div class="field col-12 md:col-6">
+            <p-button [label]="tagData ? 'Update' : 'Save'" class="p-element btn-tasheel btn-primary w-full"
+                (onClick)="onSave()">
+            </p-button>
+        </div>
+    </div>
+</form>

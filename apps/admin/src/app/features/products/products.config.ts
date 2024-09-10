@@ -87,48 +87,6 @@ export const MerchantProductsTableConfig: TableConfig = {
   dataLoading: 'server',
 };
 
-// Configuration for the Brand table
-export const BrandTableConfig: TableConfig = {
-  columns: [
-    {
-      field: 'brandname',
-      header: 'Brand name',
-      type: 'label',
-      exported: false,
-    },
-    {
-      field: 'classification',
-      header: 'Classification',
-      type: 'label',
-      exported: true,
-    },
-    { field: 'actions', header: 'Actions', type: 'actions', exported: false },
-  ],
-  rows: [
-    {
-      brandname: 'brandname',
-      classification: 'classification',
-      brand: 'brand',
-    },
-    {
-      brandname: 'brandname',
-      classification: 'classification',
-      brand: 'brand',
-    },
-    {
-      brandname: 'brandname',
-      classification: 'classification',
-      brand: 'brand',
-    },
-  ],
-  rowsPerPage: 10,
-  rowsPerPageOptions: [5, 10, 15, 20, 25, 50, 100],
-  selectionMode: 'single',
-  actions: ['CREATE'],
-  rowsActions: ['EDIT', 'DELETE'],
-  paginator: true,
-};
-
 // Configuration for the Category table
 export const CategoryTableConfig: TableConfig = {
   columns: [
@@ -158,34 +116,6 @@ export const CategoryTableConfig: TableConfig = {
   actions: ['CREATE'],
   rowsActions: ['EDIT', 'DELETE'],
   paginator: true,
-  dataLoading: 'server',
-};
-
-// Configuration for the Classifications table
-export const ClassificationsTableConfig: TableConfig = {
-  columns: [
-    {
-      field: 'id',
-      header: 'ID',
-      type: 'label',
-      exported: false,
-    },
-    {
-      field: 'name',
-      header: 'CLASSIFICATION',
-      type: 'label',
-      exported: false,
-    },
-    { field: 'actions', header: 'ACTIONS', type: 'actions', exported: false },
-  ],
-  rowsPerPage: 10,
-  rowsPerPageOptions: [5, 10, 15, 20, 25, 50, 100],
-  selectionMode: 'single',
-  actions: ['CREATE'],
-  rowsActions: ['EDIT'],
-  paginator: true,
-  dataLoading: 'server',
-  locale: 'FIELDS.',
 };
 
 // Configuration for the Variants table
@@ -215,18 +145,16 @@ export const VariantsTableConfig: TableConfig = {
   rowsPerPageOptions: [5, 10, 15, 20, 25, 50, 100],
   selectionMode: 'single',
   actions: ['CREATE'],
-  rowsActions: ['EDIT', 'DELETE', 'ADD_VARIANT_VALUE'],
+  rowsActions: ['EDIT', 'DELETE'],
   paginator: true,
-  dataLoading: 'server',
-  locale: 'FIELDS.',
 };
 
 // Configuration for the Tags table
 export const TagsTableConfig: TableConfig = {
   columns: [
-    { field: 'tag name', header: 'Tag Name', type: 'label', exported: false },
+    { field: 'tagName', header: 'Tag Name', type: 'label', exported: false },
     {
-      field: 'classification',
+      field: 'classifications',
       header: 'Classification',
       type: 'label',
       exported: false,
@@ -236,33 +164,6 @@ export const TagsTableConfig: TableConfig = {
   rowsPerPage: 10,
   rowsPerPageOptions: [5, 10, 15, 20, 25, 50, 100],
   selectionMode: 'single',
-  actions: ['CREATE'],
-  rowsActions: ['EDIT', 'DELETE'],
-  paginator: true,
-};
-
-// Configuration for the Units table
-export const UnitsTableConfig: TableConfig = {
-  columns: [
-    { field: 'name', header: 'Unit Name', type: 'label', exported: false },
-    {
-      field: 'shortName',
-      header: 'Short Name',
-      type: 'label',
-      exported: false,
-    },
-    {
-      field: 'classification',
-      header: 'Classification',
-      type: 'label',
-      exported: false,
-    },
-    { field: 'actions', header: 'Actions', type: 'actions', exported: false },
-  ],
-  rowsPerPage: 10,
-  rowsPerPageOptions: [5, 10, 15, 20, 25, 50, 100],
-  selectionMode: 'single',
-  locale: 'FIELDS.',
   actions: ['CREATE'],
   rowsActions: ['EDIT', 'DELETE'],
   dataLoading: 'server',

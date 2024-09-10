@@ -6,20 +6,12 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { FileUploadModule } from 'primeng/fileupload';
 import { FormHelper } from '@shared-utils';
 import { CalendarModule } from 'primeng/calendar';
-import {
-  ReactiveFormsModule,
-  FormGroup,
-  FormBuilder,
-  FormArray,
-  FormControl,
-  FormsModule,
-} from '@angular/forms';
+import { ReactiveFormsModule, FormGroup,FormBuilder,FormArray,FormsModule} from '@angular/forms';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputGroupModule } from 'primeng/inputgroup';
-import { ProductService } from '@admin-features/products/Service/product-service';
-import { ReplaySubject } from 'rxjs';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { CheckboxModule } from 'primeng/checkbox';
+import { ProductsService } from '@admin-features/products/services/products.service';
 
 @Component({
   selector: 'admin-basic-info',
@@ -66,7 +58,7 @@ export class BasicInfoComponent implements OnInit {
   ];
   constructor(
     private _fb: FormBuilder,
-    private _productService: ProductService
+    private _productService: ProductsService
   ) {}
   ngOnInit(): void {
     this.getCountries();
@@ -76,9 +68,6 @@ export class BasicInfoComponent implements OnInit {
   hasExpiryDate: boolean = false;
   expirationDateAlarm: number | null = null;
 
-  // chooseExpiredDate(event: any) {
-  //   this.hasExpiryDate = event.checked;
-  // }
 
   uploadedFiles: any[] = [];
   onUpload(event: any) {
@@ -100,7 +89,7 @@ export class BasicInfoComponent implements OnInit {
 
 
   getCountries() {
-    this._productService.getCountry().subscribe({
+    this._productService.getCountries().subscribe({
       next: (response: any) => {
         this.Countries = response.data;
       },
