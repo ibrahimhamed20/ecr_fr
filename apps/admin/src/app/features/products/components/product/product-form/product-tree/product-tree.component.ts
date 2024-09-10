@@ -2,16 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormHelper } from '@shared-utils';
-import { CalendarModule } from 'primeng/calendar';
-import { CheckboxModule } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
-import { FileUploadModule } from 'primeng/fileupload';
-import { InputGroupModule } from 'primeng/inputgroup';
-import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextModule } from 'primeng/inputtext';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { ProductService } from '@admin-features/products/Service/product-service';
+import { ProductsService } from '@admin-features/products/services/products.service';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @Component({
@@ -21,7 +13,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     CommonModule,
     ReactiveFormsModule,
     DropdownModule,
-    InputTextareaModule,
+    InputTextareaModule
 
    ],  templateUrl: './product-tree.component.html',
   styles: ``,
@@ -38,7 +30,7 @@ export class ProductTreeComponent  implements OnInit{
     { name: 'Option 2', code: 'option2' },
     { name: 'Option 3', code: 'option3' },
   ];
-  constructor(private _productService:ProductService ){
+  constructor(private _productService:ProductsService ){
 
   }
 

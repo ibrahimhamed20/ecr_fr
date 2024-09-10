@@ -5,13 +5,12 @@ import { ConfirmDialogService } from 'libs/shared/ui/src/lib/confirm-dialog/conf
 import { debounceTime, filter, Subject, switchMap, takeUntil } from 'rxjs';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
-import { ApiResponse, Classification, ClassificationsResponse, DropdownEvent, SubCategory, CategoriesData } from '@admin-features/products/interfaces/products.interface';
+import { ApiResponse, Classification, ClassificationsResponse, DropdownEvent, SubCategory, CategoriesData, Category } from '@admin-features/products/interfaces/products.interface';
 import { PaginatorState } from 'primeng/paginator';
 import { FormControl } from '@angular/forms';
 import { AddEditCategoryComponent } from './components/add-edit-category/add-edit-category.component';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Category } from '@admin-features/products/interfaces/product.interface';
 import { CategoryService } from './services/category.service';
 import { CategoryTableConfig } from './categories.config';
 import { MenuItem } from 'primeng/api';

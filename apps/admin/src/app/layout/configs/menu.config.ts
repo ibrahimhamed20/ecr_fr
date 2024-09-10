@@ -42,6 +42,10 @@ export const MAIN_MENU_ITEMS: MenuItem[] = [
                     { label: 'Products', icon: 'pi pi-fw pi-bookmark', routerLink: ['/products'] },
                     { label: 'Merchant Products', icon: 'pi pi-fw pi-bookmark', routerLink: ['products/merchant'] },
                     { label: 'Product Metadata', icon: 'pi pi-fw pi-bookmark', routerLink: ['/products/metadata'] },
+                    { label: 'Product Catalog', icon: 'pi pi-fw pi-bookmark', routerLink: ['/products/catalog'] },
+                    { label: 'Units', icon: 'pi pi-fw pi-bookmark', routerLink: ['/products/units'] },
+                    { label: 'Categories', icon: 'pi pi-fw pi-bookmark', routerLink: ['/products/categories'] },
+
                     { label: 'Product Catalog', icon: 'pi pi-fw pi-bookmark', routerLink: ['/products/products-catalog'] }
                 ]
             },
