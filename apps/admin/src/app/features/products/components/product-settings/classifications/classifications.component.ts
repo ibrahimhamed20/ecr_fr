@@ -2,13 +2,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableComponent, TableConfig } from '@shared-ui';
 import { Subject, takeUntil } from 'rxjs';
-import { ClassificationsTableConfig } from '@admin-features/products/products.config';
 import { ClassificationsData } from '@admin-features/products/interfaces/classifications.interface';
 import { ClassificationsService } from '@admin-features/products/services/classifications.service';
-import { ApiResponse, Data } from '@admin-features/products/interfaces/products.interface';
+import {  Data } from '@admin-features/products/interfaces/products.interface';
 import { DialogModule } from 'primeng/dialog';
 import { AddEditClassificationComponent } from './components/add-edit-classification.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { ClassificationTableConfig } from './classification.config';
 
 @Component({
   selector: 'admin-classifications',
@@ -33,7 +33,7 @@ export class ClassificationsComponent implements OnInit, OnDestroy {
       .getAllClassifications(params)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((res: any) => {
-        this.tableConfig =  {...ClassificationsTableConfig,rows: res.data.classifications,  totalRecords: res.data.rowCount} || [];
+        this.tableConfig =  {...ClassificationTableConfig,rows: res.data.classifications,  totalRecords: res.data.rowCount} || [];
       });
   }
 

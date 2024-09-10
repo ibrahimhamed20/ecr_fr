@@ -102,7 +102,7 @@ export class VariantsComponent implements OnInit, OnDestroy {
     this._product
       .getClassifications()
       .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((res: ClassificationsResponse) => {
+      .subscribe((res: any) => {
         this.classifications = res.data.classifications;
       });
   }

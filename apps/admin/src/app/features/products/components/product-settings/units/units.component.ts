@@ -6,7 +6,6 @@ import { debounceTime, filter, switchMap, takeUntil } from 'rxjs/operators';
 import { ProductsService } from '@admin-features/products/services/products.service';
 import { MenuItem } from 'primeng/api';
 import { DropdownModule } from 'primeng/dropdown';
-import { UnitsTableConfig } from '@admin-features/products/products.config';
 import { ApiResponse, Classification, ClassificationsResponse, Data, DropdownEvent, ProductInterface, UnitData, UnitResponse } from '@admin-features/products/interfaces/products.interface';
 import { AddEditUnitsComponent } from './components/add-edit-units/add-edit-units.component';
 import { DialogModule } from 'primeng/dialog';
@@ -15,6 +14,7 @@ import { ConfirmDialogService } from 'libs/shared/ui/src/lib/confirm-dialog/conf
 import { FormControl } from '@angular/forms';
 import { PaginatorState } from 'primeng/paginator';
 import { TranslateService, LangChangeEvent, TranslateModule } from '@ngx-translate/core'; // Import LangChangeEvent
+import { UnitsTableConfig } from './units.config';
 
 @Component({
   selector: 'admin-units',
@@ -77,7 +77,7 @@ export class UnitsComponent implements OnInit, OnDestroy {
     this._product
       .getClassifications()
       .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((res: ClassificationsResponse) => {
+      .subscribe((res: any) => {
         this.classifications = res.data.classifications;
       });
   }
