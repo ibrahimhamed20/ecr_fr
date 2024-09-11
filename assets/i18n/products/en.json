@@ -1,0 +1,72 @@
+{
+  "UNITS": {
+    "NAME": "Units",
+    "PRODUCT_MANAGEMENT": "Products Management",
+    "ADD_NEW_UNIT": "Add New Unit"
+  },
+  "CATEGORY": {
+    "NAME": "Category",
+    "PRODUCT_MANAGEMENT": "Products Management",
+    "ADD_NEW_CATEGORY": "Add New Category"
+  },
+  "BRAND": {
+    "ADD_NEW_BRAND": "Add New Brand"
+  },
+
+  "FIELDS": {
+    "SHORT_ARABIC_NAME": "Short Arabic Name",
+    "SHORT_ENGLISH_NAME": "Short English Name",
+    "ENGLISH_NAME": "English Name",
+    "ARABIC_NAME": "Arabic Name",
+    "CLASSIFICATION": "Classification",
+    "ALLOW_DECIMAL": "Allow Decimal",
+    "BAR_CODE_NO": "Barcode Number",
+    "PRODUCTNAME": "Product Name",
+    "PRICE": "Price",
+    "COST": "Cost",
+    "BARCODE": "Barcode",
+    "SEARCH": "Search",
+    "CATEGORY": "Category",
+    "BRAND": "Brand",
+    "CLASSIFICATIONNAME": "Classification Name",
+    "VARIANTNAME": "Variant Name",
+    "VARIANTVALUE": "Variant Value",
+    "ADDVARIANTVALUE": "Add Variant Value",
+    "ACTIONS": "Actions",
+    "ID": "Code"
+  },
+
+  "VARIANTS": {
+    "NAME": "Variants",
+    "PRODUCT_MANAGEMENT": "Products Management",
+    "ADD_NEW_VARIANT": "Add New Variant",
+    "CATEGORY_NAME": "Category name",
+    "SUB_CATAGORY": "Sub Category",
+    "CLASSIFICATIONS": "Classification"
+  },
+  "GENERAL": {
+    "ADDED_SUCCESSFULLY": "{{name}} Added successfully",
+    "UPDATED_SUCCESSFULLY": "{{name}} Updated successfully",
+    "APPROVED_SUCCESSFULLY": "{{name}} APPROVED successfully",
+    "FILTERS": "Filters",
+    "FIELD_REQUIRED": "{{fieldName}} is required",
+    "SAVE": "Save",
+    "UPDATE": "Update",
+    "MAX_LENGTH_EXCEEDED": "You have exceeded the maximum character limit of {{maxLength}}",
+    "CHOOSE": "Choose",
+    "NODATA": "No Data",
+    "DELETE": "Delete",
+    "EDIT": "Edit",
+    "CANCEL": "Cancel"
+  },
+  "MERCHANTS_PRODUCTS": {
+    "MERCHANTPRODUCTS": "Merchants Products Management",
+    "NAME": "Products"
+  },
+  "ERROR_MESSAGES": {
+    "CANNOT_DELETE_CLASSIFICATION": "You Cant Delete This Variant Because it used in other Entity",
+    "CHOOSE": "Choose",
+    "BRAND_DELETED_SUCCESS": "Brand deleted successfully",
+    "BRAND_DELETE_FAILED": "Failed to delete brand. Please try again."
+  }
+}
