@@ -35,9 +35,9 @@ import { Service_Types } from '@admin-features/products/enum/service-types';
 export class AddEditClassificationComponent {
   @Input() ClassificationsData!: ClassificationsData | null; // Properly typed as UnitData or null
   @Output() closeDialog= new EventEmitter<void>();
+  @Output() save = new EventEmitter<void>();
   ServicetypeOptions!: { label: string; value: number }[];
   classificationsForm!: FormGroup;
-  @Output() save = new EventEmitter<void>();
 
   constructor(private _fb: FormBuilder) {}
 
@@ -108,6 +108,5 @@ export class AddEditClassificationComponent {
   }
   onClose(){
     this.closeDialog.emit();
-
   }
 }

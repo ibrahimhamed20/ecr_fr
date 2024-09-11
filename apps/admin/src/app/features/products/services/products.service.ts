@@ -147,29 +147,7 @@ export class ProductsService {
     return this._http.post(this.blobStoreUrl, formData);
   }
 
-  getAllVariants(page: variantParam) {
-    return this._http.get<{ data: ProductsPagingInteface }>(
-      `${environment.URL_API}Variants?PageSize=${page.size}&PageNumber=${page.number}`
-    );
-  }
-
-  getVariantById(id: number): Observable<Data<variantsData>> {
-    return this._http.get<Data<variantsData>>(
-      `${environment.URL_API}Variants/${id}/Details`
-    );
-  }
-  editVariant(formData: any) {
-    return this._http.put(`${environment.URL_API}Variants`, formData);
-  }
-  addVariant(formData: any) {
-    return this._http.post(`${environment.URL_API}Variants`, formData);
-  }
-  addVariantValue(formData: any) {
-    return this._http.post(
-      `${environment.URL_API}Variants/variantValues`,
-      formData
-    );
-  }
+  
   searchVariants(keyword: any): Observable<any> {
     return this._http.get(
       `${environment.URL_API}Variants/name?name=${keyword}`

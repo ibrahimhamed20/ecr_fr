@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { TableComponent, TableConfig } from '@shared-ui';
 import { Subject, takeUntil } from 'rxjs';
 import { ClassificationsData } from '@admin-features/products/interfaces/classifications.interface';
-import { ClassificationsService } from '@admin-features/products/services/classifications.service';
-import { Data } from '@admin-features/products/interfaces/products.interface';
+import { ClassificationsService } from '@admin-features/products/components/product-settings/classifications/services/classifications.service';
+import { ClassificationsResponse, Data } from '@admin-features/products/interfaces/products.interface';
 import { DialogModule } from 'primeng/dialog';
 import { AddEditClassificationComponent } from './components/add-edit-classification.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ClassificationTableConfig } from './classification.config';
 import { ToastrService } from 'ngx-toastr';
+import { ConfirmationService } from 'primeng/api';
+import { ConfirmDialogService } from 'libs/shared/ui/src/lib/confirm-dialog/confirm-dialog.service';
 
 @Component({
   selector: 'admin-classifications',
@@ -31,7 +33,8 @@ export class ClassificationsComponent implements OnInit, OnDestroy {
   constructor(
     private _classifications: ClassificationsService,
     private _translate: TranslateService,
-    private _toast: ToastrService
+    private _toast: ToastrService,
+    private _confirm: ConfirmDialogService
   ) {}
 
   ngOnInit(): void {
@@ -61,7 +64,9 @@ export class ClassificationsComponent implements OnInit, OnDestroy {
       case 'EDIT':
         this.getClassificationById(ev.data);
         break;
-      default:
+        case 'DELETE':
+        this.ondeleteclassifications(ev.data);
+        break;
         break;
     }
   }
@@ -91,9 +96,9 @@ export class ClassificationsComponent implements OnInit, OnDestroy {
           this.getAllClassifications(this.filters);
           this.displayDialog = false;
           const currentLang = this._translate.currentLang; // Get the current language
-          const nameToUse = currentLang === 'ar' ? 'تصنيف' : 'classification';
+          const nameToUse = currentLang === 'ar' ? data?.arabicName : data?.englishName ;
           this._translate
-            .get('GENERAL.ADDED_SUCCESSFULLY', { nameToUse })
+            .get('GENERAL.ADDED_SUCCESSFULLY', {name: nameToUse })
             .subscribe((translatedMessage: string) => {
               this._toast.success(translatedMessage);
             });
@@ -119,6 +124,24 @@ export class ClassificationsComponent implements OnInit, OnDestroy {
           }
         });
     }
+  }
+
+  ondeleteclassifications(data: ClassificationsData) {
+    this._confirm.confirm('delete').subscribe((res) => {
+      if (res) {
+        if (data.id)
+          this._classifications
+            .deleteClassification(+data.id)
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((response: ClassificationsResponse) => {
+              if (response.data) {
+                // Successful deletion, fetch the updated list of variants
+                this._toast.success('Classification Deleted Successfully')
+                this.getAllClassifications(this.filters);
+              }
+            });
+      }
+    });
   }
   openCreateDialog(): void {
     this.displayDialog = true;
