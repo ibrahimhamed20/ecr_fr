@@ -37,7 +37,7 @@ import { VariantsTableConfig } from './variants.config';
 export class VariantsComponent implements OnInit, OnDestroy {
   private _unsubscribeAll: Subject<void> = new Subject<void>();
 
-  classifications$!: Observable<any[]>;
+  classifications:Classification[]=[];
 
   selectedClassification: Classification | null = null;
   searchControl: FormControl = new FormControl();
@@ -56,12 +56,19 @@ export class VariantsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.classifications$ = this._product.getClassifications();
+    this.getClassifications();
     this.getAllVariants(this.filters);
     this.onSearchData();
+    
   }
-
-
+  getClassifications(): void {
+    this._product
+      .getClassifications()
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((res: any) => {
+        this.classifications = res.data.classifications;
+      });
+  }
   onSearchData() {
     this.searchControl.valueChanges
       .pipe(

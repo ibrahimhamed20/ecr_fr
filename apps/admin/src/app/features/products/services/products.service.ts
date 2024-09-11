@@ -12,6 +12,7 @@ import {
   ProductsPagingInteface,
   TagData,
   UnitData,
+  ClassificationsResponse,
 } from '../interfaces/products.interface';
 import { map, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -47,12 +48,8 @@ export class ProductsService {
       .pipe(map((res) => res.data.result || []));
   }
 
-  getClassifications(): Observable<Classification[]> {
-    return this._http
-      .get<{ data: { classifications: Classification[] } }>(
-        `${environment.URL_API}Classifications`
-      )
-      .pipe(map((res) => res.data.classifications || []));
+  getClassifications(): Observable<any> {
+    return this._http.get<any>(`${environment.URL_API}Classifications`);
   }
 
   getAllBrands(pageSize: any, pageNumber: any): Observable<Brand[]> {

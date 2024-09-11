@@ -3,15 +3,9 @@ import { TableConfig } from "@shared-ui";
 // Configuration for the Units table
 export const ClassificationTableConfig: TableConfig = {
   columns: [
-    { field: 'name', header: 'UNIT_NAME', type: 'label', exported: false },
+    { field: 'id', header: 'ID', type: 'label', exported: false },
     {
-      field: 'shortName',
-      header: 'SHORT_NAME',
-      type: 'label',
-      exported: false,
-    },
-    {
-      field: 'classification',
+      field: 'name',
       header: 'CLASSIFICATION',
       type: 'label',
       exported: false,
@@ -24,6 +18,7 @@ export const ClassificationTableConfig: TableConfig = {
   locale:'FIELDS.',
   actions: ['CREATE'],
   rowsActions: ['EDIT', 'DELETE'],
-  dataLoading: 'server',
+  dataLoading: 'client',
   paginator: true
+  
 };
