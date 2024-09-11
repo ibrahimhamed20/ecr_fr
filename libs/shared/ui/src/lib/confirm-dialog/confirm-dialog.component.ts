@@ -3,7 +3,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogService } from './confirm-dialog.service';
-import { Subject } from 'rxjs';
+import { first, last, Subject } from 'rxjs';
 
 @Component({
   selector: 'shared-ui-confirm-dialog',
@@ -72,7 +72,7 @@ export class ConfirmDialogComponent {
         this.confirmed$.next(false);
       }
     });
-    return this.confirmed$.asObservable();
+    return this.confirmed$.asObservable().pipe(first());
   }
 
 

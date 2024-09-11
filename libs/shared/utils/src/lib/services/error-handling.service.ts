@@ -9,10 +9,10 @@ export class ErrorHandlingService {
     constructor(private _toastr: ToastrService) { }
 
     handleError(error: HttpErrorResponse) {
-        // const err = error?.error;
+        const err = error?.error;
         switch (error.status) {
             case 400:
-                this._toastr.error('There is an error with status 400');
+                err?.validationErrors?.forEach((msg: string) => this._toastr.error(msg));
                 break;
             case 500:
                 this._toastr.error('There is an error with status 500');

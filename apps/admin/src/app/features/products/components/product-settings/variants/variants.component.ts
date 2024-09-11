@@ -2,23 +2,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BreadcrumbComponent, TableComponent, TableConfig } from '@shared-ui';
 import { ConfirmDialogService } from 'libs/shared/ui/src/lib/confirm-dialog/confirm-dialog.service';
-import { debounceTime, filter, Subject, switchMap, takeUntil } from 'rxjs';
+import { debounceTime, filter, Subject, switchMap, takeUntil, Observable } from 'rxjs';
 import { DropdownModule } from 'primeng/dropdown';
 import { DialogModule } from 'primeng/dialog';
-import {
-  Classification,
-  ClassificationsResponse,
-  Data,
-  DropdownEvent,
-} from '@admin-features/products/interfaces/products.interface';
+import { Classification, Data, DropdownEvent } from '@admin-features/products/interfaces/products.interface';
 import { ProductsService } from '@admin-features/products/services/products.service';
 import { MenuItem } from 'primeng/api';
-import {
-  variantParam,
-  variants,
-  variantsData,
-  variantsResponse,
-} from '@admin-features/products/interfaces/variants.interface';
+import { variantParam, variants, variantsData, variantsResponse } from '@admin-features/products/interfaces/variants.interface';
 import { ButtonModule } from 'primeng/button';
 import { AddEditVariantsComponent } from './components/add-edit-variants/add-edit-variants.component';
 import { ToastrService } from 'ngx-toastr';
@@ -40,13 +30,15 @@ import { VariantsTableConfig } from './variants.config';
     DialogModule,
     TranslateModule,
     BreadcrumbComponent,
-    AddVariantsValueComponent,
+    AddVariantsValueComponent
   ],
   templateUrl: './variants.component.html',
 })
 export class VariantsComponent implements OnInit, OnDestroy {
   private _unsubscribeAll: Subject<void> = new Subject<void>();
-  classifications: Classification[] = [];
+
+  classifications$!: Observable<any[]>;
+
   selectedClassification: Classification | null = null;
   searchControl: FormControl = new FormControl();
   breadcrumb!: MenuItem[];
@@ -61,10 +53,10 @@ export class VariantsComponent implements OnInit, OnDestroy {
     private _product: ProductsService,
     private _toastr: ToastrService,
     private _translate: TranslateService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.getClassifications();
+    this.classifications$ = this._product.getClassifications();
     this.getAllVariants(this.filters);
     this.onSearchData();
   }
@@ -79,26 +71,19 @@ export class VariantsComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         (res) =>
-          (this.tableConfig.rows =
-            res.data.result.map((el: any) => ({
-              ...el,
-              classification: el.classificationIds
-                .map((v: any) => v.name)
-                .join(', '),
-              variantsValueProp: el.variantValues
-                .map((v: any) => v.name)
-                .join(', '),
-            })) || [])
+        (this.tableConfig.rows =
+          res.data.result.map((el: any) => ({
+            ...el,
+            classification: el.classificationIds
+              .map((v: any) => v.name)
+              .join(', '),
+            variantsValueProp: el.variantValues
+              .map((v: any) => v.name)
+              .join(', '),
+          })) || [])
       );
   }
-  getClassifications(): void {
-    this._product
-      .getClassifications()
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((res: any) => {
-        this.classifications = res.data.classifications;
-      });
-  }
+
   filterVariants(params: variantParam): void {
     if (this.selectedClassification) {
       this._product
@@ -135,7 +120,7 @@ export class VariantsComponent implements OnInit, OnDestroy {
       .getAllVariants(params)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((res: variantsResponse) => {
-        this.tableConfig = {...VariantsTableConfig,   rows: res.data.result,   totalRecords: res.data.rowCount};
+        this.tableConfig = { ...VariantsTableConfig, rows: res.data.result, totalRecords: res.data.rowCount };
         this.tableConfig.rows =
           res.data.result.map((el: any) => ({
             ...el,
@@ -245,9 +230,10 @@ export class VariantsComponent implements OnInit, OnDestroy {
           this._product
             .deleteVariant(data.id)
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((response:variantsResponse) => {
+            .subscribe((response: variantsResponse) => {
               if (response.data) {
                 // Successful deletion, fetch the updated list of variants
+                this._toastr.success('Variant Deleted Successfully')
                 this.getAllVariants(this.filters);
               }
             });
