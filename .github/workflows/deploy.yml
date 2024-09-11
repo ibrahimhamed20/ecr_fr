@@ -25,6 +25,6 @@ jobs:
         run: npx nx run admin:build --prod --output-path=./dist/admin --skip-nx-cache --base-href /ecr_fr/
 
       - name: Deploy to GitHub Pages
-        run: npx gh-pages -d ./dist/apps/admin/browser
+        run: npx gh-pages -d ./dist/admin/browser
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
