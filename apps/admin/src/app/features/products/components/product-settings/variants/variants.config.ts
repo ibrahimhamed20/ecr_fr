@@ -28,4 +28,6 @@ export const VariantsTableConfig: TableConfig = {
     actions: ['CREATE'],
     rowsActions: ['EDIT', 'DELETE'],
     paginator: true,
+    locale:'FIELDS.',
+    dataLoading:'server'
   };

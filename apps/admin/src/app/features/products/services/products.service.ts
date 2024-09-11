@@ -12,6 +12,7 @@ import {
   ProductsPagingInteface,
   TagData,
   UnitData,
+  ClassificationsResponse,
 } from '../interfaces/products.interface';
 import { map, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -47,12 +48,8 @@ export class ProductsService {
       .pipe(map((res) => res.data.result || []));
   }
 
-  getClassifications(): Observable<Classification[]> {
-    return this._http
-      .get<{ data: { classifications: Classification[] } }>(
-        `${environment.URL_API}Classifications`
-      )
-      .pipe(map((res) => res.data.classifications || []));
+  getClassifications(): Observable<any> {
+    return this._http.get<any>(`${environment.URL_API}Classifications`);
   }
 
   getAllBrands(pageSize: any, pageNumber: any): Observable<Brand[]> {
@@ -150,29 +147,7 @@ export class ProductsService {
     return this._http.post(this.blobStoreUrl, formData);
   }
 
-  getAllVariants(page: variantParam) {
-    return this._http.get<{ data: ProductsPagingInteface }>(
-      `${environment.URL_API}Variants?PageSize=${page.size}&PageNumber=${page.number}`
-    );
-  }
-
-  getVariantById(id: number): Observable<Data<variantsData>> {
-    return this._http.get<Data<variantsData>>(
-      `${environment.URL_API}Variants/${id}/Details`
-    );
-  }
-  editVariant(formData: any) {
-    return this._http.put(`${environment.URL_API}Variants`, formData);
-  }
-  addVariant(formData: any) {
-    return this._http.post(`${environment.URL_API}Variants`, formData);
-  }
-  addVariantValue(formData: any) {
-    return this._http.post(
-      `${environment.URL_API}Variants/variantValues`,
-      formData
-    );
-  }
+  
   searchVariants(keyword: any): Observable<any> {
     return this._http.get(
       `${environment.URL_API}Variants/name?name=${keyword}`

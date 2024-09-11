@@ -1,14 +1,17 @@
-
 <form [formGroup]="classificationsForm" autocomplete="off">
     <div class="p-fluid p-formgrid grid">
         <div class="field col-12">
-            <label for="classificationIds">{{ 'FIELDS.CLASSIFICATIONS' | translate }}</label>
-<!--             
-            <p-multiSelect [options]="classifications" formControlName="classificationIds" optionLabel="name"
-                optionValue="id" [filter]="true" filterBy="name" [showClear]="true"
-                (onChange)="onClassificationChange($event)" [placeholder]="'FIELDS.CLASSIFICATIONS' | translate">
-            </p-multiSelect> -->
-            <div *ngIf="classificationsForm.get('classificationIds')?.touched && classificationsForm.get('classificationIds')?.errors?.['required']"
+            <label for="serviceType">{{ 'FIELDS.SERVIE_TYPE' | translate }}</label>
+            <p-dropdown [options]="ServicetypeOptions" class="w-full" formControlName="serviceType" optionLabel="label"
+                [filter]="true" filterBy="label" [showClear]="true" (onChange)="onClassificationChange($event)"
+                [placeholder]="'FIELDS.SERVIE_TYPE' | translate">
+                <ng-template pTemplate="selectedItem" let-selectedOption>
+                    <div class="flex align-items-center gap-2">
+                        <div>{{ selectedOption.label }}</div>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+            <div *ngIf="classificationsForm.get('serviceType')?.touched && classificationsForm.get('serviceType')?.errors?.['required']"
                 class="error-message">
                 {{ 'GENERAL.FIELD_REQUIRED' | translate: { fieldName: ('FIELDS.CLASSIFICATIONS' | translate) } }}
             </div>
@@ -45,14 +48,15 @@
         </div>
         <div class="field col-12">
             <label for="iconUrl">icon</label>
-            <p-fileUpload  name="iconUrl" [showUploadButton]="false" [showCancelButton]="false"
+            <p-fileUpload name="iconUrl" [showUploadButton]="false" [showCancelButton]="false"
                 (onUpload)="onUpload($event)" [multiple]="true" id="iconUrl" accept="image/*"
                 [maxFileSize]="1000000"></p-fileUpload>
         </div>
-        <div class="field col-12 md:col-6">
-            <p-button [label]="ClassificationsData ? ('GENERAL.UPDATE' | translate) : ('GENERAL.SAVE' | translate)"
-                class="p-element btn-tasheel btn-primary w-full" (onClick)="onSave()">
-            </p-button>
-        </div>
     </div>
 </form>
+<div class="flex gap-2 align-items-center justify-content-end">
+    <p-button [label]="'GENERAL.CANCEL'|translate" severity="danger" (onClick)="onClose()" />
+    <p-button [disabled]="classificationsForm.invalid"
+        [label]="ClassificationsData ? ('GENERAL.UPDATE' | translate) : ('GENERAL.SAVE' | translate)"
+        severity="primary" (onClick)="onSave()" />
+</div>

@@ -12,7 +12,7 @@
       </div>
     </ng-template>
     <ng-template pTemplate="content">
-      <admin-add-edit-classification [ClassificationsData]="selectedClassification" (save)="handleSave($event)"></admin-add-edit-classification>
+      <admin-add-edit-classification [ClassificationsData]="selectedClassification" (closeDialog)="onDialogClose()" (save)="handleSave($event)"></admin-add-edit-classification>
     </ng-template>
   </p-dialog>
 </section>
