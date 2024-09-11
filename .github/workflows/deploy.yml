@@ -22,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Build the Nx app
-        run: npx nx build admin --prod --base-href /dist/admin
+        run: npx nx build admin --prod --base-href /ecr_fr
 
       - name: Deploy to GitHub Pages
         run: npx gh-pages -d dist/apps/admin/browser
