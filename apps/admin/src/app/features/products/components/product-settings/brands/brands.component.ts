@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TableComponent, TableConfig } from '@shared-ui';
 import { ConfirmDialogService } from 'libs/shared/ui/src/lib/confirm-dialog/confirm-dialog.service';
 import { debounceTime, filter, Subject, switchMap, takeUntil } from 'rxjs';
-import { TagsTableConfig } from '@admin-features/products/products.config';
+import { TagsTableConfig } from '@admin-features/products/components/product/product.config';
 import { BrandsFormComponent } from './brans-form/brands-form.component';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';

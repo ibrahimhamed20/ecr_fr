@@ -1,3 +1,5 @@
 {
-    "CONTROLADMIN":"Control Admin "
+    "NAVBAR": {
+        "CONTROL_ADMIN": "Control Admin"
+    }
 }

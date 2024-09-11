@@ -1,0 +1,2 @@
+type Position = 'center' | 'top' | 'bottom' | 'left' | 'right' | 'topleft' | 'topright' | 'bottomleft' | 'bottomright';
+export interface DialogConfig { title: string, data?: any, position: Position, closable?: boolean, draggable?: boolean }; 

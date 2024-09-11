@@ -4,7 +4,7 @@ export const ProductTableConfig: TableConfig = {
   columns: [
     {
       field: 'name',
-      header: 'Name',
+      header: 'NAME',
       type: 'link',
       exported: false,
       sortable: true,
@@ -53,6 +53,7 @@ export const ProductTableConfig: TableConfig = {
   rowsActions: ['EDIT', 'DELETE'],
   paginator: true,
   dataLoading: 'server',
+  locale: 'FIELDS.'
 };
 
 // Configuration for the Merchant Products table

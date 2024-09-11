@@ -33,7 +33,8 @@
     "ADDVARIANTVALUE": "اضافة قيمة المتغير",
     "ACTIONS": "الاجراءات",
     "ID": "كود",
-    "SERVICE_TYPE":"نوع الخدمة"
+    "SERVICE_TYPE":"نوع الخدمة",
+    "NAME": "اسم المنتج"
   },
   "VARIANTS": {
     "NAME": "متغيرات",

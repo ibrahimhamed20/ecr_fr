@@ -1,7 +1,7 @@
 <div class="layout-topbar">
-    <a class="layout-topbar-logo" routerLink="">
+    <a class="layout-topbar-logo">
         <img src="assets/system/images/logo/system_logo.svg" alt="logo">
-        <span>{{"CONTROLADMIN"|translate}}</span>
+        <span>{{"NAVBAR.CONTROL_ADMIN" | translate}}</span>
     </a>
 
     <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="_layout.onMenuToggle()">
@@ -15,12 +15,16 @@
 
     <div #topbarmenu class="layout-topbar-menu"
         [ngClass]="{'layout-topbar-menu-mobile-active': _layout.state.profileSidebarVisible}">
+        <button class="p-link layout-topbar-button" [pTooltip]="'Language'" [tooltipPosition]="'bottom'"
+            (click)="toggleLanguage()">
+            <i class="pi pi-language"></i>
+            <span>{{_translate.currentLang | uppercase}}</span>
+        </button>
         <button class="p-link layout-topbar-button" [pTooltip]="'Profile'" [tooltipPosition]="'bottom'">
             <i class="pi pi-user"></i>
             <span>Profile</span>
         </button>
-        <button (click)="changeLanguage()" class="p-link layout-topbar-button" [pTooltip]="'Settings'"
-            [tooltipPosition]="'bottom'">
+        <button class="p-link layout-topbar-button" [pTooltip]="'Settings'" [tooltipPosition]="'bottom'">
             <i class="pi pi-cog"></i>
             <span>Settings</span>
         </button>

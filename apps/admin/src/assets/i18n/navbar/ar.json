@@ -1,3 +1,5 @@
 {
-    "CONTROLADMIN":"لوحة التحكم"
+    "NAVBAR": {
+        "CONTROL_ADMIN": "لوحة التحكم"
+    }
 }

@@ -34,7 +34,8 @@
     "ADDVARIANTVALUE": "Add Variant Value",
     "ACTIONS": "Actions",
     "ID": "Code",
-    "SERVICE_TYPE":"Service Type"
+    "SERVICE_TYPE":"Service Type",
+    "NAME": "Name"
   },
 
   "VARIANTS": {

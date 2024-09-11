@@ -6,7 +6,7 @@ import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { AddEditUnitsComponent } from '../product-settings/units/components/add-edit-units/add-edit-units.component';
 import { Classification } from '@admin-features/products/interfaces/products.interface';
-import { CatalogTableConfig } from '@admin-features/products/products.config';
+import { CatalogTableConfig } from '@admin-features/products/components/product/product.config';
 import { ProductsService } from '@admin-features/products/services/products.service';
 import { FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
