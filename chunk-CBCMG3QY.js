@@ -1,1 +1,0 @@
-import{Eb as r,Kc as a,Mb as m,Y as n,lb as o,mb as i}from"./chunk-CD6VLWCW.js";var c=(()=>{class e{static \u0275fac=function(t){return new(t||e)};static \u0275cmp=n({type:e,selectors:[["admin-verify"]],standalone:!0,features:[m],decls:2,vars:0,template:function(t,p){t&1&&(o(0,"p"),r(1,"verify works!"),i())},dependencies:[a]})}return e})();export{c as a};
