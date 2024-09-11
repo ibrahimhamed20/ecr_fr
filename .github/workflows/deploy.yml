@@ -26,3 +26,5 @@ jobs:
 
       - name: Deploy to GitHub Pages
         run: npx gh-pages -d ./dist/apps/admin/browser
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
