@@ -27,7 +27,9 @@ jobs:
       - name: Configure Git Identity
         run: |
           git config --global user.email "ibrahimhamed2016@hotmail.com"
-          git config --global user.name "Ibrahim Hamed"
+          git config --global user.name "ibrahimhamed20"
           
       - name: Deploy to GitHub Pages
         run: npx gh-pages -d ./dist/admin/browser
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
