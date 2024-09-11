@@ -23,6 +23,11 @@ jobs:
 
       - name: Build the Nx app
         run: npx nx run admin:build --prod --output-path=./dist/admin --skip-nx-cache --base-href /ecr_fr/
-
+        
+      - name: Configure Git Identity
+        run: |
+          git config --global user.email "ibrahimhamed2016@hotmail.com"
+          git config --global user.name "Ibrahim Hamed"
+          
       - name: Deploy to GitHub Pages
         run: npx gh-pages -d ./dist/admin/browser
