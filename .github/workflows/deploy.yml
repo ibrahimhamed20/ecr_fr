@@ -1,0 +1,28 @@
+name: Deploy Nx App to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Trigger deployment only on pushes to the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18' # or the version you're using
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the Nx app
+        run: npx nx build admin --prod --base-href /dist/admin
+
+      - name: Deploy to GitHub Pages
+        run: npx gh-pages -d dist/apps/admin/browser
