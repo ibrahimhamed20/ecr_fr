@@ -12,7 +12,9 @@
   "BRAND": {
     "ADD_NEW_BRAND": "Add New Brand"
   },
-
+  "CLASSIFICATIONS": {
+    "ADD_NEW_CLASSIFICATION": "Add New Classification"
+  },
   "FIELDS": {
     "SHORT_ARABIC_NAME": "Short Arabic Name",
     "SHORT_ENGLISH_NAME": "Short English Name",

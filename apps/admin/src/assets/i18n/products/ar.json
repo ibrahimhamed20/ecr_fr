@@ -12,6 +12,9 @@
   "BRAND": {
     "ADD_NEW_BRAND": "Add New Brand"
   },
+  "CLASSIFICATIONS": {
+    "ADD_NEW_CLASSIFICATION": "إضافة تصنيف جديد"
+  },
   "FIELDS": {
     "SHORT_ARABIC_NAME": "الاسم العربي",
     "SHORT_ENGLISH_NAME": "الاسم الانجليزي",
@@ -33,7 +36,7 @@
     "ADDVARIANTVALUE": "اضافة قيمة المتغير",
     "ACTIONS": "الاجراءات",
     "ID": "كود",
-    "SERVICE_TYPE":"نوع الخدمة"
+    "SERVICE_TYPE": "نوع الخدمة"
   },
   "VARIANTS": {
     "NAME": "متغيرات",
