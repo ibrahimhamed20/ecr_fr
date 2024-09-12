@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterContentChecked, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MenuItem } from 'primeng/api';
 import { TooltipModule } from 'primeng/tooltip';
@@ -20,15 +20,18 @@ export class NavbarComponent {
   @ViewChild('topbarmenubutton') topbarMenuButton!: ElementRef;
   @ViewChild('topbarmenu') menu!: ElementRef;
 
-  constructor(public _layout: LayoutService, public _auth: AuthService, private translate: TranslateService) { }
+  constructor(
+    public _translate: TranslateService,
+    public _layout: LayoutService,
+    public _auth: AuthService) { }
 
-  changeLanguage() {
-    if (this.translate.currentLang === 'en') {
-      this.translate.use('ar');
+  toggleLanguage() {
+    if (this._translate.currentLang === 'en') {
+      this._translate.use('ar');
       localStorage.setItem('lang', 'ar');
       document.documentElement.setAttribute('dir', 'rtl');
     } else {
-      this.translate.use('en');
+      this._translate.use('en');
       localStorage.setItem('lang', 'en');
       document.documentElement.setAttribute('dir', 'ltr');
     }

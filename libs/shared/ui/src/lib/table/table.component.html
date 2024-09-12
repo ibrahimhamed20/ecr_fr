@@ -15,8 +15,10 @@
                     <input pInputText type="text" (input)="onFilter(dt, $event)" placeholder="Search..."
                         class="w-full sm:w-auto" />
                 </span>
+                @if (config.hasFilters) {
                 <p-button severity="info" icon="pi pi-sliders-v" label="Filters"
                     (onClick)="showFilter = !showFilter"></p-button>
+                }
             </div>
             <div class="m-0">
                 @for (action of config.actions; track $index) {

@@ -13,29 +13,32 @@ import { RippleModule } from 'primeng/ripple'
 })
 export class AppComponent {
   title = 'Store Admin';
-  currentLaguage;
+
+  constructor(
+    private primengConfig: PrimeNGConfig,
+    private translate: TranslateService) {
+    this.initLanguage();
+  }
 
 
-  constructor(private primengConfig: PrimeNGConfig, private translate: TranslateService) {
-    this.currentLaguage = localStorage.getItem('lang');
-    if (this.currentLaguage == 'null' || this.currentLaguage == null) {
-      this.translate.setDefaultLang('ar');
-      localStorage.setItem('lang', 'ar');
-      this.currentLaguage = localStorage.getItem('lang');
-      this.getLanguage();
-    } else {
-      this.translate.setDefaultLang('ar');
-      localStorage.setItem('lang', this.currentLaguage);
-      this.getLanguage();
-    }
+  initLanguage() {
+    this.translate.addLangs(['en', 'ar']);
+
+    const lang = localStorage.getItem('lang') || 'en';
+    localStorage.setItem('lang', lang);
+
+    this.translate.setDefaultLang(lang);
+    this.translate.use(lang);
+
+    this.changePageDirection();
   }
 
   ngOnInit(): void {
-    this.primengConfig.ripple = true;       //enables core ripple functionality
+    this.primengConfig.ripple = true; //enables core ripple functionality
   }
 
-  getLanguage() {
-    if (this.currentLaguage == 'en') {
+  changePageDirection() {
+    if (this.translate.currentLang == 'en') {
       document.documentElement.setAttribute('dir', 'ltr');
     } else {
       document.documentElement.setAttribute('dir', 'rtl');

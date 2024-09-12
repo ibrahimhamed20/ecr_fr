@@ -1,0 +1,61 @@
+::ng-deep {
+  .custom-dialog {
+    .p-dialog {
+      max-height: 100% !important;
+    }
+    .p-dialog-header {
+      padding: 0;
+    }
+    .dialog-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #d5e7ff;
+      width: 100%;
+      padding: 16px 32px;
+      &__title {
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      &__close-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+
+        &:hover {
+          opacity: 0.8;
+        }
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      &__close-icon {
+        width: 14px;
+        height: 14px;
+      }
+    }
+    .p-dialog-content {
+      padding: 24px 16px;
+      &:last-of-type {
+        border-bottom-right-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+      }
+    }
+    .error-message {
+      color: red;
+      font-size: 0.875em;
+      margin-top: 0.5em;
+    }
+    .form-content {
+      .p-dropdown,
+      .p-inputnumber,
+      .p-multiselect {
+        width: 100%;
+      }
+    }
+  }
+}

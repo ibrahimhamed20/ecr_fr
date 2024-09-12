@@ -47,14 +47,14 @@ export class ProductFormComponent {
   initForm() {
     this.storeForm = this._fb.group({
       basicinfo: this._fb.group({
-        productName: ['', [Validators.required, Validators.maxLength(100)]],
-        unitIds:['', [Validators.required]],
-        countryId:['', [Validators.required]],
-        classificationId:['', [Validators.required]],
+        productName: [null, [Validators.required, Validators.maxLength(100)]],
+        unitIds:[null, [Validators.required]],
+        countryId:[null, [Validators.required]],
+        classificationId:[null, [Validators.required]],
         hasSerialNumber: [],
         hasExpiryDate: [],
         expirationDateAlarm: [],
-        timeUnit: this._fb.array([this._fb.group({ contact: [''], contactType: 1 })]),
+        timeUnit: this._fb.array([this._fb.group({ contact: [null], contactType: 1 })]),
         hasUnits: [false],
         smallUnit: [null],
         mediumUnit: [null],

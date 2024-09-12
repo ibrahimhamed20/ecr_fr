@@ -40,7 +40,7 @@ export class AuthService {
 
     refreshToken(tokenData: { accessToken: string, refreshToken: string, mId: string }) {
         return this._http.patch(`​/api​/Users​/renew-token`, tokenData)
-            .pipe(map(res => this.setTokenAndPermissions(res)));;
+            .pipe(map(res => this.setTokenAndPermissions(res)));
     }
 
     logout() {
