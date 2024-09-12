@@ -1,4 +1,5 @@
 export interface ClassificationsData {
+    icon: any;
     id?: number | string;
     arabicName: string;
     englishName: string;
