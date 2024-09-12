@@ -19,6 +19,7 @@ export const ClassificationTableConfig: TableConfig = {
   actions: ['CREATE'],
   rowsActions: ['EDIT', 'DELETE'],
   dataLoading: 'client',
-  paginator: true
+  paginator: true,
+  globalFilterFields:['name']
   
 };

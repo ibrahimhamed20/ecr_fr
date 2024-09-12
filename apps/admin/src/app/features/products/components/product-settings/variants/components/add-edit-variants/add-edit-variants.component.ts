@@ -42,7 +42,7 @@ export class AddEditVariantsComponent implements OnInit {
   @Input() classifications: Classification[] = [];
   breadcrumb!: MenuItem[];
   @Input() variantsData!: variantsData | null; // Properly typed as UnitData or null
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder) {}
   ngOnInit(): void {
     this.initForm();
     this.setdataInform();
@@ -78,9 +78,10 @@ export class AddEditVariantsComponent implements OnInit {
     }
   }
   getSelectedOptions(selectedIds: number[]): any[] {
-    return this.classifications.filter((option) => selectedIds.includes(option.id));
+    return this.classifications.filter((option) =>
+      selectedIds.includes(option.id)
+    );
   }
-
 
   get variantValues(): FormArray {
     return this.addVariantForm.get('variantValues') as FormArray;
@@ -103,7 +104,7 @@ export class AddEditVariantsComponent implements OnInit {
   }
 
   removeVariants(index: number) {
-    this.variantValues.removeAt(index);
+    index && this.variantValues.removeAt(index);
   }
 
   onSave() {
@@ -115,6 +116,5 @@ export class AddEditVariantsComponent implements OnInit {
   }
   onClose() {
     this.closeVariantValue.emit();
-
   }
 }

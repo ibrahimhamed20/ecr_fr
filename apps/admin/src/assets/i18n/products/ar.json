@@ -12,6 +12,10 @@
   "BRAND": {
     "ADD_NEW_BRAND": "Add New Brand"
   },
+  "CLASSIFICATIONS": {
+    "ADD_NEW_CLASSIFICATION": "إضافة تصنيف جديد",
+    "EDIT_CLASSIFICATION":"تعديل التصنيف"
+  },
   "FIELDS": {
     "SHORT_ARABIC_NAME": "الاسم العربي",
     "SHORT_ENGLISH_NAME": "الاسم الانجليزي",
@@ -33,7 +37,7 @@
     "ADDVARIANTVALUE": "اضافة قيمة المتغير",
     "ACTIONS": "الاجراءات",
     "ID": "كود",
-    "SERVICE_TYPE":"نوع الخدمة",
+    "SERVICE_TYPE": "نوع الخدمة",
     "NAME": "اسم المنتج"
   },
   "VARIANTS": {
@@ -46,7 +50,9 @@
     "ACTIONS": "الإجراءات",
     "CATEGORY_NAME": "اسم الفئة",
     "SUB_CATAGORY": "الفئة الفرعية",
-    "CLASSIFICATIONS": "Classification"
+    "CLASSIFICATIONS": "التصنيف",
+    "EDIT_VARIANT":"تعديل المتغير"
+    
   },
   "GENERAL": {
     "ADDED_SUCCESSFULLY": "تمت إضافة {{name}} بنجاح",

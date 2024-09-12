@@ -12,7 +12,10 @@
   "BRAND": {
     "ADD_NEW_BRAND": "Add New Brand"
   },
-
+  "CLASSIFICATIONS": {
+    "ADD_NEW_CLASSIFICATION": "Add New Classification",
+      "EDIT_CLASSIFICATION":"Edit Classification"
+  },
   "FIELDS": {
     "SHORT_ARABIC_NAME": "Short Arabic Name",
     "SHORT_ENGLISH_NAME": "Short English Name",
@@ -44,7 +47,8 @@
     "ADD_NEW_VARIANT": "Add New Variant",
     "CATEGORY_NAME": "Category name",
     "SUB_CATAGORY": "Sub Category",
-    "CLASSIFICATIONS": "Classification"
+    "CLASSIFICATIONS": "Classification",
+    "EDIT_VARIANT":"Edit Variant"
   },
   "GENERAL": {
     "ADDED_SUCCESSFULLY": "{{name}} Added successfully",
