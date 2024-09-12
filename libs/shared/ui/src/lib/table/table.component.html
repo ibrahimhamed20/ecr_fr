@@ -1,7 +1,7 @@
 @if (config) {
 <!--  [paginator]="true" (onPage)="onPage($event)"  -->
 <p-table #dt [value]="config.rows || []" [columns]="exportedColumns || []" responsiveLayout="scroll"
-    [(rows)]="config.rowsPerPage" [lazy]="true" [paginator]="true"
+    [(rows)]="config.rowsPerPage" [lazy]="config.dataLoading === 'server'" [paginator]="true"
     [totalRecords]="config.totalRecords || config.rows?.length || 0" [selectionMode]="config.selectionMode"
     [exportFilename]="config.exportFilename ||'products'" [globalFilterFields]="config.globalFilterFields"
     [rowsPerPageOptions]="config.rowsPerPageOptions" [showCurrentPageReport]="true" [rowHover]="true" dataKey="id"

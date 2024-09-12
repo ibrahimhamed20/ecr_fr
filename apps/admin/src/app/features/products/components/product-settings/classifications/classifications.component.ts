@@ -8,7 +8,7 @@ import { ClassificationsResponse, Data } from '@admin-features/products/interfac
 import { DialogModule } from 'primeng/dialog';
 import { AddEditClassificationComponent } from './components/add-edit-classification.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ClassificationTableConfig } from './classification.config';
+import { ClassificationTableConfig } from './classifications.config';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogService } from 'libs/shared/ui/src/lib/confirm-dialog/confirm-dialog.service';
