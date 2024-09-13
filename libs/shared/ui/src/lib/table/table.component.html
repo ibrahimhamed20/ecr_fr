@@ -1,7 +1,7 @@
 @if (config) {
 <!--  [paginator]="true" (onPage)="onPage($event)"  -->
 <p-table #dt [value]="config.rows || []" [columns]="exportedColumns || []" responsiveLayout="scroll"
-    [(rows)]="config.rowsPerPage" (onRowSelect)="onRowSelect($event)" [lazy]="true" [paginator]="true"
+    [(rows)]="config.rowsPerPage" (onRowSelect)="onRowSelect($event)" [lazy]="config.dataLoading === 'server'" [paginator]="true"
     [totalRecords]="config.totalRecords || config.rows?.length || 0" [selectionMode]="config.selectionMode"
     [exportFilename]="config.exportFilename ||'products'" [globalFilterFields]="config.globalFilterFields"
     [rowsPerPageOptions]="config.rowsPerPageOptions" [showCurrentPageReport]="true" [rowHover]="true" dataKey="id"
@@ -15,8 +15,10 @@
                     <input pInputText type="text" (input)="onFilter(dt, $event)" placeholder="Search..."
                         class="w-full sm:w-auto" />
                 </span>
+                @if (config.hasFilters) {
                 <p-button severity="info" icon="pi pi-sliders-v" label="Filters"
                     (onClick)="showFilter = !showFilter"></p-button>
+                }
             </div>
             <div class="m-0">
                 @for (action of config.actions; track $index) {

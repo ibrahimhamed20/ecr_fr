@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { CustomHttpClient } from '@shared-utils';
 import { Observable } from 'rxjs';
 import { Classification } from '../interfaces/product.interface';
-import { Data, ProductsPagingInteface } from '../interfaces/products.interface';
+import { ClassificationsResponse, Data, ProductsPagingInteface } from '../interfaces/products.interface';
 import { ClassificationsData, ClassificationsParam } from '../interfaces/classifications.interface';
 
 @Injectable({
@@ -16,7 +16,7 @@ export class ClassificationsService {
    }
    
   deleteClassification(id:number) {
-    return this._http.delete(`${environment.URL_API}Classifications/${id}`);
+    return this._http.delete<ClassificationsResponse>(`${environment.URL_API}Classifications/${id}`);
   }
 
   addClassification(formData:Classification) {

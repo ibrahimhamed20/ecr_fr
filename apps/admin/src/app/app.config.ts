@@ -1,6 +1,6 @@
 import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideRouter, withRouterConfig } from '@angular/router';
+import { provideRouter, withHashLocation, withRouterConfig } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideSpinnerConfig } from 'ngx-spinner';
@@ -21,7 +21,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimations(),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(appRoutes, withRouterConfig({ onSameUrlNavigation: 'reload' })),
+    provideRouter(appRoutes, withRouterConfig({ onSameUrlNavigation: 'reload' }), withHashLocation()),
     provideHttpClient(withInterceptors(APP_INTERCEPTORS)),
     provideSpinnerConfig({ type: 'ball-scale-multiple' }),
     importProvidersFrom(

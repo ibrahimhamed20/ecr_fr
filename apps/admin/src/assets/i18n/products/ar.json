@@ -12,6 +12,10 @@
   "BRAND": {
     "ADD_NEW_BRAND": "Add New Brand"
   },
+  "CLASSIFICATIONS": {
+    "ADD_NEW_CLASSIFICATION": "إضافة تصنيف جديد",
+    "EDIT_CLASSIFICATION":"تعديل التصنيف"
+  },
   "FIELDS": {
     "SHORT_ARABIC_NAME": "الاسم العربي",
     "SHORT_ENGLISH_NAME": "الاسم الانجليزي",
@@ -41,7 +45,9 @@
       "PRODUCT_NO": "رقم المنتج",
       "PRODUCT_PRICE": "سعر المنتج",
       "FREE_PRODUCT_NO": "عدد المنتجات المجانية",
-      "PAID_PRODUCT": "المنتج المدفوع"
+      "PAID_PRODUCT": "المنتج المدفوع",
+          "SERVICE_TYPE": "نوع الخدمة",
+    "NAME": "اسم المنتج"
 
   },
   "VARIANTS": {
@@ -54,7 +60,9 @@
     "ACTIONS": "الإجراءات",
     "CATEGORY_NAME": "اسم الفئة",
     "SUB_CATAGORY": "الفئة الفرعية",
-    "CLASSIFICATIONS": "Classification"
+    "CLASSIFICATIONS": "التصنيف",
+    "EDIT_VARIANT":"تعديل المتغير"
+
   },
   "GENERAL": {
     "ADDED_SUCCESSFULLY": "تمت إضافة {{name}} بنجاح",

@@ -21,4 +21,5 @@ export interface TableConfig {
     totalRecords?: number;
     paginator: boolean;
     dataLoading?: LoadingType;
+    hasFilters?: boolean;
 }

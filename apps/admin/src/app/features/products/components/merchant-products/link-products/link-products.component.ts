@@ -1,4 +1,4 @@
-import { MerchantProductsService } from '@admin-features/products/services/merchant-products-services';
+import { MerchantProductsService } from '@admin-features/products/services/merchant-products.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { debounceTime, filter, Subject, switchMap, takeUntil } from 'rxjs';

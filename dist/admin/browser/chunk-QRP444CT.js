@@ -1,0 +1,1 @@
+import{Eb as a,Kc as i,Mb as s,Y as o,lb as n,mb as r}from"./chunk-CD6VLWCW.js";var c=(()=>{class e{static \u0275fac=function(t){return new(t||e)};static \u0275cmp=o({type:e,selectors:[["admin-forget-password"]],standalone:!0,features:[s],decls:2,vars:0,template:function(t,m){t&1&&(n(0,"p"),a(1,"forget-password works!"),r())},dependencies:[i]})}return e})();export{c as a};

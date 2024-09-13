@@ -17,6 +17,7 @@ import { PaginatorState } from 'primeng/paginator';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AddVariantsValueComponent } from './components/add-variants-value/add-variants-value.component';
 import { VariantsTableConfig } from './variants.config';
+import { VariantsService } from '@admin-features/products/components/product-settings/variants/services/variants.service';
 
 @Component({
   selector: 'admin-variants',
@@ -37,7 +38,7 @@ import { VariantsTableConfig } from './variants.config';
 export class VariantsComponent implements OnInit, OnDestroy {
   private _unsubscribeAll: Subject<void> = new Subject<void>();
 
-  classifications$!: Observable<any[]>;
+  classifications:Classification[]=[];
 
   selectedClassification: Classification | null = null;
   searchControl: FormControl = new FormControl();
@@ -51,17 +52,26 @@ export class VariantsComponent implements OnInit, OnDestroy {
   constructor(
     private _confirm: ConfirmDialogService,
     private _product: ProductsService,
+    private _variants: VariantsService,
+
     private _toastr: ToastrService,
     private _translate: TranslateService
   ) { }
 
   ngOnInit(): void {
-    this.classifications$ = this._product.getClassifications();
+    this.getClassifications();
     this.getAllVariants(this.filters);
     this.onSearchData();
+    
   }
-
-
+  getClassifications(): void {
+    this._product
+      .getClassifications()
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((res: any) => {
+        this.classifications = res.data.classifications;
+      });
+  }
   onSearchData() {
     this.searchControl.valueChanges
       .pipe(
@@ -86,7 +96,7 @@ export class VariantsComponent implements OnInit, OnDestroy {
 
   filterVariants(params: variantParam): void {
     if (this.selectedClassification) {
-      this._product
+      this._variants
         .getAllVariants(params)
         .pipe(takeUntil(this._unsubscribeAll))
         .subscribe((res: variantsResponse) => {
@@ -116,7 +126,7 @@ export class VariantsComponent implements OnInit, OnDestroy {
     this.getAllVariants(this.filters);
   }
   getAllVariants(params: any): void {
-    this._product
+    this._variants
       .getAllVariants(params)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((res: variantsResponse) => {
@@ -156,7 +166,7 @@ export class VariantsComponent implements OnInit, OnDestroy {
   }
 
   getVariantById(id: number) {
-    this._product
+    this._variants
       .getVariantById(id)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((res: Data<variantsData>) => {
@@ -186,7 +196,7 @@ export class VariantsComponent implements OnInit, OnDestroy {
       );
     }
     if (!this.selectedVariant) {
-      this._product
+      this._variants
         .addVariant(data)
         .pipe(takeUntil(this._unsubscribeAll))
         .subscribe(() => {
@@ -195,13 +205,13 @@ export class VariantsComponent implements OnInit, OnDestroy {
           const currentLang = this._translate.currentLang; // Get the current language
           const nameToUse = currentLang === 'ar' ? 'متغير' : 'Variant';
           this._translate
-            .get('GENERAL.ADDED_SUCCESSFULLY', { nameToUse })
+            .get('GENERAL.ADDED_SUCCESSFULLY', {name :nameToUse })
             .subscribe((translatedMessage: string) => {
               this._toastr.success(translatedMessage);
             });
         });
     } else {
-      this._product
+      this._variants
         .editVariant({ ...data, id: this.selectedVariant.id })
         .pipe(takeUntil(this._unsubscribeAll))
         .subscribe((response) => {
@@ -242,7 +252,7 @@ export class VariantsComponent implements OnInit, OnDestroy {
   }
 
   handleVariantValueSave(data: any) {
-    this._product
+    this._variants
       .addVariantValue(data)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(() => {

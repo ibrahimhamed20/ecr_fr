@@ -9,20 +9,21 @@ import { catchError, map, tap } from 'rxjs/operators';
 })
 export class TranslationService {
   private readonly translationFiles = [
-    'customers/en', 
+    'customers/en',
     'customers/ar',
-     'products/en', 
-     'products/ar',
-     'navbar/en',
-     'navbar/ar',
+    'products/en',
+    'products/ar',
+    'navbar/en',
+    'navbar/ar',
   ];
 
-  constructor(private translate: TranslateService, private http: HttpClient) {
-  }
+  constructor(
+    private _translate: TranslateService,
+    private _http: HttpClient) { }
 
   loadTranslations(): Observable<void> {
     const requests = this.translationFiles.map(file =>
-      this.http.get(`/assets/i18n/${file}.json`).pipe(
+      this._http.get(`/assets/i18n/${file}.json`).pipe(
         catchError(err => {
           console.error(`Error loading translation file ${file}:`, err);
           return of({});
@@ -34,7 +35,7 @@ export class TranslationService {
       tap(responses => {
         responses.forEach((response: any, index) => {
           const lang = this.getLangFromFile(this.translationFiles[index]);
-          this.translate.setTranslation(lang, response, true);
+          this._translate.setTranslation(lang, response, true);
         });
         console.log('Translations loaded');
       }),

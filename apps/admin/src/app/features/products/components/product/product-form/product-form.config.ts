@@ -4,7 +4,6 @@ import { ButtonModule } from "primeng/button";
 import { CalendarModule } from "primeng/calendar";
 import { MultiSelectModule } from "primeng/multiselect";
 import { BasicInfoComponent } from "./basic-info/basic-info.component";
-import { DropdownModule } from "primeng/dropdown";
 import { CheckboxModule } from "primeng/checkbox";
 import { FormsModule } from "@angular/forms";
 import { ProductImagesComponent } from "./product-images/product-images.component";
@@ -17,7 +16,6 @@ export const PRODUCT_FORM_IMPORTS = [
     MultiSelectModule,
     CalendarModule,
     ButtonModule,
-    DropdownModule,
     CheckboxModule,
     FormsModule,
     // components

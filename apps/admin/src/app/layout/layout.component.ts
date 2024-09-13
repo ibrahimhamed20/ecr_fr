@@ -4,7 +4,7 @@ import { NavigationEnd, Router, RouterOutlet } from "@angular/router";
 import { CommonModule } from '@angular/common';
 import { filter, Subscription } from 'rxjs';
 import { LayoutService } from './services';
-import { ConfirmDialogComponent } from '@shared-ui';
+import { ConfirmDialogComponent, PopupComponent } from '@shared-ui';
 
 @Component({
   selector: 'admin-layout',
@@ -16,7 +16,8 @@ import { ConfirmDialogComponent } from '@shared-ui';
     SidebarComponent,
     AdminConfigComponent,
     FooterComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    PopupComponent
   ],
   templateUrl: './layout.component.html',
 })

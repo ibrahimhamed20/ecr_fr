@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { ConfirmDialogService } from 'libs/shared/ui/src/lib/confirm-dialog/confirm-dialog.service';
 import { debounceTime, filter, Subject, switchMap, takeUntil } from 'rxjs';
 import { MerchantProductsTableConfig } from './merchants.config';
-import { MerchantProductsService } from '@admin-features/products/services/merchant-products-services';
+import { MerchantProductsService } from '@admin-features/products/services/merchant-products.service';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';

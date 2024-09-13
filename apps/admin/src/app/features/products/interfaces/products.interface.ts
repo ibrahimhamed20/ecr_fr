@@ -33,6 +33,7 @@ export interface ProductsPagingInteface {
   pageSize: number;
   rowCount: number;
   result: ProductInterface[];
+  [key: string]: any;
 }
 export interface Classification {
   id: number;

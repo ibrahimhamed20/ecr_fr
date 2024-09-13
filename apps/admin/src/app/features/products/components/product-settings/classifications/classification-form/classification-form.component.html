@@ -1,0 +1,70 @@
+<form [formGroup]="classificationsForm" autocomplete="off">
+    <div class="p-fluid p-formgrid grid">
+        <div class="field col-12">
+            <label for="serviceType">{{ 'FIELDS.SERVICE_TYPE' | translate }}</label>
+            <p-dropdown [options]="serviceTypes" class="w-full" formControlName="serviceType" optionLabel="label"
+                optionValue="value" [ngClass]="{'ng-dirty ng-invalid': formError.hasError('serviceType')}"
+                [filter]="true" filterBy="label" [showClear]="true"
+                [placeholder]="'FIELDS.SERVICE_TYPE' | translate"></p-dropdown>
+            @if (formError.hasSpecificError('serviceType', 'required')) {
+            <small id="serviceType-error" class="text-error">
+                {{ 'GENERAL.FIELD_REQUIRED' | translate: { fieldName: ('FIELDS.SERVICE_TYPE' | translate) } }}
+            </small>
+            }
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="englishName">{{ 'FIELDS.ENGLISH_NAME' | translate }}</label>
+            <input pInputText type="text" pInputText formControlName="englishName" class="w-full"
+                [ngClass]="{'ng-dirty ng-invalid': formError.hasError('englishName')}"
+                [placeholder]="'FIELDS.ENGLISH_NAME' | translate" />
+
+            @if (formError.hasSpecificError('englishName', 'required')) {
+            <small id="serviceType-error" class="text-error">
+                {{ 'GENERAL.FIELD_REQUIRED' | translate: { fieldName: ('FIELDS.ENGLISH_NAME' | translate) } }}
+            </small>
+            }
+            @if (formError.hasSpecificError('englishName', 'maxlength')) {
+            <small id="serviceType-error" class="text-error">
+                {{ 'GENERAL.MAX_LENGTH_EXCEEDED' | translate: { maxLength: 50 } }}
+            </small>
+            }
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="arabicName">{{ 'FIELDS.ARABIC_NAME' | translate }}</label>
+            <input type="text" pInputText formControlName="arabicName" class="w-full"
+                [ngClass]="{'ng-dirty ng-invalid': formError.hasError('arabicName')}"
+                [placeholder]="'FIELDS.ARABIC_NAME' | translate" />
+
+            @if (formError.hasSpecificError('arabicName', 'required')) {
+            <small id="serviceType-error" class="text-error">
+                {{ 'GENERAL.FIELD_REQUIRED' | translate: { fieldName: ('FIELDS.ARABIC_NAME' | translate) } }}
+            </small>
+            }
+            @if (formError.hasSpecificError('arabicName', 'maxlength')) {
+            <small id="serviceType-error" class="text-error">
+                {{ 'GENERAL.MAX_LENGTH_EXCEEDED' | translate: { maxLength: 50 } }}
+            </small>
+            }
+        </div>
+
+        <div class="field col-12">
+            @if(classification.icon?.blobUrI){
+            <div class="container-img">
+                <img [src]="classification.icon?.blobUrI" [alt]="classification.icon?.id">
+                <img src="assets/layout/images/close-icon.svg" alt="close-icon" class="close" (click)="removeFile()">
+            </div>
+            } @else {
+            <label for="icon">Classification Icon</label>
+            <p-fileUpload name="icon" [showUploadButton]="false" [showCancelButton]="false" id="icon"
+                (onSelect)="uploadFile($event)" accept="image/*" [maxFileSize]="1000000"></p-fileUpload>
+            }
+        </div>
+    </div>
+</form>
+<div class="flex gap-2 align-items-center justify-content-end">
+    <p-button [label]="'GENERAL.CANCEL'|translate" severity="danger" (onClick)="close()" />
+    <p-button [disabled]="classificationsForm.invalid" (onClick)="save()" severity="primary"
+        [label]="classification.id ? ('GENERAL.UPDATE' | translate) : ('GENERAL.SAVE' | translate)" />
+</div>

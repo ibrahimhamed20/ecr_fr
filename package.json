@@ -14,7 +14,9 @@
     "admin-prod": "nx run admin:build --configuration=production",
     "cashier-dev": "nx run cashier:build --configuration=development",
     "store-dev": "nx run store:build --configuration=development",
-    "admin-dev": "nx run admin:build --configuration=development"
+    "admin-dev": "nx run admin:build --configuration=development",
+    "deploy-admin": "nx run admin:build --prod --output-path=./dist/admin --skip-nx-cache",
+    "deploy": "gh-pages -d dist/admin/browser"
   },
   "private": true,
   "dependencies": {
@@ -70,6 +72,7 @@
     "eslint": "~8.57.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-playwright": "^0.15.3",
+    "gh-pages": "^6.1.1",
     "jest": "^29.4.1",
     "jest-environment-jsdom": "^29.4.1",
     "jest-preset-angular": "~14.1.0",
