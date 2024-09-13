@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
-import { CustomDialogService } from '@shared-ui';
+import { PopupService } from '@shared-ui';
 import { ClassificationsData, ClassificationServiceType } from '@admin-features/products/interfaces';
 import { FormHelper } from '@shared-utils';
 import { DropdownModule } from 'primeng/dropdown';
@@ -33,13 +33,13 @@ export class ClassificationFormComponent implements OnInit {
 
   constructor(
     private _classifications: ClassificationsService,
-    private _dialog: CustomDialogService,
+    private _popup: PopupService,
     private _translate: TranslateService,
     private _toastr: ToastrService,
     private _fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.classification = this._dialog.getData<ClassificationsData>();
+    this.classification = this._popup.getData<ClassificationsData>();
     this.serviceTypes = ProductHelper.getEnumOptions(ServiceTypesEnum);
     this.classificationsForm = this.initForm();
     this.formError = new FormHelper.ErrorManagement(this.classificationsForm);
@@ -54,7 +54,6 @@ export class ClassificationFormComponent implements OnInit {
         this.classification.id && this.patchFormData()
       })
   }
-
 
   private initForm(): FormGroup {
     return this._fb.group({
@@ -120,14 +119,14 @@ export class ClassificationFormComponent implements OnInit {
       .pipe(takeUntil(this.destroy$)).subscribe(() => this.afterSavingDone(classification.id ? 'edit' : 'add', classification));
   }
 
-  afterSavingDone(type: 'add' | 'edit', classification: ClassificationsData) {
+  private afterSavingDone(type: 'add' | 'edit', classification: ClassificationsData) {
     const nameToUse = this._translate.currentLang === 'ar' ? classification?.arabicName : classification?.englishName;
 
     this._translate.get(type ? 'GENERAL.ADDED_SUCCESSFULLY' : 'UPDATED_SUCCESSFULLY', { name: nameToUse })
       .subscribe((msg: string) => this._toastr.success(msg));
 
-    this._dialog.close(true);
+    this._popup.close(true);
   }
 
-  close = () => this._dialog.close();
+  close = () => this._popup.close();
 }

@@ -1,3 +1,3 @@
-export * from './dialog.component';
-export * from './dialog.service';
-export * from './dialog.config';
+export * from './config/popup.config';
+export * from './service/popup.service';
+export * from './popup.component';

@@ -1,7 +1,7 @@
 import { map, Observable } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CustomDialogService, TableComponent, TableConfig } from '@shared-ui';
+import { PopupService, TableComponent, TableConfig } from '@shared-ui';
 import { Subject, takeUntil } from 'rxjs';
 import { ClassificationsData } from '@admin-features/products/interfaces/classifications.interface';
 import { ClassificationsService } from '@admin-features/products/services/classifications.service';
@@ -27,7 +27,7 @@ export class ClassificationsComponent implements OnInit, OnDestroy {
     private _classifications: ClassificationsService,
     private _confirm: ConfirmDialogService,
     private _translate: TranslateService,
-    private _dialog: CustomDialogService,
+    private _popup: PopupService,
     private _toast: ToastrService) { }
 
   ngOnInit(): void {
@@ -52,14 +52,14 @@ export class ClassificationsComponent implements OnInit, OnDestroy {
   }
 
   createClassification() {
-    this._dialog.open(ClassificationFormComponent, {
+    this._popup.open(ClassificationFormComponent, {
       title: this._translate.instant('CLASSIFICATIONS.ADD_NEW_CLASSIFICATION'),
       position: this._translate.currentLang === 'ar' ? 'left' : 'right'
     }).afterClosed.subscribe((refresh) => refresh && this.getAllClassifications(this.filters));
   }
 
   editClassification(classification: ClassificationsData) {
-    this._dialog.open(ClassificationFormComponent, {
+    this._popup.open(ClassificationFormComponent, {
       title: this._translate.instant('CLASSIFICATIONS.EDIT_CLASSIFICATION'),
       position: this._translate.currentLang === 'ar' ? 'left' : 'right',
       data: classification

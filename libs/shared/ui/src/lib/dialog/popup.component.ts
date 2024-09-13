@@ -1,33 +1,33 @@
 import { DialogModule } from 'primeng/dialog';
 import { Component, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DialogConfig } from './dialog.config';
-import { CustomDialogService } from './dialog.service';
-import { first, of, Subject } from 'rxjs';
+import { PopupConfig } from './config/popup.config';
+import { PopupService } from './service/popup.service';
+import { first, Subject } from 'rxjs';
 
 @Component({
-  selector: 'shared-ui-dialog',
+  selector: 'shared-ui-popup',
   standalone: true,
   imports: [CommonModule, DialogModule],
-  templateUrl: './dialog.component.html',
-  styleUrl: './dialog.component.scss'
+  templateUrl: './popup.component.html',
+  styleUrl: './popup.component.scss'
 })
-export class DialogComponent {
+export class PopupComponent {
   @ViewChild('dynamicContainer', { read: ViewContainerRef, static: true })
   private dynamicContainer!: ViewContainerRef;
 
   toggle: boolean = false;
-  config: DialogConfig = { position: 'right', title: 'Dialog' };
+  config: PopupConfig = { position: 'right', title: 'Dialog' };
 
   private closed$: Subject<any> = new Subject<any>();
 
-  constructor(public _customDialog: CustomDialogService) {
-    this._customDialog.open = this.open.bind(this);
-    this._customDialog.getData = this.getData.bind(this);
-    this._customDialog.close = this.close.bind(this);
+  constructor(public _popup: PopupService) {
+    this._popup.open = this.open.bind(this);
+    this._popup.getData = this.getData.bind(this);
+    this._popup.close = this.close.bind(this);
   }
 
-  open(component: Type<any>, config: DialogConfig) {
+  open(component: Type<any>, config: PopupConfig) {
     this.toggle = true;
     this.config = config;
     this.dynamicContainer.clear();
