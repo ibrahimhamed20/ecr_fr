@@ -56,17 +56,19 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.getClassifications();
-    this.getAllCategories();
-    this.onSearch();
     this.tableConfig = CategoryTableConfig;
+    this.getAllCategories();
+    this.getClassifications();
+    this.onSearch();
   }
 
   getClassifications(): void {
     this._product
       .getClassifications()
       .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((res) => (this.classifications = res));
+      .subscribe((res) => {
+        this.classifications = res?.data?.classifications;
+      });
   }
 
   onActionClicked(ev: { action: string; data?: any }) {

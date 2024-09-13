@@ -19,6 +19,8 @@
   "FIELDS": {
     "SHORT_ARABIC_NAME": "Short Arabic Name",
     "SHORT_ENGLISH_NAME": "Short English Name",
+    "SHORT_NAME": "Short Name",
+    "UNIT_NAME": "Unit Name",
     "ENGLISH_NAME": "English Name",
     "ARABIC_NAME": "Arabic Name",
     "CLASSIFICATION": "Classification",
@@ -31,6 +33,7 @@
     "COST": "Cost",
     "BARCODE": "Barcode",
     "SEARCH": "Search",
+    "SUB_CATAGORY": "Subcategory",
     "CATEGORY": "Category",
     "BRAND": "Brand",
     "CLASSIFICATIONNAME": "Classification Name",

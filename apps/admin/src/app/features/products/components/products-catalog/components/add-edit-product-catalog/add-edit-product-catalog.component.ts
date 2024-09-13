@@ -17,7 +17,6 @@ import { ApiResponse, UnitData } from '@admin-features/products/interfaces/produ
 import { Subject, takeUntil } from 'rxjs';
 import { CatalogTableConfig, ProductSelectedTableConfig, SelectedProductTableConfig } from '../../catalog.config';
 import { ActivatedRoute } from '@angular/router';
-import { CategoryTableConfig } from '@admin-features/products/products.config';
 
 @Component({
   selector: 'admin-add-edit-product-catalog',
