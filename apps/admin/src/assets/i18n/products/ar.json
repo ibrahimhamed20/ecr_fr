@@ -68,7 +68,8 @@
     "DELETE": "حذف",
     "EDIT": "تعديل",
     "CANCEL": "الغاء",
-    "CLEAR":"مسح"
+    "CLEAR":"مسح",
+    "BACK":"رجوع"
   },
   "MERCHANTS_PRODUCTS": {
     "MERCHANTPRODUCTS": "اداره منتجات التجار",
