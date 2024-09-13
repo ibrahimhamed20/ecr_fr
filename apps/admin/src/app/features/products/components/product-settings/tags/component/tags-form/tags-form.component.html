@@ -1,45 +1,57 @@
-<form [formGroup]="TagFormData" autocomplete="off">
-
+<form [formGroup]="tagForm" autocomplete="off">
     <div class="p-fluid p-formgrid grid">
         <div class="field col-12">
+            <label for="classificationIds">{{ 'FIELDS.CLASSIFICATIONS' | translate }}</label>
             <p-multiSelect [options]="classifications" formControlName="classificationIds" optionLabel="name"
                 optionValue="id" [filter]="true" filterBy="name" [showClear]="true"
-                (onChange)="onClassificationChange($event)" placeholder="Select a classifications" />
-            <!-- @if (formError?.hasSpecificError('TagFormData.classifications', 'required')) {
-            <small id="classifications-error" class="text-error">Please select a classification</small>
-            } -->
-            <small
-                *ngIf="TagFormData.get('classifications')?.hasError('required') && (TagFormData.get('classifications')?.touched || TagFormData.get('classifications')?.dirty)"
-                class="text-error"> Please select a classification </small>
-        </div>
-        <div class="field col-12 md:col-6">
-            <label for="englishName">English Name</label>
-            <input pInputText formControlName="englishName" id="englishName" type="text" />
-            <!-- @if (formError?.hasSpecificError('TagFormData.englishName', 'required')) {
-            <small id="englishName-error" class="text-error">Please enter the name in English
+                (onChange)="onClassificationChange($event)" [placeholder]="'FIELDS.CLASSIFICATIONS' | translate">
+            </p-multiSelect>
+            @if (formError.hasSpecificError('classificationIds', 'required')) {
+            <small id="serviceType-error" class="text-error">
+                {{ 'GENERAL.FIELD_REQUIRED' | translate: { fieldName: ('FIELDS.classificationIds' | translate) } }}
             </small>
-            } -->
-            <small
-                *ngIf="TagFormData.get('englishName')?.hasError('required') && (TagFormData.get('englishName')?.touched || TagFormData.get('englishName')?.dirty)"
-                class="text-error">
-                Please enter the name in English
+            }
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="englishName">{{ 'FIELDS.ENGLISH_NAME' | translate }}</label>
+            <input pInputText type="text" pInputText formControlName="englishName" class="w-full"
+                [ngClass]="{'ng-dirty ng-invalid': formError.hasError('englishName')}"
+                [placeholder]="'FIELDS.ENGLISH_NAME' | translate" />
+
+            @if (formError.hasSpecificError('englishName', 'required')) {
+            <small id="serviceType-error" class="text-error">
+                {{ 'GENERAL.FIELD_REQUIRED' | translate: { fieldName: ('FIELDS.ENGLISH_NAME' | translate) } }}
             </small>
-
+            }
+            @if (formError.hasSpecificError('englishName', 'maxlength')) {
+            <small id="serviceType-error" class="text-error">
+                {{ 'GENERAL.MAX_LENGTH_EXCEEDED' | translate: { maxLength: 50 } }}
+            </small>
+            }
         </div>
 
         <div class="field col-12 md:col-6">
-            <label for="arabicName">Arabic Name</label>
-            <input pInputText formControlName="arabicName" id="arabicName" type="text" />
+            <label for="arabicName">{{ 'FIELDS.ARABIC_NAME' | translate }}</label>
+            <input type="text" pInputText formControlName="arabicName" class="w-full"
+                [ngClass]="{'ng-dirty ng-invalid': formError.hasError('arabicName')}"
+                [placeholder]="'FIELDS.ARABIC_NAME' | translate" />
 
-            <small
-                *ngIf="TagFormData.get('arabicName')?.hasError('required') && (TagFormData.get('arabicName')?.touched || TagFormData.get('arabicName')?.dirty)"
-                class="text-error">
-                Please enter the name in Arabic </small>
-        </div>
-        <div class="field col-12 md:col-6">
-            <p-button [label]="tagData ? 'Update' : 'Save'" class="p-element btn-tasheel btn-primary w-full"
-                (onClick)="onSave()">
-            </p-button>
+            @if (formError.hasSpecificError('arabicName', 'required')) {
+            <small id="serviceType-error" class="text-error">
+                {{ 'GENERAL.FIELD_REQUIRED' | translate: { fieldName: ('FIELDS.ARABIC_NAME' | translate) } }}
+            </small>
+            }
+            @if (formError.hasSpecificError('arabicName', 'maxlength')) {
+            <small id="serviceType-error" class="text-error">
+                {{ 'GENERAL.MAX_LENGTH_EXCEEDED' | translate: { maxLength: 50 } }}
+            </small>
+            }
         </div>
     </div>
 </form>
+<div class="flex gap-2 align-items-center justify-content-end">
+    <p-button [label]="'GENERAL.CANCEL'|translate" severity="danger" (onClick)="close()" />
+    <p-button (onClick)="save()" severity="primary"
+        [label]="tag.id ? ('GENERAL.UPDATE' | translate) : ('GENERAL.SAVE' | translate)" />
+</div>

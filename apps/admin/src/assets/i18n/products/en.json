@@ -9,8 +9,10 @@
     "PRODUCT_MANAGEMENT": "Products Management",
     "ADD_NEW_CATEGORY": "Add New Category"
   },
-  "BRAND": {
-    "ADD_NEW_BRAND": "Add New Brand"
+  "BRANDS": {
+    "ADD_NEW_BRAND": "Add New Brand",
+    "CLASSIFICATIONS":"Classification"
+
   },
   "CLASSIFICATIONS": {
     "ADD_NEW_CLASSIFICATION": "Add New Classification",
@@ -38,7 +40,8 @@
     "ACTIONS": "Actions",
     "ID": "Code",
     "SERVICE_TYPE":"Service Type",
-    "NAME": "Name"
+    "NAME": "Name",
+    "BRANDNAME":"Brand Name"
   },
 
   "VARIANTS": {

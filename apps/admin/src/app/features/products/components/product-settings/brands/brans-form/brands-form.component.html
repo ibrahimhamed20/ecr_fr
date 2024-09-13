@@ -6,51 +6,65 @@
                 optionValue="id" [filter]="true" filterBy="name" [showClear]="true"
                 (onChange)="onClassificationChange($event)" [placeholder]="'FIELDS.CLASSIFICATIONS' | translate">
             </p-multiSelect>
-            <div *ngIf="brandForm.get('classificationIds')?.touched && brandForm.get('classificationIds')?.errors?.['required']"
-                class="error-message">
-                {{ 'GENERAL.FIELD_REQUIRED' | translate: { fieldName: ('FIELDS.CLASSIFICATIONS' | translate) } }}
-            </div>
-
+            @if (formError.hasSpecificError('classificationIds', 'required')) {
+            <small id="serviceType-error" class="text-error">
+                {{ 'GENERAL.FIELD_REQUIRED' | translate: { fieldName: ('FIELDS.classificationIds' | translate) } }}
+            </small>
+            }
         </div>
-        <div class="field col-12 md:col-6">
 
+        <div class="field col-12 md:col-6">
             <label for="englishName">{{ 'FIELDS.ENGLISH_NAME' | translate }}</label>
             <input pInputText type="text" pInputText formControlName="englishName" class="w-full"
+                [ngClass]="{'ng-dirty ng-invalid': formError.hasError('englishName')}"
                 [placeholder]="'FIELDS.ENGLISH_NAME' | translate" />
-            <div *ngIf="brandForm.get('englishName')?.touched && brandForm.get('englishName')?.errors?.['required']"
-                class="error-message">
-                {{ 'GENERAL.FIELD_REQUIRED' | translate: { fieldName: ('FIELDS.ENGLISH_NAME' | translate) } }}
-            </div>
-            <div *ngIf="brandForm.get('englishName')?.touched && brandForm.get('englishName')?.errors?.['maxlength']"
-                class="error-message">
-                {{ 'GENERAL.MAX_LENGTH_EXCEEDED' | translate: { maxLength: 50 } }}
-            </div>
 
+            @if (formError.hasSpecificError('englishName', 'required')) {
+            <small id="serviceType-error" class="text-error">
+                {{ 'GENERAL.FIELD_REQUIRED' | translate: { fieldName: ('FIELDS.ENGLISH_NAME' | translate) } }}
+            </small>
+            }
+            @if (formError.hasSpecificError('englishName', 'maxlength')) {
+            <small id="serviceType-error" class="text-error">
+                {{ 'GENERAL.MAX_LENGTH_EXCEEDED' | translate: { maxLength: 50 } }}
+            </small>
+            }
         </div>
 
         <div class="field col-12 md:col-6">
             <label for="arabicName">{{ 'FIELDS.ARABIC_NAME' | translate }}</label>
             <input type="text" pInputText formControlName="arabicName" class="w-full"
+                [ngClass]="{'ng-dirty ng-invalid': formError.hasError('arabicName')}"
                 [placeholder]="'FIELDS.ARABIC_NAME' | translate" />
-            <div *ngIf="brandForm.get('arabicName')?.touched && brandForm.get('arabicName')?.errors?.['required']"
-                class="error-message">
+
+            @if (formError.hasSpecificError('arabicName', 'required')) {
+            <small id="serviceType-error" class="text-error">
                 {{ 'GENERAL.FIELD_REQUIRED' | translate: { fieldName: ('FIELDS.ARABIC_NAME' | translate) } }}
-            </div>
-            <div *ngIf="brandForm.get('arabicName')?.touched && brandForm.get('arabicName')?.errors?.['maxlength']"
-                class="error-message">
+            </small>
+            }
+            @if (formError.hasSpecificError('arabicName', 'maxlength')) {
+            <small id="serviceType-error" class="text-error">
                 {{ 'GENERAL.MAX_LENGTH_EXCEEDED' | translate: { maxLength: 50 } }}
-            </div>
+            </small>
+            }
         </div>
+
         <div class="field col-12">
-            <label for="iconUrl">icon</label>
-            <p-fileUpload  name="iconUrl" [showUploadButton]="false" [showCancelButton]="false"
-                (onUpload)="onUpload($event)" [multiple]="true" id="iconUrl" accept="image/*"
-                [maxFileSize]="1000000"></p-fileUpload>
-        </div>
-        <div class="field col-12 md:col-6">
-            <p-button [label]="brandData ? ('GENERAL.UPDATE' | translate) : ('GENERAL.SAVE' | translate)"
-                class="p-element btn-tasheel btn-primary w-full" (onClick)="onSave()">
-            </p-button>
+            @if(brand.icon?.blobUrI){
+            <div class="container-img">
+                <img [src]="brand.icon?.blobUrI" [alt]="brand.icon?.id">
+                <img src="assets/layout/images/close-icon.svg" alt="close-icon" class="close" (click)="removeFile()">
+            </div>
+            } @else {
+            <label for="icon">Brand Icon</label>
+            <p-fileUpload name="icon" [showUploadButton]="false" [showCancelButton]="false" id="icon"
+                (onSelect)="uploadFile($event)" accept="image/*" [maxFileSize]="1000000"></p-fileUpload>
+            }
         </div>
     </div>
 </form>
+<div class="flex gap-2 align-items-center justify-content-end">
+    <p-button [label]="'GENERAL.CANCEL'|translate" severity="danger" (onClick)="close()" />
+    <p-button (onClick)="save()" severity="primary"
+        [label]="brand.id ? ('GENERAL.UPDATE' | translate) : ('GENERAL.SAVE' | translate)" />
+</div>

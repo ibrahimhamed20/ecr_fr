@@ -70,12 +70,7 @@ export interface TagsResponse {
     rowCount?: number;
   };
 }
-export interface BransResponse {
-  data: {
-    result: ProductInterface[];
-    rowCount?: number;
-  };
-}
+
 
 export interface UnitData {
   id: number | string;
@@ -100,23 +95,21 @@ export interface TagInterface {
   tagTypeName: string;
   classifications: string;
 }
-export interface TagData {
-  id?: number | string;
-  arabicName?: string;
-  englishName?: string;
-  classificationIds?: number[];
-  tagTypeId?: any;
-}
+
 
 export interface BrandData {
-  id: number;
-  arabicName: string;
-  englishName: string;
-  classification: Classification[];
-  icon:any;
-  countryIds: number[];
- classificationIds: number[];
-}
+  
+    id: number;
+    arabicName: string;
+    englishName: string;
+    classification: Classification[];
+    icon: any;
+    countryIds: number[];
+    classificationIds: number[];
+  };
+
+  
+
 export interface OriginalEvent {
   isTrusted: boolean;
 }
