@@ -2,9 +2,9 @@ import { environment } from '@admin-env/environment';
 import { Injectable } from '@angular/core';
 import { CustomHttpClient } from '@shared-utils';
 import { Observable } from 'rxjs';
-import { Classification } from '../../../../interfaces/product.interface';
-import { ClassificationsResponse, Data, ProductsPagingInteface } from '../../../../interfaces/products.interface';
-import { ClassificationsData, ClassificationsParam } from '../../../../interfaces/classifications.interface';
+import { Classification } from '../interfaces/product.interface';
+import { ClassificationsResponse, Data, ProductsPagingInteface } from '../interfaces/products.interface';
+import { ClassificationsData, ClassificationsParam } from '../interfaces/classifications.interface';
 
 @Injectable({
   providedIn: 'root'

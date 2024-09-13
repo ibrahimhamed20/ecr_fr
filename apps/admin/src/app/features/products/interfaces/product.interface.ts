@@ -6,7 +6,7 @@ export interface ProductPagingInteface {
   result: productInterface[];
 }
 
-export interface productInterface {}
+export interface productInterface { }
 
 export interface ProductParams {
   pageNumber: number;
@@ -42,8 +42,8 @@ export interface merchantProduct {
   price: number;
   cost: number;
 }
-export interface  prodcut{
-  id:number ;
-  name :string;
-  barcode :string;
+export interface prodcut {
+  id: number;
+  name: string;
+  barcode: string;
 }

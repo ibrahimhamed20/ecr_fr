@@ -24,7 +24,7 @@ const PRIMENG_MODULE = [TableModule, FileUploadModule, ButtonModule, RippleModul
   templateUrl: './table.component.html',
 })
 export class TableComponent {
-  @Input() config!: TableConfig;
+  @Input() config!: TableConfig | null;
   @Output() actionClicked = new EventEmitter<{ action: string; data?: any }>(true);
   @Output() onPage: EventEmitter<PaginatorState> = new EventEmitter<PaginatorState>(true);
   @Output() onSearch: EventEmitter<string> = new EventEmitter<string>(true);
@@ -38,12 +38,12 @@ export class TableComponent {
   onFilter(table: Table, event: Event) {
     debugger
     const keyword = (event.target as HTMLInputElement).value;
-    if (this.config.dataLoading === 'server') this.onSearch.emit(keyword);
+    if (this.config?.dataLoading === 'server') this.onSearch.emit(keyword);
     else table.filterGlobal(keyword, 'contains');
   }
 
   get exportedColumns(): any[] {
-    return this.config.columns.filter((el) => el.exported) || [];
+    return this.config?.columns.filter((el) => el.exported) || [];
   }
 
   toggleMenu(ev: any, row: any, menu: Menu) {
@@ -52,7 +52,7 @@ export class TableComponent {
   }
 
   getMenuItems(row: any): MenuItem[] {
-    return this.config.rowsActions?.map(el => ({
+    return this.config?.rowsActions?.map(el => ({
       label: el,
       icon: el === 'DELETE' ? 'pi pi-trash' : 'pi pi-pencil',
       command: () => this.actionClicked.emit({ action: el, data: row })
@@ -63,12 +63,12 @@ export class TableComponent {
     this.onPage.emit({
       ...ev,
       page: (ev.first / ev.rows) + 1,
-      pageCount: this.config.rowsPerPage
+      pageCount: this.config?.rowsPerPage
     });
   }
 
   onExport(table: Table) {
-    if (this.config.dataLoading === 'server') this.actionClicked.emit({ action: 'EXPORT' });
+    if (this.config?.dataLoading === 'server') this.actionClicked.emit({ action: 'EXPORT' });
     else table.exportCSV();
   }
 }

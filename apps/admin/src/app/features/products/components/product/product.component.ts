@@ -7,12 +7,12 @@ import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 import { ProductFilterComponent } from './filter/product-filter.component';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
-import { downloadFile } from '../../helpers/helpers';
 import { ProductsService } from '@admin-features/products/services/products.service';
 import { FormControl } from '@angular/forms';
 import { ProductInterface, ProductParams } from '@admin-features/products/interfaces/products.interface';
 import { ProductTableConfig } from '@admin-features/products/components/product/product.config';
 import { Subject, takeUntil, filter, debounceTime, switchMap } from 'rxjs';
+import { downloadFile } from '@admin-features/products/helpers/download-file';
 
 
 @Component({

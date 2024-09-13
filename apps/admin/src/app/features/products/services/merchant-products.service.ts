@@ -20,8 +20,7 @@ export class MerchantProductsService {
     );
   }
   getMerchantProduct(page: MerchantProductParams) {
-    let queryParams = `Pagination.PageSize=${page.pageSize}&Pagination.PageNumber=${page.pageNumber}&Status=${page.Status}
- `;
+    let queryParams = `Pagination.PageSize=${page.pageSize}&Pagination.PageNumber=${page.pageNumber}&Status=${page.Status}`;
     return this._http.get<{ data: any }>(
       `${environment.URL_API}MerchantProducts/definitions?${queryParams}`
     );

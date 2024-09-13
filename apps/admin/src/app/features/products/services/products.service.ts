@@ -6,27 +6,24 @@ import {
   CategoriesData,
   Brand,
   Category,
-  Classification,
   Data,
   ProductParams,
   ProductsPagingInteface,
   TagData,
   UnitData,
-  ClassificationsResponse,
 } from '../interfaces/products.interface';
 import { map, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { buildQueryParams } from '../helpers/helpers';
-import { variantParam, variantsData } from '../interfaces/variants.interface';
+import { ProductHelper } from '../helpers/helpers';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService {
-  constructor(private _http: CustomHttpClient, private http: HttpClient) {}
+  constructor(private _http: CustomHttpClient, private http: HttpClient) { }
 
   getProducts(page: ProductParams) {
-    const queryParams = buildQueryParams({
+    const queryParams = ProductHelper.buildQueryParams({
       'Pagination.PageSize': page.pageSize,
       'Pagination.PageNumber': page.pageNumber,
       ClassificationId: page.ClassificationId,
@@ -147,7 +144,7 @@ export class ProductsService {
     return this._http.post(this.blobStoreUrl, formData);
   }
 
-  
+
   searchVariants(keyword: any): Observable<any> {
     return this._http.get(
       `${environment.URL_API}Variants/name?name=${keyword}`
