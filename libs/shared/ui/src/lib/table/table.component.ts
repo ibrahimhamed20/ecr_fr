@@ -65,7 +65,9 @@ export class TableComponent {
       pageCount: this.config.rowsPerPage
     });
   }
-
+  onRowSelect(event: any) {
+    this.actionClicked.emit({ action: 'ROW_SELECTED', data: event.data });
+  }
   onExport(table: Table) {
     if (this.config.dataLoading === 'server') this.actionClicked.emit({ action: 'EXPORT' });
     else table.exportCSV();

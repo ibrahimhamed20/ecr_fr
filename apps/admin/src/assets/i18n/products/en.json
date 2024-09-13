@@ -23,6 +23,8 @@
     "BAR_CODE_NO": "Barcode Number",
     "PRODUCTNAME": "Product Name",
     "PRICE": "Price",
+    "NO_PRODUCTS": "Number of products",
+    "PAID_PRODUCTS": "Paid products",
     "COST": "Cost",
     "BARCODE": "Barcode",
     "SEARCH": "Search",
@@ -33,7 +35,14 @@
     "VARIANTVALUE": "Variant Value",
     "ADDVARIANTVALUE": "Add Variant Value",
     "ACTIONS": "Actions",
-    "ID": "Code"
+    "ID": "Code",
+    "PRODUCT_NO": "Product No",
+    "PRODUCT_PRICE": "Product Price",
+    "FREE_PRODUCT_NO": "Free Product No",
+    "PAID_PRODUCT": "Paid Product",
+    "CATEGORY_NAME": "Category name",
+    "BRAND_NAME": "Brand name"
+
   },
 
   "VARIANTS": {

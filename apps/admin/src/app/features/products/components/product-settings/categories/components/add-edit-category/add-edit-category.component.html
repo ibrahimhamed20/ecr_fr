@@ -22,7 +22,6 @@
       <div *ngIf="control['barcodeNumber'].touched && control['barcodeNumber'].errors?.['required']" class="error-message">
         {{ 'GENERAL.FIELD_REQUIRED' | translate: { fieldName: ('FIELDS.BAR_CODE_NO' | translate) } }}
       </div>
-        <!-- Max length validation -->
       <div *ngIf="control['barcodeNumber'].touched && control['barcodeNumber'].errors?.['maxlength']" class="error-message">
         {{ 'GENERAL.MAX_LENGTH_EXCEEDED' | translate: { maxLength: 50 } }}
       </div>

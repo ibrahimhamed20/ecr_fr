@@ -26,13 +26,23 @@
     "BARCODE": "باركود",
     "SEARCH": "بحث",
     "CATEGORY": "الفئة",
+    "NO_PRODUCTS": "عدد المنتجات",
+    "PAID_PRODUCTS": "المنتجات المدفوعة",
     "BRAND": "الماركة",
     "CLASSIFICATIONNAME": "اسم التصنيف",
     "VARIANTNAME": "اسم المتغير",
     "VARIANTVALUE": "قيمة المتغير",
     "ADDVARIANTVALUE": "اضافة قيمة المتغير",
     "ACTIONS": "الاجراءات",
-    "ID": "كود"
+    "CATEGORY_NAME": "اسم الفئة",
+    "BRAND_NAME": "اسم العلامة التجارية",
+
+    "ID": "كود",
+      "PRODUCT_NO": "رقم المنتج",
+      "PRODUCT_PRICE": "سعر المنتج",
+      "FREE_PRODUCT_NO": "عدد المنتجات المجانية",
+      "PAID_PRODUCT": "المنتج المدفوع"
+
   },
   "VARIANTS": {
     "NAME": "متغيرات",

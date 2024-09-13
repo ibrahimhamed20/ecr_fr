@@ -43,7 +43,7 @@ $gutter: 1rem; //for primeflex grid system
   display: flex;
   flex-wrap: wrap;
 }
-admin-units,admin-tags,admin-brands , admin-variants,admin-classifications{
+admin-units,admin-tags,admin-brands , admin-variants,admin-classifications , .dialog-side{
   .p-dialog {
     max-height: 100% !important;
   }

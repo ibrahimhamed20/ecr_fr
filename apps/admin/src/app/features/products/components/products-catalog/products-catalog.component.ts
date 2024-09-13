@@ -6,12 +6,12 @@ import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { AddEditUnitsComponent } from '../product-settings/units/components/add-edit-units/add-edit-units.component';
 import { Classification } from '@admin-features/products/interfaces/products.interface';
-import { CatalogTableConfig } from '@admin-features/products/products.config';
 import { ProductsService } from '@admin-features/products/services/products.service';
 import { FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PaginatorState } from 'primeng/paginator';
 import { Subject, takeUntil, filter, debounceTime, switchMap } from 'rxjs';
+import { CatalogTableConfig } from './catalog.config';
 
 @Component({
   selector: 'admin-products-catalog',
@@ -56,8 +56,8 @@ export class ProductsCatalogComponent implements OnInit, OnDestroy {
 
   onActionClicked(ev: { action: string; data?: any }) {
     switch (ev.action) {
-      case 'CREATE':
-        this._router.navigate(['0'], { relativeTo: this._route });
+      case 'EDIT':
+        this._router.navigate([`/products/add-product-catalog/${ev.data.classificationId}`], { relativeTo: this._route });
         break;
       default:
         break;
