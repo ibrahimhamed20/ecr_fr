@@ -44,6 +44,7 @@ export const CatalogTableConfig: TableConfig = {
   locale:'FIELDS.',
   paginator: true,
 };
+
 export const ProductSelectedTableConfig: TableConfig = {
   columns: [
     { field: 'catalog', header: 'catalog', type: 'checkbox', exported: false },

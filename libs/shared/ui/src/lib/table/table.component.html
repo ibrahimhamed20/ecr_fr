@@ -1,10 +1,21 @@
 @if (config) {
 <!--  [paginator]="true" (onPage)="onPage($event)"  -->
-<p-table #dt [value]="config.rows || []" [columns]="exportedColumns || []" responsiveLayout="scroll"
-    [(rows)]="config.rowsPerPage" (onRowSelect)="onRowSelect($event)" [lazy]="config.dataLoading === 'server'" [paginator]="true"
-    [totalRecords]="config.totalRecords || config.rows?.length || 0" [selectionMode]="config.selectionMode"
-    [exportFilename]="config.exportFilename ||'products'" [globalFilterFields]="config.globalFilterFields"
-    [rowsPerPageOptions]="config.rowsPerPageOptions" [showCurrentPageReport]="true" [rowHover]="true" dataKey="id"
+<p-table #dt
+    [value]="config.rows || []"
+    [columns]="exportedColumns || []"
+     responsiveLayout="scroll"
+    [(rows)]="config.rowsPerPage"
+    (onRowSelect)="onRowSelect($event)"
+    [lazy]="config.dataLoading === 'server'"
+    [paginator]="true"
+    [totalRecords]="config.totalRecords || config.rows?.length || 0"
+    [selectionMode]="config.selectionMode"
+    [exportFilename]="config.exportFilename ||'products'"
+    [globalFilterFields]="config.globalFilterFields"
+    [rowsPerPageOptions]="config.rowsPerPageOptions"
+    [showCurrentPageReport]="true"
+    [rowHover]="true"
+    dataKey="id"
     [(selection)]="selectedRows" styleClass="p-datatable-gridlines"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" (onPage)="onPageChange($event)">
     <ng-template pTemplate="caption">
@@ -52,7 +63,7 @@
         <tr>
             @for (col of config.columns; track $index) {
             @if (col.type === 'checkbox') {
-            <th style="width: 3rem">
+            <th style="width: 3rem;  text-align: center;">
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
             } @else {
@@ -71,7 +82,9 @@
         <tr>
             @for (col of config.columns; track $index) {
             @if (col.type === 'checkbox') {
-            <td><p-tableCheckbox [value]="row" (onChange)="actionClicked.emit({ action: 'ROW_SELECTED', data: row });"></p-tableCheckbox></td>
+            <td style=" width:1%; min-width:1rem; text-align: center;">
+              <p-tableCheckbox [value]="row"></p-tableCheckbox>
+            </td>
             } @else if (col.type === 'link') {
             <td style="width:14%; min-width:10rem;">
                 <span class="p-column-title">{{col.header}}</span>
