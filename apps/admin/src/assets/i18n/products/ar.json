@@ -11,7 +11,9 @@
   },
   "BRANDS": {
     "ADD_NEW_BRAND": "Add New Brand",
-    "CLASSIFICATIONS":"التصنيف"
+    "CLASSIFICATIONS":"التصنيف",
+    "BRAND_DELETED_SUCCESS":"تم الحذف بنجاح"
+
   },
   "CLASSIFICATIONS": {
     "ADD_NEW_CLASSIFICATION": "إضافة تصنيف جديد",

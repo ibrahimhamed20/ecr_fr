@@ -11,7 +11,8 @@
   },
   "BRANDS": {
     "ADD_NEW_BRAND": "Add New Brand",
-    "CLASSIFICATIONS":"Classification"
+    "CLASSIFICATIONS":"Classification",
+    "BRAND_DELETED_SUCCESS":"Brand deleted successfully"
 
   },
   "CLASSIFICATIONS": {
