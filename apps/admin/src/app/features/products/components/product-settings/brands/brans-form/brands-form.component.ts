@@ -39,6 +39,7 @@ export class BrandsFormComponent implements OnInit {
 
   public brand!: BrandData;
   selectedBrands: any;
+  classifications: Classification[] = [];
 
   constructor(
     private _product: BrandService,
@@ -173,7 +174,6 @@ export class BrandsFormComponent implements OnInit {
     this.brandForm.get('classificationId')?.setValue(event.value.id);
     this.brandForm.get('classification')?.setValue(event.value);
   }
-  classifications: Classification[] = [];
   private getClassifications(): void {
     this._product
       .getClassifications()
