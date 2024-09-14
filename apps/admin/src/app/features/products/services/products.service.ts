@@ -9,12 +9,12 @@ import {
   Data,
   ProductParams,
   ProductsPagingInteface,
-  TagData,
   UnitData,
 } from '../interfaces/products.interface';
 import { map, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ProductHelper } from '../helpers/helpers';
+import { TagsData, TagsParam } from '../interfaces/tags.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -157,32 +157,5 @@ export class ProductsService {
     );
   }
 
-  getAllTags(page: ProductParams) {
-    return this._http.get<{ data: ProductsPagingInteface }>(
-      `${environment.URL_API}Tags?TagTypeIds=2&PageSize=${page.pageSize}&PageNumber=${page.pageNumber}`
-    );
-  }
-
-  deleteTags(id: string | number) {
-    return this._http.delete<{ data: ProductsPagingInteface }>(
-      `${environment.URL_API}Tags/${id}`
-    );
-  }
-
-  addTags(formData: any) {
-    return this._http.post<{ data: ProductsPagingInteface }>(
-      `${environment.URL_API}Tags`,
-      formData
-    );
-  }
-
-  editTags(formData: any) {
-    return this._http.put<{ data: ProductsPagingInteface }>(
-      `${environment.URL_API}Tags`,
-      formData
-    );
-  }
-  getTagsById(id: number): Observable<ApiResponse<TagData>> {
-    return this._http.get<ApiResponse<TagData>>(`/api/Tags/${id}`);
-  }
+ 
 }

@@ -1,5 +1,6 @@
 import { environment } from '@admin-env/environment';
-import { ApiResponse, BrandData, BransResponse, ClassificationsResponse, Data, PaginationParams, ProductsPagingInteface, UnitData } from '@admin-features/products/interfaces/products.interface';
+import { BrandData, BrandParam, BrandResponse } from '@admin-features/products/interfaces/brand.interface';
+import { ApiResponse, ClassificationsResponse, Data, PaginationParams, ProductsPagingInteface, UnitData } from '@admin-features/products/interfaces/products.interface';
 import { Injectable } from '@angular/core';
 import { CustomHttpClient } from '@shared-utils';
 import { Observable } from 'rxjs';
@@ -14,8 +15,8 @@ export class BrandService {
   getClassifications(): Observable<ClassificationsResponse> {
     return this._http.get<ClassificationsResponse>(`${environment.URL_API}Classifications`);
   }
-  getBrands(params: PaginationParams): Observable<BransResponse> {
-    return this._http.get<BransResponse>(`${environment.URL_API}Brands?PageSize=${params.pageSize}&PageNumber=${params.pageNumber}`);
+  getBrands(params: BrandParam): Observable<BrandResponse> {
+    return this._http.get<BrandResponse>(`${environment.URL_API}Brands?PageSize=${params.size}&PageNumber=${params.number}`);
   }
 
   addBrand(formData:any){
@@ -38,9 +39,11 @@ export class BrandService {
     );
   }
 
+  getBrandById(id: number): Observable<Data<BrandData>> {
+    return this._http.get<Data<BrandData>>(`${environment.URL_API}Brands/${id}`);
+  }
 
-
-getBrandById(id: number): Observable<ApiResponse<BrandData>> {
-  return this._http.get<ApiResponse<BrandData>>(`/api/Brands/${id}`);
-}
+// getBrandById(id: number): Observable<ApiResponse<BrandData>> {
+//   return this._http.get<ApiResponse<BrandData>>(`/api/Brands/${id}`);
+// }
 }
