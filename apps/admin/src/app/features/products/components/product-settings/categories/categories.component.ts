@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TableComponent, TableConfig } from '@shared-ui';
+import { PopupService, TableComponent, TableConfig } from '@shared-ui';
 import { ConfirmDialogService } from 'libs/shared/ui/src/lib/confirm-dialog/confirm-dialog.service';
 import { debounceTime, filter, Subject, switchMap, takeUntil } from 'rxjs';
 import { DialogModule } from 'primeng/dialog';
@@ -8,7 +8,6 @@ import { DropdownModule } from 'primeng/dropdown';
 import {
   ApiResponse,
   Classification,
-  ClassificationsResponse,
   DropdownEvent,
   SubCategory,
   CategoriesData,
@@ -17,7 +16,6 @@ import {
 import { PaginatorState } from 'primeng/paginator';
 import { FormControl } from '@angular/forms';
 import { AddEditCategoryComponent } from './components/add-edit-category/add-edit-category.component';
-import { ToastrService } from 'ngx-toastr';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CategoryTableConfig } from './categories.config';
 import { ProductsService } from '@admin-features/products/services/products.service';
@@ -51,7 +49,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   constructor(
     private _confirm: ConfirmDialogService,
     private _product: ProductsService,
-    private _toastr: ToastrService,
+    private _popup: PopupService,
     private _translate: TranslateService
   ) {}
 
@@ -73,22 +71,12 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 
   onActionClicked(ev: { action: string; data?: any }) {
     switch (ev.action) {
-      case 'CREATE':
-        this.selectedData = null;
-        this.openCreateDialog();
-        break;
-      case 'EDIT':
-        this.getCategoryById(ev.data);
-        break;
-      case 'DELETE':
-        this.onActionDelete(ev.data);
-        break;
-      default:
-        break;
+      case 'CREATE': this.openCreateDialog(); break;
+      case 'EDIT': this.getCategoryById(ev.data); break;
+      case 'DELETE': this.onActionDelete(ev.data); break;
     }
   }
   onActionDelete(data: { id: number }): void {
-    console.log('data', data);
     this._confirm.confirm('delete').subscribe((res) => {
       if (res) {
         this._product
@@ -170,9 +158,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
     this.pageNumber = event.page || 1;
     this.getAllCategories();
   }
-  openCreateDialog(): void {
-    this.displayDialog = true;
-  }
+
   onDialogClose(): void {
     this.displayDialog = false;
   }
@@ -209,50 +195,27 @@ export class CategoriesComponent implements OnInit, OnDestroy {
         }
       });
   }
-
-  selectedData: CategoriesData | null = null; // Use the defined interface
+  openCreateDialog(): void {
+    this._popup.open(AddEditCategoryComponent, {
+      title: this._translate.instant('CATEGORY.ADD_NEW_CATEGORY'),
+      position: this._translate.currentLang === 'ar' ? 'left' : 'right',
+      data:{
+        classifications:this.classifications
+      },
+    }).afterClosed.subscribe((refresh) => refresh && this.getAllCategories());
+  }
   getCategoryById(data: CategoriesData) {
-    const id = typeof data.id === 'string' ? Number(data.id) : data.id;
-    if (id) {
-      this._product.getCategoryById(id).subscribe((res) => {
+      this._product.getCategoryById(Number(data.id)).subscribe((res) => {
         if (res.data) {
-          this.displayDialog = true;
-          console.log('SELECTED', res.data);
-          this.selectedData = res.data;
+          this._popup.open(AddEditCategoryComponent, {
+            title: this._translate.instant('CATEGORY.EDIT_NEW_CATEGORY'),
+            position: this._translate.currentLang === 'ar' ? 'left' : 'right',
+            data: {
+              response:res.data,
+              classifications:this.classifications}
+          }).afterClosed.subscribe((refresh) => refresh && this.getAllCategories());
         }
       });
-    }
-  }
-  handleSave(data: CategoriesData): void {
-    if (!this.selectedData) {
-      this._product
-        .addCategory(data)
-        .pipe(takeUntil(this._unsubscribeAll))
-        .subscribe(() => {
-          this.getAllCategories();
-          this.displayDialog = false;
-          this._toastr.success(
-            this._translate.instant('GENERAL.ADDED_SUCCESSFULLY', {
-              name: 'CATEGORY.NAME',
-            })
-          );
-        });
-    } else {
-      this._product
-        .editCategory({ ...data, id: this.selectedData.id })
-        .pipe(takeUntil(this._unsubscribeAll))
-        .subscribe((response) => {
-          if (response.data) {
-            this._toastr.success(
-              this._translate.instant('GENERAL.UPDATED_SUCCESSFULLY', {
-                name: 'CATEGORY.NAME',
-              })
-            );
-            this.getAllCategories();
-            this.displayDialog = false;
-          }
-        });
-    }
   }
   ngOnDestroy(): void {
     this._unsubscribeAll.next();
