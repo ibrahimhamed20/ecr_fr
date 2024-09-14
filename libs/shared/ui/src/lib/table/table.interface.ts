@@ -22,4 +22,5 @@ export interface TableConfig {
     paginator: boolean;
     dataLoading?: LoadingType;
     hasFilters?: boolean;
+    dataKey?: string;
 }
