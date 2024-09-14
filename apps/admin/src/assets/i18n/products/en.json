@@ -75,7 +75,9 @@
     "NODATA": "No Data",
     "DELETE": "Delete",
     "EDIT": "Edit",
-    "CANCEL": "Cancel"
+    "CANCEL": "Cancel",
+    "CLEAR":"Clear",
+    "BACK":"Back"
   },
   "MERCHANTS_PRODUCTS": {
     "MERCHANTPRODUCTS": "Merchants Products Management",

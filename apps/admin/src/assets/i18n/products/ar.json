@@ -81,7 +81,9 @@
     "NODATA": "لا يوجد بيانات",
     "DELETE": "حذف",
     "EDIT": "تعديل",
-    "CANCEL": "الغاء"
+    "CANCEL": "الغاء",
+    "CLEAR":"مسح",
+    "BACK":"رجوع"
   },
   "MERCHANTS_PRODUCTS": {
     "MERCHANTPRODUCTS": "اداره منتجات التجار",

@@ -1,6 +1,6 @@
 <div class="card" style="border-radius:0;">
     <div class="grid">
-        <p-button label="Back" icon="pi pi-angle-left" class="p-button-link" (onClick)="_back()" [text]="true" />
+        <p-button [label]="'GENERAL.BACK' | translate" icon="pi pi-angle-left" class="p-button-link" (onClick)="_back()" [text]="true" />
     </div>
     <div class="grid mt-2">
         <div class="col-6">
@@ -82,8 +82,8 @@
         </div>
     </div>
     <div class="flex gap-2 align-items-center justify-content-end">
-        <p-button label="Clear" severity="danger" [disabled]="!disabledProducts" (onClick)="clear()" />
-        <p-button label="Save" severity="primary" [disabled]="!disabledProducts" (onClick)="save()" />
+        <p-button [label]="'GENERAL.CLEAR' | translate" severity="danger" [disabled]="!disabledProducts" (onClick)="clear()" />
+        <p-button [label]="'GENERAL.SAVE' | translate" severity="primary" [disabled]="!disabledProducts" (onClick)="save()" />
     </div>
 
 </div>
