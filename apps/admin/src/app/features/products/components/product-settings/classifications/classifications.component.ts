@@ -34,15 +34,6 @@ export class ClassificationsComponent implements OnInit, OnDestroy {
     this.getAllClassifications(this.filters);
   }
 
-  getAllClassifications(params: any): void {
-    this.tableConfig$ = this._classifications.getAllClassifications(params)
-      .pipe(map(res => ({
-        ...ClassificationTableConfig,
-        rows: res.data?.['classifications'],
-        totalRecords: res.data.rowCount
-      })));
-  }
-
   onActionClicked(ev: { action: string; data?: any }) {
     switch (ev.action) {
       case 'CREATE': this.createClassification(); break;
@@ -51,14 +42,23 @@ export class ClassificationsComponent implements OnInit, OnDestroy {
     }
   }
 
-  createClassification() {
+  private getAllClassifications(params: any): void {
+    this.tableConfig$ = this._classifications.getAllClassifications(params)
+      .pipe(map(res => ({
+        ...ClassificationTableConfig,
+        rows: res.data?.['classifications'],
+        totalRecords: res.data.rowCount
+      })));
+  }
+
+  private createClassification() {
     this._popup.open(ClassificationFormComponent, {
       title: this._translate.instant('CLASSIFICATIONS.ADD_NEW_CLASSIFICATION'),
       position: this._translate.currentLang === 'ar' ? 'left' : 'right'
     }).afterClosed.subscribe((refresh) => refresh && this.getAllClassifications(this.filters));
   }
 
-  editClassification(classification: ClassificationsData) {
+  private editClassification(classification: ClassificationsData) {
     this._popup.open(ClassificationFormComponent, {
       title: this._translate.instant('CLASSIFICATIONS.EDIT_CLASSIFICATION'),
       position: this._translate.currentLang === 'ar' ? 'left' : 'right',
@@ -66,7 +66,7 @@ export class ClassificationsComponent implements OnInit, OnDestroy {
     }).afterClosed.subscribe((refresh) => refresh && this.getAllClassifications(this.filters));
   }
 
-  deleteClassification(classification: ClassificationsData) {
+  private deleteClassification(classification: ClassificationsData) {
     if (classification.id)
       this._confirm.confirm('delete').subscribe((confirmed) => {
         confirmed && this._classifications
