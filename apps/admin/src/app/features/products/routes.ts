@@ -63,6 +63,10 @@ export const productsRoutes: Route[] = [
         loadComponent: () => import('./components').then((c) => c.ProductsCatalogComponent),
       },
       {
+        path: 'add-product-catalog/:id',
+        loadComponent: () => import('./components').then((c) => c.AddEditProductCatalogComponent),
+      },
+      {
         path: 'link-products/:id',
         loadComponent: () => import('./components').then((c) => c.LinkProductsComponent),
       },

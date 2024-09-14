@@ -1,6 +1,7 @@
 <div class="form-content" [formGroup]="dialogForm">
   <div class="row">
     <div class="col-6">
+      <label for="classification" class="mb-2 block">{{ 'FIELDS.CLASSIFICATION' | translate }}</label>
       <p-multiSelect
       [options]="classifications"
     formControlName="classifications"
@@ -13,6 +14,7 @@
       </div>
     </div>
     <div class="col-6">
+      <label for="barcodeNumber" class="mb-2 block">{{ 'FIELDS.BAR_CODE_NO' | translate }}</label>
       <p-inputNumber
       mode="decimal"
       inputId="withoutgrouping"
@@ -22,12 +24,12 @@
       <div *ngIf="control['barcodeNumber'].touched && control['barcodeNumber'].errors?.['required']" class="error-message">
         {{ 'GENERAL.FIELD_REQUIRED' | translate: { fieldName: ('FIELDS.BAR_CODE_NO' | translate) } }}
       </div>
-        <!-- Max length validation -->
       <div *ngIf="control['barcodeNumber'].touched && control['barcodeNumber'].errors?.['maxlength']" class="error-message">
         {{ 'GENERAL.MAX_LENGTH_EXCEEDED' | translate: { maxLength: 50 } }}
       </div>
     </div>
     <div class="col-6">
+      <label for="arabicName" class="mb-2 block">{{ 'FIELDS.SHORT_ARABIC_NAME' | translate }}</label>
       <input type="text" pInputText  formControlName="arabicName" class="w-full"
         [placeholder]="'FIELDS.SHORT_ARABIC_NAME' | translate"/>
       <div *ngIf="control['arabicName'].touched && control['arabicName'].errors?.['required']" class="error-message">
@@ -39,6 +41,7 @@
       </div>
     </div>
     <div class="col-6">
+      <label for="englishName" class="mb-2 block">{{ 'FIELDS.ENGLISH_NAME' | translate }}</label>
       <input type="text" pInputText  formControlName="englishName" class="w-full"
         [placeholder]="'FIELDS.ENGLISH_NAME' | translate"/>
       <div *ngIf="control['englishName'].touched && control['englishName'].errors?.['required']" class="error-message">
@@ -50,7 +53,7 @@
       </div>
     </div>
     <div class="col-12">
-       <ng-container *ngIf="!data?.icon?.blobUrI">
+       <ng-container *ngIf="!data?.response?.icon?.blobUrI">
         <p-fileUpload
         mode="basic"
         [chooseLabel]="'GENERAL.CHOOSE' | translate"
@@ -60,17 +63,20 @@
         maxFileSize="1000000"
         (onSelect)="onFileSelect($event)" />
        </ng-container>
-       <ng-container *ngIf="data?.icon?.blobUrI">
+       <ng-container *ngIf="data?.response?.icon?.blobUrI">
         <div class="container-img">
-          <img [src]="data?.icon?.blobUrI" [alt]="data?.icon?.id">
+          <img [src]="data?.response?.icon?.blobUrI" [alt]="data?.response?.icon?.id">
           <img src="assets/layout/images/close-icon.svg" alt="close-icon" class="close" (click)="removeImage()">
         </div>
        </ng-container>
     </div>
-    <div class="col-3">
-      <p-button [label]="data ? ('GENERAL.UPDATE' | translate) : ('GENERAL.SAVE' | translate)" class="p-element btn-tasheel btn-primary w-full"
-        (onClick)="onSave()"></p-button>
+    <div class="col-12">
+        <div class="flex gap-2 align-items-center justify-content-end">
+          <p-button [label]="'GENERAL.CANCEL'|translate" severity="danger" (onClick)="close()" />
+              <p-button [label]="data?.response ? ('GENERAL.UPDATE' | translate) : ('GENERAL.SAVE' | translate)"
+              severity="primary"[disabled]="dialogForm.invalid"
+              (onClick)="save()"></p-button>
+      </div>
     </div>
   </div>
-
 </div>

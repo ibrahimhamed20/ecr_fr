@@ -209,6 +209,21 @@ export interface CategoriesData {
   icon: Icon | null; // Can be null if no icon
   classifications: Classification[];
   countries: any[]; // Assuming countries is an array of objects, you can replace `any` with a more specific type if available
+  response: {
+    id: number;
+    barcodeNumber: number;
+    englishName: string;
+    arabicName: string;
+    parentId: number | null; // Can be null if no parent
+    icon: Icon | null; // Can be null if no icon
+    classifications: Classification[];
+    countries: any[]; // Assuming countries is an array of objects, you can replace `any` with a more specific type if available
+  },
+  classification?: {
+    id: number;
+    name: string;
+    icon: any;
+  };
 }
 
 export interface MerchantProductParams {
