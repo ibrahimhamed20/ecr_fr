@@ -38,6 +38,7 @@ export class BrandsFormComponent implements OnInit {
   public brandForm!: FormGroup;
 
   public brand!: BrandData;
+  selectedBrands: any;
 
   constructor(
     private _product: BrandService,
@@ -54,60 +55,6 @@ export class BrandsFormComponent implements OnInit {
     this.brand.id && this.getBrandDetails();
     this.getClassifications();
   }
-  selectedBrands: any;
-
-  // private getBrandDetails() {
-  //   this._product.getBrandById(this.brand.id)
-  //     .pipe(takeUntil(this.destroy$))
-  //     .subscribe(res => {
-  //       this.brand = res.data;
-  //         console.log('Brand Data:', this.brand);
-  //       console.log('Classification Models:', this.brand.classificationModels);
-
-  //       if (!this.selectedBrands) {
-  //         this.selectedBrands = { classificationModels: [], classificationIds: [] };
-  //       }
-
-  //       this.selectedBrands.classificationIds = (
-  //         (this.brand.classificationModels || []).map((model: Classification) => model.id || 0)
-  //       );
-
-  //       console.log('Updated classificationIds:', this.selectedBrands.classificationIds);
-
-  //       if (this.brand.id) {
-  //         this.patchFormData();
-
-  //         // Log the form value after patching
-  //         console.log('Form Value After Patching:', this.brandForm.value);
-  //       }
-  //     }, error => {
-  //       console.error('Error fetching brand details:', error);
-  //     });
-  // }
-
-  // private getBrandDetails() {
-  //   this._product
-  //     .getBrandById(this.brand.id)
-  //     .pipe(takeUntil(this.destroy$))
-  //     .subscribe({
-  //       next: (res: Data<BrandData>) => {
-  //         if (!this.selectedBrands) {
-  //           this.selectedBrands = {
-  //             classificationModels: [],
-  //             classificationIds: [],
-  //           };
-  //         }
-
-  //         this.selectedBrands.classificationIds = (
-  //           this.brand.classificationModels || []
-  //         ).map((model: Classification) => model.id || 0);
-
-  //         if (this.brand.id) {
-  //           this.patchFormData();
-  //         }
-  //       },
-  //     });
-  // }
   private getBrandDetails() {
     this._product
       .getBrandById(this.brand.id)

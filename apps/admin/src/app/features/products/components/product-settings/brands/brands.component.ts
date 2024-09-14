@@ -2,20 +2,26 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PopupService, TableComponent, TableConfig } from '@shared-ui';
 import { ConfirmDialogService } from 'libs/shared/ui/src/lib/confirm-dialog/confirm-dialog.service';
-import {map,Observable,of,Subject,takeUntil,} from 'rxjs';
+import { map, Observable, of, Subject, takeUntil } from 'rxjs';
 import { BrandsFormComponent } from './brans-form/brands-form.component';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
-import {Classification,DropdownEvent, BrandData} from '@admin-features/products/interfaces/products.interface';
+
 import { FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { PaginatorState } from 'primeng/paginator';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BrandTableConfig } from './brands.config';
 import { BrandService } from './services/brands.service';
-import {BrandParam,BrandResponse} from '@admin-features/products/interfaces/brand.interface';
+import {
+  BrandData,
+  BrandParam,
+  BrandResponse,
+  Classification,
+} from '@admin-features/products/interfaces/brand.interface';
+import { DropdownEvent } from '@admin-features/products/interfaces/products.interface';
 
 @Component({
   selector: 'admin-brands',
@@ -43,6 +49,8 @@ export class BrandsComponent implements OnInit, OnDestroy {
   first: number = 0;
   pageSize: number = 10;
   rows: number = 10;
+  selectedClassification: Classification | null = null;
+
   constructor(
     private _brands: BrandService,
     private _confirm: ConfirmDialogService,
@@ -53,8 +61,9 @@ export class BrandsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getAllBrand(this.filters);
+    this.getClassifications();
   }
-  
+
   getAllBrand(params: BrandParam): void {
     this._brands
       .getBrands(params)
@@ -130,37 +139,50 @@ export class BrandsComponent implements OnInit, OnDestroy {
             });
       });
   }
+  getClassifications(): void {
+    this._brands
+      .getClassifications()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: any) => {
+        this.classifications = res.data.classifications;
+      });
+  }
   onClassificationChange(event: DropdownEvent): void {
-    // this.selectedbrand = event.value as Classification;
-    // this.filterBrands();
+    this.selectedClassification = event.value as Classification;
+    this.filterWithClassifications();
   }
 
-  //   filterBrands(): void {
-  //   if (this.selectedClassification) {
-  //     this._brands
-  //       .getBrands({ pageSize: this.rows, pageNumber: this.currentPage })
-  //       .pipe(takeUntil(this.destroy$))
-  //       .subscribe({
-  //         next: (res: BransResponse) => {
-  //           const filteredBrands = res.data.result.filter((brand) =>
-  //             brand['classifications'].some(
-  //               (classification: Classification) =>
-  //                 classification.id === this.selectedClassification?.id
-  //             )
-  //           );
-  //           this.tableConfig$.rows =
-  //             filteredBrands.map((el) => ({
-  //               ...el,
-  //               classifications: Array.isArray(el['classifications'])
-  //                 ? el['classifications'].map((c) => c.name).join(', ')
-  //                 : '',
-  //             })) || [];
-  //         },
-  //       });
-  //   } else {
-  //     this.getBrands({ pageSize: this.rows, pageNumber: this.currentPage });
-  //   }
-  // }
+  filterWithClassifications(): void {
+    if (this.selectedClassification) {
+      this._brands
+        .getBrands({ size: this.rows, number: this.currentPage })
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (res: BrandResponse) => {
+            const filteredBrands = res.data.result.filter((brand: any) =>
+              brand['classifications'].some(
+                (classification: { id: number; name: string }) =>
+                  classification.id === this.selectedClassification?.id
+              )
+            );
+            this.tableConfig$ = of({
+              ...BrandTableConfig,
+              rows:
+                filteredBrands.map((el) => ({
+                  ...el,
+                  classifications: (el.classifications || [])
+                    .map((c) => c.name)
+                    .join(', '),
+                })) || [],
+              totalRecords: filteredBrands.length,
+            });
+          },
+        });
+    } else {
+      this.getAllBrand({ size: this.rows, number: this.currentPage });
+    }
+  }
+
   onPageChange(event: PaginatorState): void {
     this.first = event.first || 0;
     this.rows = event.rows || 10;

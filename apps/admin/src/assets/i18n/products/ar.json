@@ -40,7 +40,9 @@
     "ID": "كود",
     "SERVICE_TYPE": "نوع الخدمة",
     "NAME": "اسم المنتج",
-    "BRANDNAME":"اسم البراند"
+    "BRANDNAME":"اسم البراند",
+    "TAGNAME":"Tag Name"
+
   },
   "VARIANTS": {
     "NAME": "متغيرات",

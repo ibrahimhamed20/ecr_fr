@@ -41,7 +41,8 @@
     "ID": "Code",
     "SERVICE_TYPE":"Service Type",
     "NAME": "Name",
-    "BRANDNAME":"Brand Name"
+    "BRANDNAME":"Brand Name",
+    "TAGNAME":"Tag Name"
   },
 
   "VARIANTS": {

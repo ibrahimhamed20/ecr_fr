@@ -1,37 +1,17 @@
-<!-- 
-  <shared-ui-table [config]="tableConfig$|async" (actionClicked)="onActionClicked($event)"
-    (onSearch)="searchControl.patchValue($event)" (onPage)="onPageChange($event)">
-    <div class="filters p-grid" filters-area>
-      <div class="filters-item col-2 p-0">{{'GENERAL.FILTERS' | translate}}</div>
-      <div class="filters-actions col-4 p-0">
-        <p-dropdown [options]="classifications" class="w-full" formControlName="classification" optionLabel="name"
-          [filter]="true" filterBy="name" [showClear]="true" (onChange)="onClassificationChange($event)"
-          placeholder="Select a classifications">
-          <ng-template pTemplate="selectedItem" let-selectedOption>
-            <div class="flex align-items-center gap-2">
-              <div>{{ selectedOption.name }}</div>
-            </div>
-          </ng-template>
-        </p-dropdown>
-      </div>
+<shared-ui-table [config]="tableConfig$|async" (actionClicked)="onActionClicked($event)"
+  (onSearch)="searchControl.patchValue($event)" (onPage)="onPageChange($event)" >
+  <div class="filters p-grid" filters-area>
+    <div class="filters-item col-2 p-0">{{'GENERAL.FILTERS' | translate}}</div>
+    <div class="filters-actions col-4 p-0">
+      <p-dropdown [options]="classifications" class="w-full" formControlName="classification" optionLabel="name"
+        [filter]="true" filterBy="name" [showClear]="true" (onChange)="onClassificationChange($event)"
+        placeholder="Select a classifications">
+        <ng-template pTemplate="selectedItem" let-selectedOption>
+          <div class="flex align-items-center gap-2">
+            <div>{{ selectedOption.name }}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
     </div>
-  </shared-ui-table> -->
-<ng-container *ngIf="tableConfig$ | async as config">
-  <shared-ui-table [config]="config" (actionClicked)="onActionClicked($event)"
-    (onSearch)="searchControl.patchValue($event)" (onPage)="onPageChange($event)">
-    <div class="filters row">
-      <div class="filters-item col-2 p-0">Filters</div>
-      <div class="filters-actions col-4 p-0">
-        <p-dropdown [options]="classifications" class="w-full" formControlName="classification" optionLabel="name"
-          [filter]="true" filterBy="name" [showClear]="true" (onChange)="onClassificationChange($event)"
-          placeholder="Select a classification">
-          <ng-template pTemplate="selectedItem" let-selectedOption>
-            <div class="flex align-items-center gap-2">
-              <div>{{ selectedOption.name }}</div>
-            </div>
-          </ng-template>
-        </p-dropdown>
-      </div>
-    </div>
-  </shared-ui-table>
-</ng-container>
+  </div>
+</shared-ui-table>

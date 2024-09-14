@@ -24,6 +24,7 @@ export const BrandTableConfig: TableConfig = {
   rowsActions: ['EDIT', 'DELETE'],
   dataLoading: 'server',
   paginator: true,
-  globalFilterFields:['name']
-  
+  globalFilterFields:['name'],
+  hasFilters: true,
+
 };

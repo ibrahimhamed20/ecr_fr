@@ -157,32 +157,5 @@ export class ProductsService {
     );
   }
 
-  getAllTags(page:TagsParam) {
-    return this._http.get<{ data: ProductsPagingInteface }>(
-      `${environment.URL_API}Tags?TagTypeIds=2&PageSize=${page.size}&PageNumber=${page.number}`
-    );
-  }
-
-  deleteTags(id: string | number) {
-    return this._http.delete<{ data: ProductsPagingInteface }>(
-      `${environment.URL_API}Tags/${id}`
-    );
-  }
-
-  addTags(formData: any) {
-    return this._http.post<{ data: ProductsPagingInteface }>(
-      `${environment.URL_API}Tags`,
-      formData
-    );
-  }
-
-  editTags(formData: any) {
-    return this._http.put<{ data: ProductsPagingInteface }>(
-      `${environment.URL_API}Tags`,
-      formData
-    );
-  }
-  getTagsById(tagId: number): Observable<ApiResponse<TagsData>> {
-    return this._http.get<ApiResponse<TagsData>>(`/api/Tags/${tagId}`);
-  }
+ 
 }

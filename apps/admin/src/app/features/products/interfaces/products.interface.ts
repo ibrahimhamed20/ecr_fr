@@ -64,12 +64,6 @@ export interface UnitResponse {
     result: ProductInterface[];
   };
 }
-export interface TagsResponse {
-  data: {
-    result: ProductInterface[];
-    rowCount?: number;
-  };
-}
 
 
 export interface UnitData {
