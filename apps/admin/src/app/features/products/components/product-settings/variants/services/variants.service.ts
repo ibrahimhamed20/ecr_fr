@@ -11,11 +11,17 @@ import { CustomHttpClient } from '@shared-utils';
 export class VariantsService {
 
   constructor(private _http: CustomHttpClient,) { }
+
+
   getAllVariants(page: variantParam) {
     return this._http.get<{ data: ProductsPagingInteface }>(
-      `${environment.URL_API}Variants?PageSize=${page.size}&PageNumber=${page.number}`
+      // `${environment.URL_API}Variants?PageSize=${page.size}&PageNumber=${page.number}`
+      `${environment.URL_API}Variants?Pagination.PageSize=${page.size}&Pagination.PageNumber=${page.number}&Keyword=${page.keyword}`
     );
   }
+
+
+  
 
   getVariantById(id: number): Observable<Data<variantsData>> {
     return this._http.get<Data<variantsData>>(
@@ -34,4 +40,10 @@ export class VariantsService {
       formData
     );
   }
+  deleteVariant(id: string | number) {
+    return this._http.delete<{ data: ProductsPagingInteface }>(
+      `${environment.URL_API}Variants/${id}`
+    );
+  }
+
 }

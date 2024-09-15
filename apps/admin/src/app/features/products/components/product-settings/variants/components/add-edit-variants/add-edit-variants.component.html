@@ -1,11 +1,10 @@
 <div [formGroup]="addVariantForm" class="p-fluid  formgrid">
   <div class="p-grid mb-1">
     <div class="p-col-6">
-      <p-multiSelect [options]="classifications" optionLabel="name" formControlName="classificationIds" [filter]="true"
-        [placeholder]="'FIELDS.CLASSIFICATION' | translate">
-        <ng-template let-item pTemplate="item">
-          {{ item.name }}
-        </ng-template>
+      <label for="classificationIds">{{ 'FIELDS.CLASSIFICATION' | translate }}</label>
+      <p-multiSelect [options]="classifications" formControlName="classificationIds" optionLabel="name"
+          optionValue="id" [filter]="true" filterBy="name" [showClear]="true"
+          (onChange)="onClassificationChange($event)" [placeholder]="'FIELDS.CLASSIFICATION' | translate">
       </p-multiSelect>
       <div *ngIf="control['classificationIds'].touched && control['classificationIds'].errors?.['required']"
         class="error-message">
@@ -89,8 +88,8 @@
     </div>
   </div>
   <div class="flex gap-2 align-items-center justify-content-end">
-    <p-button [label]="'GENERAL.CANCEL'|translate" severity="danger" (onClick)="onClose()" />
-    <p-button [disabled]="addVariantForm.invalid" [label]="variantsData ? ('GENERAL.UPDATE' | translate) : ('GENERAL.SAVE' | translate)" severity="primary"
-      (onClick)="onSave()" />
+    <p-button [label]="'GENERAL.CANCEL'|translate" severity="danger" (onClick)="close()" />
+    <p-button [disabled]="addVariantForm.invalid"  [label]="variantsData.id ? ('GENERAL.UPDATE' | translate) : ('GENERAL.SAVE' | translate)" severity="primary"
+      (onClick)="save()" />
   </div>
 </div>

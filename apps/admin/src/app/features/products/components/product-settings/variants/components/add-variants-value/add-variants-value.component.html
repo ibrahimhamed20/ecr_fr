@@ -51,7 +51,7 @@
     </div>
   </div>
   <div class="flex gap-2 align-items-center justify-content-end">
-    <p-button [label]="'GENERAL.CANCEL'|translate" severity="danger" (onClick)="onClose()" />
-    <p-button [disabled]="addVariantValueForm.invalid" [label]="'GENERAL.SAVE' | translate" severity="primary" (onClick)="onSave()" />
+    <p-button [label]="'GENERAL.CANCEL'|translate" severity="danger" (onClick)="close()" />
+    <p-button [disabled]="addVariantValueForm.invalid" [label]="'GENERAL.SAVE' | translate" severity="primary" (onClick)="save()" />
   </div>
 </div>

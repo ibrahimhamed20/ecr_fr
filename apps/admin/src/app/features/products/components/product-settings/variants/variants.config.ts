@@ -26,7 +26,7 @@ export const VariantsTableConfig: TableConfig = {
   rowsPerPageOptions: [5, 10, 15, 20, 25, 50, 100],
   selectionMode: 'single',
   actions: ['CREATE'],
-  rowsActions: ['EDIT', 'DELETE'],
+  rowsActions: ['EDIT', 'DELETE','ADD_VARIANT_VALUE'],
   paginator: true,
   locale: 'FIELDS.',
   dataLoading: 'server',
