@@ -1,4 +1,4 @@
-<form [formGroup]="brandForm" autocomplete="off">
+<form [formGroup]="tagForm" autocomplete="off">
     <div class="p-fluid p-formgrid grid">
         <div class="field col-12">
             <label for="classificationIds">{{ 'FIELDS.CLASSIFICATIONS' | translate }}</label>
@@ -48,23 +48,10 @@
             </small>
             }
         </div>
-
-        <div class="field col-12">
-            @if(brand.icon?.blobUrI){
-            <div class="container-img">
-                <img [src]="brand.icon?.blobUrI" [alt]="brand.icon?.id">
-                <img src="assets/layout/images/close-icon.svg" alt="close-icon" class="close" (click)="removeFile()">
-            </div>
-            } @else {
-            <label for="icon">Brand Icon</label>
-            <p-fileUpload name="icon" [showUploadButton]="false" [showCancelButton]="false" id="icon"
-                (onSelect)="uploadFile($event)" accept="image/*" [maxFileSize]="1000000"></p-fileUpload>
-            }
-        </div>
     </div>
 </form>
 <div class="flex gap-2 align-items-center justify-content-end">
     <p-button [label]="'GENERAL.CANCEL'|translate" severity="danger" (onClick)="close()" />
     <p-button (onClick)="save()" severity="primary"
-        [label]="brand.id ? ('GENERAL.UPDATE' | translate) : ('GENERAL.SAVE' | translate)" />
+        [label]="tag.id ? ('GENERAL.UPDATE' | translate) : ('GENERAL.SAVE' | translate)" />
 </div>

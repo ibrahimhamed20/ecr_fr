@@ -7,10 +7,14 @@
   "CATEGORY": {
     "NAME": "فئة",
     "PRODUCT_MANAGEMENT": "إدارة المنتجات",
-    "ADD_NEW_CATEGORY": "إضافة فئة جديدة"
+    "ADD_NEW_CATEGORY": "إضافة فئة جديدة",
+    "EDIT_NEW_CATEGORY": "تعديل فئة جديدة"
   },
-  "BRAND": {
-    "ADD_NEW_BRAND": "Add New Brand"
+  "BRANDS": {
+    "ADD_NEW_BRAND": "Add New Brand",
+    "CLASSIFICATIONS":"التصنيف",
+    "BRAND_DELETED_SUCCESS":"تم الحذف بنجاح"
+
   },
   "CLASSIFICATIONS": {
     "ADD_NEW_CLASSIFICATION": "إضافة تصنيف جديد",
@@ -20,6 +24,8 @@
     "SHORT_ARABIC_NAME": "الاسم العربي",
     "SHORT_ENGLISH_NAME": "الاسم الانجليزي",
     "ENGLISH_NAME": "الاسم الإنجليزي",
+    "SHORT_NAME": "الاسم الإنجليزي",
+    "UNIT_NAME": "اسم الوحدات",
     "ARABIC_NAME": "الاسم العربي",
     "CLASSIFICATION": "التصنيف",
     "ALLOW_DECIMAL": "السماح بالأرقام العشرية",
@@ -30,15 +36,27 @@
     "BARCODE": "باركود",
     "SEARCH": "بحث",
     "CATEGORY": "الفئة",
+    "SUB_CATAGORY": "الفئة الفرعية",
+    "NO_PRODUCTS": "عدد المنتجات",
+    "PAID_PRODUCTS": "المنتجات المدفوعة",
     "BRAND": "الماركة",
     "CLASSIFICATIONNAME": "اسم التصنيف",
     "VARIANTNAME": "اسم المتغير",
     "VARIANTVALUE": "قيمة المتغير",
     "ADDVARIANTVALUE": "اضافة قيمة المتغير",
     "ACTIONS": "الاجراءات",
+    "CATEGORY_NAME": "اسم الفئة",
+    "BRAND_NAME": "اسم العلامة التجارية",
     "ID": "كود",
     "SERVICE_TYPE": "نوع الخدمة",
-    "NAME": "اسم المنتج"
+    "NAME": "اسم المنتج",
+    "BRANDNAME":"اسم البراند",
+    "TAGNAME":"Tag Name",
+    "PRODUCT_NO": "رقم المنتج",
+    "PRODUCT_PRICE": "سعر المنتج",
+     "FREE_PRODUCT_NO": "عدد المنتجات المجانية",
+     "PAID_PRODUCT": "المنتج المدفوع",
+     "SERVICE_TYPE": "نوع الخدمة"
   },
   "VARIANTS": {
     "NAME": "متغيرات",
@@ -52,7 +70,7 @@
     "SUB_CATAGORY": "الفئة الفرعية",
     "CLASSIFICATIONS": "التصنيف",
     "EDIT_VARIANT":"تعديل المتغير"
-    
+
   },
   "GENERAL": {
     "ADDED_SUCCESSFULLY": "تمت إضافة {{name}} بنجاح",

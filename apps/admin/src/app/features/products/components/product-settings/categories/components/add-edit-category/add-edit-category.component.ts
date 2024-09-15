@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {  FileEvent, Classification, CategoriesData } from '@admin-features/products/interfaces/products.interface';
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
@@ -11,6 +11,10 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { MessageService } from 'primeng/api';
 import { ProductsService } from '@admin-features/products/services/products.service';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { PopupService } from '@shared-ui';
+import { ClassificationsData } from '@admin-features/products/interfaces';
+import { Subject, takeUntil } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'admin-add-edit-category',
@@ -32,23 +36,27 @@ import { MultiSelectModule } from 'primeng/multiselect';
   styleUrl: './add-edit-category.component.scss',
 })
 export class AddEditCategoryComponent implements OnInit {
-  @Input() classifications: Classification[] = [];
-  @Input() data!: CategoriesData | null; // Properly typed as CategoriesData or null
-
+  private destroy$: Subject<void> = new Subject<void>();
+  classifications: Classification[] = [];
+  data!: CategoriesData | null;
   dialogForm!: FormGroup;
-  @Output() save = new EventEmitter<CategoriesData>();
-  constructor(private _fb: FormBuilder,private _product: ProductsService) { }
+  constructor(
+    private _fb: FormBuilder,
+    private _popup: PopupService,
+    private _translate: TranslateService,
+    private _toastr: ToastrService,
+    private _product: ProductsService) { }
 
   ngOnInit() {
     this.prepareForm();
-    if (this.data) {
-      this.dialogForm.patchValue(this.data);
+    this.data = this._popup.getData();
+    this.classifications = this.data?.classifications as Classification[];
+    console.log('data?.response',this.data?.response)
+    if (this.data?.response) {
+      this.dialogForm.patchValue(this.data?.response);
       this.setPreSelectedValues();
     }
   }
-
-
-
   prepareForm() {
     this.dialogForm = this._fb.group({
       arabicName: [null, [Validators.required,Validators.maxLength(50)]],
@@ -64,11 +72,9 @@ export class AddEditCategoryComponent implements OnInit {
       }),
     });
   }
-
   get control() {
     return this.dialogForm.controls;
   }
-
   onClassificationChange(event: {value:[]}) {
     const selectedIds = event.value.map((item: {id:number}) => item.id);
     this.dialogForm.get('classificationsIds')?.setValue(selectedIds);
@@ -85,20 +91,28 @@ export class AddEditCategoryComponent implements OnInit {
       classifications: preSelectedFormatted
     });
   }
-  onSave() {
-    if (this.dialogForm.valid) {
-      this.save.emit(this.dialogForm.value);
-    } else {
-      this.dialogForm.markAllAsTouched();
-    }
+
+  save() {
+    const category = this.dialogForm.getRawValue();
+    (this.data?.response ?
+      this._product.editCategory(category) : this._product.addCategory(category))
+      .pipe(takeUntil(this.destroy$)).subscribe(() => this.afterSavingDone(this.data?.response ? 'edit' : 'add', category));
   }
 
-  //#region Upload Component Should be shared
-removeImage() {
-  if (this.data && this.data.icon) {
-    this.data.icon.blobUrI = undefined; // Use undefined instead of null
+  private afterSavingDone(type: 'add' | 'edit', classification: ClassificationsData) {
+    const nameToUse = this._translate.currentLang === 'ar' ? classification?.arabicName : classification?.englishName;
+
+    this._translate.get(type == 'add' ? 'GENERAL.ADDED_SUCCESSFULLY' : 'GENERAL.UPDATED_SUCCESSFULLY', { name: nameToUse })
+      .subscribe((msg: string) => this._toastr.success(msg));
+
+    this._popup.close(true);
   }
-}
+  //#region Upload Component Should be shared
+  removeImage() {
+    if (this.data && this.data.icon) {
+      this.data.icon.blobUrI = undefined; // Use undefined instead of null
+    }
+  }
   onFileSelect(event: FileEvent) {
     if (event.files && event.files[0]) {
       const file = event.files[0];
@@ -127,4 +141,6 @@ removeImage() {
     });
   }
   //#endregion
+
+  close = () => this._popup.close();
 }

@@ -1,1 +1,52 @@
-<p>add-edit-product-catalog works!</p>
+
+<div class="row">
+  <div class="col-12">
+    <div class="flex-box">
+      <div class="back-action flex items-center gap-2 cursor-pointer">
+        <img src="assets/system/icons/back-arrow.png" alt="back-arrow">
+        <span>Back</span>
+      </div>
+      <div class="submit-action flex-box">
+        <button class="btn btn-light">Cancel</button>
+        <button class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="w-full card-details flex-box">
+      <div class="title">{{'FIELDS.PAID_PRODUCTS' | translate}}</div>
+      <div class="flex-box" [formGroup]="catalogFormGroup">
+        <div>
+          <p-inputNumber
+          mode="decimal"
+          inputId="withoutgrouping"
+          formControlName="catalogProductCountPrice"
+          [useGrouping]="false"
+           class="w-full"
+         [placeholder]="'FIELDS.PRICE' | translate"/>
+      </div>
+      <div>
+        <p-inputNumber
+        mode="decimal"
+        inputId="withoutgrouping"
+        formControlName="catalogProductCount"
+        [useGrouping]="false"
+         class="w-full"
+       [placeholder]="'FIELDS.NO_PRODUCTS' | translate"/>
+    </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="w-full">
+      <p-tabMenu [model]="items" [(activeItem)]="activeItem" (activeItemChange)="activateTab($event)" />
+      <shared-ui-table [config]="tableConfig" (actionClicked)="onActionClicked($event)"></shared-ui-table>
+    </div>
+  </div>
+</div>
+
+
+<!--
+<p-tabMenu [model]="items" [(activeItem)]="activeItem" (activeItemChange)="activateTab($event)" />
+<shared-ui-table [config]="tableConfig" (actionClicked)="onActionClicked($event)"></shared-ui-table>
+-->

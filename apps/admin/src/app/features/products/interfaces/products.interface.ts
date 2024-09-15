@@ -64,18 +64,7 @@ export interface UnitResponse {
     result: ProductInterface[];
   };
 }
-export interface TagsResponse {
-  data: {
-    result: ProductInterface[];
-    rowCount?: number;
-  };
-}
-export interface BransResponse {
-  data: {
-    result: ProductInterface[];
-    rowCount?: number;
-  };
-}
+
 
 export interface UnitData {
   id: number | string;
@@ -100,23 +89,21 @@ export interface TagInterface {
   tagTypeName: string;
   classifications: string;
 }
-export interface TagData {
-  id?: number | string;
-  arabicName?: string;
-  englishName?: string;
-  classificationIds?: number[];
-  tagTypeId?: any;
-}
+
 
 export interface BrandData {
-  id: number;
-  arabicName: string;
-  englishName: string;
-  classification: Classification[];
-  icon:any;
-  countryIds: number[];
- classificationIds: number[];
-}
+  
+    id: number;
+    arabicName: string;
+    englishName: string;
+    classification: Classification[];
+    icon: any;
+    countryIds: number[];
+    classificationIds: number[];
+  };
+
+  
+
 export interface OriginalEvent {
   isTrusted: boolean;
 }
@@ -209,6 +196,21 @@ export interface CategoriesData {
   icon: Icon | null; // Can be null if no icon
   classifications: Classification[];
   countries: any[]; // Assuming countries is an array of objects, you can replace `any` with a more specific type if available
+  response: {
+    id: number;
+    barcodeNumber: number;
+    englishName: string;
+    arabicName: string;
+    parentId: number | null; // Can be null if no parent
+    icon: Icon | null; // Can be null if no icon
+    classifications: Classification[];
+    countries: any[]; // Assuming countries is an array of objects, you can replace `any` with a more specific type if available
+  },
+  classification?: {
+    id: number;
+    name: string;
+    icon: any;
+  };
 }
 
 export interface MerchantProductParams {
