@@ -65,9 +65,19 @@ export class TableComponent {
       pageCount: this.config?.rowsPerPage
     });
   }
-  onRowSelect(event: any) {
-    this.actionClicked.emit({ action: 'ROW_SELECTED', data: event.data });
+
+  onRowSelect(data: any,typeSelect:boolean) {
+    if(typeSelect) {
+      this.actionClicked.emit({ action: 'ROW_SELECTED', data: data });
+    } else {
+      this.actionClicked.emit({ action: 'ROW_UNSELECTED', data: data });
   }
+
+}
+onCheckboxChange(event: any, row: any) {
+  row.checked = event.checked; // Update the row's checked property based on the checkbox state
+}
+
   onExport(table: Table) {
     if (this.config?.dataLoading === 'server') this.actionClicked.emit({ action: 'EXPORT' });
     else table.exportCSV();

@@ -14,7 +14,7 @@ export class ClassificationsService {
   constructor(private _http: CustomHttpClient) {
 
    }
-   
+
   deleteClassification(id:number) {
     return this._http.delete<ClassificationsResponse>(`${environment.URL_API}Classifications/${id}`);
   }
@@ -25,7 +25,7 @@ export class ClassificationsService {
   editClassification(formData:Classification) {
     return this._http.put(`${environment.URL_API}Classifications`, formData);
   }
-  
+
   getAllClassifications(page: ClassificationsParam ){
     return this._http.get<{ data: ProductsPagingInteface }>(`${environment.URL_API}Classifications?PageSize=${page.size}&PageNumber=${page.number}`);
   }
@@ -42,4 +42,5 @@ export class ClassificationsService {
     return this._http.get(`${environment.URL_API}Merchants/Classifications`);
 
   }
+
 }

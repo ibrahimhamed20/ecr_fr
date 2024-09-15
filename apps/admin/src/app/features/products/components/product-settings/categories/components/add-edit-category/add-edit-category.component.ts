@@ -51,7 +51,6 @@ export class AddEditCategoryComponent implements OnInit {
     this.prepareForm();
     this.data = this._popup.getData();
     this.classifications = this.data?.classifications as Classification[];
-    console.log('data?.response',this.data?.response)
     if (this.data?.response) {
       this.dialogForm.patchValue(this.data?.response);
       this.setPreSelectedValues();
