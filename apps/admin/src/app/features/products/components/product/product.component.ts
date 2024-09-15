@@ -63,7 +63,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     private productService: ProductsService,
     private _popup: PopupService,
     private _translate: TranslateService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getProducts({ pageSize: this.rows, pageNumber: this.currentPage });
@@ -160,7 +160,7 @@ export class ProductComponent implements OnInit, OnDestroy {
         this.exportProducts();
         break;
       case 'NAVIGATE':
-   //     this._router.navigate(['products/product-details', ev.data?.id]);
+        //     this._router.navigate(['products/product-details', ev.data?.id]);
 
         this.openProductDetail(ev.data);
         break;
@@ -210,11 +210,7 @@ export class ProductComponent implements OnInit, OnDestroy {
         title: '',
         position: this._translate.currentLang === 'ar' ? 'left' : 'right',
         data: product,
-        styles: { 
-          width: '900px', 
-          height: '800px', 
-          backgroundColor: '#f0f0f0' // Example dynamic styles
-        }
+        width: '70%'
       })
       .afterClosed.subscribe(
         (refresh) =>

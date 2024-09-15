@@ -5,7 +5,10 @@
                 <div class="flex gap-2 mb-3 align-items-center">
                     <label style="font-weight: bold;">{{productData.productDefinition.arabicName}}</label>
                     <label style="border: 1px solid; border-radius: 5px;padding: 10px;">Available for sale </label>
-                    <p-inputSwitch formControlName="checked" />
+                    <div class="activate-part">
+                        <label for="check-active">Active</label>
+                        <p-inputSwitch id="check-active" formControlName="checked" />
+                    </div>
                     <!-- <p-button icon="pi pi-bookmark" [rounded]="true" severity="secondary" /> -->
                     <!-- <p-button label="Success" [outlined]="true" severity="success" /> -->
                 </div>
@@ -16,7 +19,6 @@
                     {{productData.productDefinition.arabicDescription}}
                 </p>
                 <p-divider layout="horizontal" styleClass="hidden md:flex"></p-divider>
-
             </div>
 
         </div>
@@ -41,38 +43,44 @@
         <div class="col-12">
             <ul style="list-style-type: none;" class="flex justify-content-between ">
                 <li>
-                    <p style="font-weight: bold; font-size: 14px; color: rgba(152, 152, 152, 1);"> {{"FIELDS.UINT"|translate}} </p>
+                    <p style="font-weight: bold; font-size: 14px; color: rgba(152, 152, 152, 1);">
+                        {{"FIELDS.UINT"|translate}} </p>
                     <p>kilogram</p>
                 </li>
                 <li>
-                    <p style="font-weight: bold; font-size: 14px; color: rgba(152, 152, 152, 1);"> {{"FIELDS.EXPEIRATIONPERIOD"|translate}} </p>
+                    <p style="font-weight: bold; font-size: 14px; color: rgba(152, 152, 152, 1);">
+                        {{"FIELDS.EXPEIRATIONPERIOD"|translate}} </p>
                     <p>kilogram</p>
                 </li>
                 <li>
-                    <p style="font-weight: bold; font-size: 14px; color: rgba(152, 152, 152, 1);"> {{"FIELDS.SERIALNUMBER"|translate}} </p>
+                    <p style="font-weight: bold; font-size: 14px; color: rgba(152, 152, 152, 1);">
+                        {{"FIELDS.SERIALNUMBER"|translate}} </p>
                     <p>kilogram</p>
                 </li>
                 <li>
-                    <p style="font-weight: bold; font-size: 14px; color: rgba(152, 152, 152, 1);"> {{"FIELDS.TAGS"|translate}} </p>
+                    <p style="font-weight: bold; font-size: 14px; color: rgba(152, 152, 152, 1);">
+                        {{"FIELDS.TAGS"|translate}} </p>
                     <p>kilogram</p>
                 </li>
                 <li>
-                    <p style="font-weight: bold; font-size: 14px; color: rgba(152, 152, 152, 1);"> {{"FIELDS.BRAND"|translate}} </p>
+                    <p style="font-weight: bold; font-size: 14px; color: rgba(152, 152, 152, 1);">
+                        {{"FIELDS.BRAND"|translate}} </p>
                     <p>kilogram</p>
                 </li>
                 <li>
-                    <p style="font-weight: bold; font-size: 14px; color: rgba(152, 152, 152, 1);"> {{"FIELDS.CATEGORY"|translate}} </p>
+                    <p style="font-weight: bold; font-size: 14px; color: rgba(152, 152, 152, 1);">
+                        {{"FIELDS.CATEGORY"|translate}} </p>
                     <p>kilogram</p>
                 </li>
-               
+
             </ul>
         </div>
         <div class="col-12">
-            <p-table [value]="productData.products"  #dt2 [tableStyle]="{ 'min-width': '30rem' }"
+            <p-table [value]="productData.products" #dt2 [tableStyle]="{ 'min-width': '30rem' }"
                 styleClass="p-datatable-gridlines">
 
                 <ng-template pTemplate="header">
-                    <tr >
+                    <tr>
                         <th>{{"FIELDS.PRODUCTNAME"|translate}}</th>
                         <th>{{"FIELDS.SKU"|translate}}</th>
                         <th>{{"FIELDS.UINT"|translate}}</th>
