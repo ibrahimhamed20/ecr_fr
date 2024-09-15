@@ -1,23 +1,11 @@
 @if (config) {
-<!--  [paginator]="true" (onPage)="onPage($event)"  -->
-<p-table #dt
-    [value]="config.rows || []"
-    [columns]="exportedColumns || []"
-     responsiveLayout="scroll"
-    [(rows)]="config.rowsPerPage"
-    (onRowSelect)="onRowSelect($event)"
-    [lazy]="config.dataLoading === 'server'"
-    [paginator]="true"
-    [totalRecords]="config.totalRecords || config.rows?.length || 0"
-    [selectionMode]="config.selectionMode"
-    [exportFilename]="config.exportFilename ||'products'"
-    [globalFilterFields]="config.globalFilterFields"
-    [rowsPerPageOptions]="config.rowsPerPageOptions"
-    [showCurrentPageReport]="true"
-    [rowHover]="true"
-    dataKey="id"
-    [(selection)]="selectedRows" styleClass="p-datatable-gridlines"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" (onPage)="onPageChange($event)">
+<p-table #dt [value]="config.rows || []" [columns]="exportedColumns || []" responsiveLayout="scroll"
+    [(rows)]="config.rowsPerPage" (onRowSelect)="onRowSelect($event)" [lazy]="config.dataLoading === 'server'"
+    [paginator]="true" [totalRecords]="config.totalRecords || config.rows?.length || 0" [(selection)]="selectedRows"
+    [selectionMode]="config.selectionMode" [exportFilename]="config.exportFilename ||'products'"
+    [globalFilterFields]="config.globalFilterFields" [rowsPerPageOptions]="config.rowsPerPageOptions"
+    [showCurrentPageReport]="true" [rowHover]="true" [dataKey]="config.dataKey || 'id'" (onPage)="onPageChange($event)"
+    styleClass="p-datatable-gridlines" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
     <ng-template pTemplate="caption">
         <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
             <div class="m-0 flex flex-row gap-2">

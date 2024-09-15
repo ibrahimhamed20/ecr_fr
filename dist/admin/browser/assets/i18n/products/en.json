@@ -7,15 +7,24 @@
   "CATEGORY": {
     "NAME": "Category",
     "PRODUCT_MANAGEMENT": "Products Management",
-    "ADD_NEW_CATEGORY": "Add New Category"
+    "ADD_NEW_CATEGORY": "Add New Category",
+    "EDIT_NEW_CATEGORY": "Edit Category"
   },
-  "BRAND": {
-    "ADD_NEW_BRAND": "Add New Brand"
-  },
+  "BRANDS": {
+    "ADD_NEW_BRAND": "Add New Brand",
+    "CLASSIFICATIONS":"Classification",
+    "BRAND_DELETED_SUCCESS":"Brand deleted successfully"
 
+  },
+  "CLASSIFICATIONS": {
+    "ADD_NEW_CLASSIFICATION": "Add New Classification",
+      "EDIT_CLASSIFICATION":"Edit Classification"
+  },
   "FIELDS": {
     "SHORT_ARABIC_NAME": "Short Arabic Name",
     "SHORT_ENGLISH_NAME": "Short English Name",
+    "SHORT_NAME": "Short Name",
+    "UNIT_NAME": "Unit Name",
     "ENGLISH_NAME": "English Name",
     "ARABIC_NAME": "Arabic Name",
     "CLASSIFICATION": "Classification",
@@ -23,9 +32,12 @@
     "BAR_CODE_NO": "Barcode Number",
     "PRODUCTNAME": "Product Name",
     "PRICE": "Price",
+    "NO_PRODUCTS": "Number of products",
+    "PAID_PRODUCTS": "Paid products",
     "COST": "Cost",
     "BARCODE": "Barcode",
     "SEARCH": "Search",
+    "SUB_CATAGORY": "Subcategory",
     "CATEGORY": "Category",
     "BRAND": "Brand",
     "CLASSIFICATIONNAME": "Classification Name",
@@ -33,7 +45,17 @@
     "VARIANTVALUE": "Variant Value",
     "ADDVARIANTVALUE": "Add Variant Value",
     "ACTIONS": "Actions",
-    "ID": "Code"
+    "ID": "Code",
+    "PRODUCT_NO": "Product No",
+    "PRODUCT_PRICE": "Product Price",
+    "FREE_PRODUCT_NO": "Free Product No",
+    "PAID_PRODUCT": "Paid Product",
+    "CATEGORY_NAME": "Category name",
+    "BRAND_NAME": "Brand name",
+    "SERVICE_TYPE":"Service Type",
+    "NAME": "Name",
+    "BRANDNAME":"Brand Name",
+    "TAGNAME":"Tag Name"
   },
 
   "VARIANTS": {
@@ -42,7 +64,8 @@
     "ADD_NEW_VARIANT": "Add New Variant",
     "CATEGORY_NAME": "Category name",
     "SUB_CATAGORY": "Sub Category",
-    "CLASSIFICATIONS": "Classification"
+    "CLASSIFICATIONS": "Classification",
+    "EDIT_VARIANT":"Edit Variant"
   },
   "GENERAL": {
     "ADDED_SUCCESSFULLY": "{{name}} Added successfully",
@@ -57,7 +80,9 @@
     "NODATA": "No Data",
     "DELETE": "Delete",
     "EDIT": "Edit",
-    "CANCEL": "Cancel"
+    "CANCEL": "Cancel",
+    "CLEAR":"Clear",
+    "BACK":"Back"
   },
   "MERCHANTS_PRODUCTS": {
     "MERCHANTPRODUCTS": "Merchants Products Management",

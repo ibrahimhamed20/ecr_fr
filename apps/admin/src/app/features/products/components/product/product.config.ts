@@ -123,23 +123,5 @@ export const CategoryTableConfig: TableConfig = {
 
 
 // Configuration for the Tags table
-export const TagsTableConfig: TableConfig = {
-  columns: [
-    { field: 'tagName', header: 'Tag Name', type: 'label', exported: false },
-    {
-      field: 'classifications',
-      header: 'Classification',
-      type: 'label',
-      exported: false,
-    },
-    { field: 'actions', header: 'Actions', type: 'actions', exported: false },
-  ],
-  rowsPerPage: 10,
-  rowsPerPageOptions: [5, 10, 15, 20, 25, 50, 100],
-  selectionMode: 'single',
-  actions: ['CREATE'],
-  rowsActions: ['EDIT', 'DELETE'],
-  dataLoading: 'server',
-  paginator: true,
-};
+
 
