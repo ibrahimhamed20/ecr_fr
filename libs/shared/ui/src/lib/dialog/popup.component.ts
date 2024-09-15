@@ -17,7 +17,7 @@ export class PopupComponent {
   private dynamicContainer!: ViewContainerRef;
 
   toggle: boolean = false;
-  config: PopupConfig = { position: 'right', title: 'Dialog' };
+  config: PopupConfig = { position: 'right', title: 'Dialog', styles : { width: '600px', height: '100vh', top: '0', margin: '0', padding: '0' }};
 
   private closed$: Subject<any> = new Subject<any>();
 
@@ -30,6 +30,7 @@ export class PopupComponent {
   open(component: Type<any>, config: PopupConfig) {
     this.toggle = true;
     this.config = config;
+    this.config.styles=config.styles ?config.styles:this.config.styles
     this.dynamicContainer.clear();
     component && this.dynamicContainer.createComponent(component);
 

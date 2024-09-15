@@ -134,11 +134,7 @@ export class AddEditVariantsComponent implements OnInit {
 
   save() {
     const variant = this.addVariantForm.getRawValue();
-    if (variant.classificationIds) {
-      variant.classificationIds = variant.classificationIds.map((item: any) =>
-        item.id ? item.id : item
-      );
-    }
+   
     (variant.id
       ? this._varaints.editVariant(variant)
       : this._varaints.addVariant(variant)

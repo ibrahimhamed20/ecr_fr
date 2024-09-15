@@ -1,3 +1,5 @@
+import { productInterface } from "./product.interface";
+
 export interface ProductInterface {
   rowCount: any;
   id: number;
@@ -217,4 +219,24 @@ export interface MerchantProductParams {
   pageNumber: number;
   pageSize: number;
   Status?: string;
+}
+export interface ProductDefinition {
+  id: number;
+  arabicName: string;
+  englishName: string;
+  arabicDescription: string;
+  englishDescription: string;
+  sku?: string;
+  weight: number;
+  brand: Brand;
+  category: Category;
+  tags: any[];
+  hasMultiUnit: boolean;
+  hasMultiVariant: boolean;
+  country?: string;
+}
+
+export interface ProductData {
+  productDefinition: ProductDefinition;
+  products: productInterface[];
 }

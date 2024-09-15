@@ -21,11 +21,7 @@ export class VariantsService {
   }
 
 
-  // getAllUnits(pageSize: number, pageNumber: number, keyword: string) {
-  //   return this._http.get<ApiResponse<UnitData>>(
-  //     `${environment.URL_API}Units?Pagination.PageSize=${pageSize}&Pagination.PageNumber=${pageNumber}&Keyword=${keyword}`
-  //   );
-  // }
+  
 
   getVariantById(id: number): Observable<Data<variantsData>> {
     return this._http.get<Data<variantsData>>(
@@ -44,4 +40,10 @@ export class VariantsService {
       formData
     );
   }
+  deleteVariant(id: string | number) {
+    return this._http.delete<{ data: ProductsPagingInteface }>(
+      `${environment.URL_API}Variants/${id}`
+    );
+  }
+
 }

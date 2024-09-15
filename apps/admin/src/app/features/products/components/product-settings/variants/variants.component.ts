@@ -242,7 +242,7 @@ export class VariantsComponent implements OnInit, OnDestroy {
     this._confirm.confirm('delete').subscribe((res) => {
       if (res) {
         if (data.id)
-          this._product
+          this._variants
             .deleteVariant(data.id)
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((response: variantsResponse) => {

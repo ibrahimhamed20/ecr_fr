@@ -1,6 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BreadcrumbComponent, TableComponent, TableConfig } from '@shared-ui';
+import {
+  BreadcrumbComponent,
+  PopupService,
+  TableComponent,
+  TableConfig,
+} from '@shared-ui';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfirmDialogService } from 'libs/shared/ui/src/lib/confirm-dialog/confirm-dialog.service';
 import { MenuModule } from 'primeng/menu';
@@ -9,11 +14,17 @@ import { ProductFilterComponent } from './filter/product-filter.component';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { ProductsService } from '@admin-features/products/services/products.service';
 import { FormControl } from '@angular/forms';
-import { ProductInterface, ProductParams } from '@admin-features/products/interfaces/products.interface';
+import {
+  ProductInterface,
+  ProductParams,
+} from '@admin-features/products/interfaces/products.interface';
 import { ProductTableConfig } from '@admin-features/products/components/product/product.config';
 import { Subject, takeUntil, filter, debounceTime, switchMap } from 'rxjs';
 import { downloadFile } from '@admin-features/products/helpers/download-file';
-
+import { Product } from '@admin-shared/interfaces';
+import { ProductDetailsComponent } from './product-details/product-details.component';
+import { TranslateService } from '@ngx-translate/core';
+import { DialogModule } from 'primeng/dialog';
 
 @Component({
   selector: 'admin-product',
@@ -25,6 +36,7 @@ import { downloadFile } from '@admin-features/products/helpers/download-file';
     MenuModule,
     ProductFilterComponent,
     PaginatorModule,
+    DialogModule
   ],
   templateUrl: './product.component.html',
 })
@@ -48,7 +60,9 @@ export class ProductComponent implements OnInit, OnDestroy {
     private _router: Router,
     private _route: ActivatedRoute,
     private _confirm: ConfirmDialogService,
-    private productService: ProductsService
+    private productService: ProductsService,
+    private _popup: PopupService,
+    private _translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -61,26 +75,28 @@ export class ProductComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((response) => {
         if (response && response.data) {
-          const mappedProducts = response.data.result.map((product: ProductInterface) => ({
-            ...product,
-            unit: product.unit ? product.unit.name : '-', 
-            classification: product.classification
-              ? product.classification.name
-              : 'No Classification',
-          }));
-  
+          const mappedProducts = response.data.result.map(
+            (product: ProductInterface) => ({
+              ...product,
+              unit: product.unit ? product.unit.name : '-',
+              classification: product.classification
+                ? product.classification.name
+                : 'No Classification',
+            })
+          );
+
           this.tableConfig = {
             ...ProductTableConfig,
             rows: mappedProducts,
             totalRecords: response.data.rowCount,
             rowsActions: ['EDIT', 'DELETE'],
           };
-  
+
           this.totalRecords = response.data.rowCount;
         }
       });
   }
-  
+
   // getProducts(page: ProductParams): void {
   //   this.productService
   //     .getProducts(page)
@@ -140,11 +156,13 @@ export class ProductComponent implements OnInit, OnDestroy {
         //     res && console.log("Nothing, it's just delete for test");
         //   });
         break;
-        case 'EXPORT':
-          this.exportProducts();
+      case 'EXPORT':
+        this.exportProducts();
         break;
       case 'NAVIGATE':
-        this._router.navigate(['products/product-details', ev.data?.id]);
+   //     this._router.navigate(['products/product-details', ev.data?.id]);
+
+        this.openProductDetail(ev.data);
         break;
       default:
         break;
@@ -162,28 +180,51 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   onSearch() {
-    this.searchControl.valueChanges.pipe(
-      filter((k: string) => k.trim().length >= 0),
-      debounceTime(400),
-      switchMap(term => this.productService.getProducts({
-        pageSize: this.rows,
-        pageNumber: this.currentPage,
-        Keyword: term.trim()
-      }))
-    ).subscribe((response) => {
-      if (response && response.data) {
-        this.tableConfig = {
-          ...ProductTableConfig,
-          rows: response.data.result,
-          totalRecords: response.data.rowCount,
-          rowsActions: ['EDIT', 'DELETE'],
-        };
-        this.totalRecords = response.data.rowCount;
-      }
-    });
+    this.searchControl.valueChanges
+      .pipe(
+        filter((k: string) => k.trim().length >= 0),
+        debounceTime(400),
+        switchMap((term) =>
+          this.productService.getProducts({
+            pageSize: this.rows,
+            pageNumber: this.currentPage,
+            Keyword: term.trim(),
+          })
+        )
+      )
+      .subscribe((response) => {
+        if (response && response.data) {
+          this.tableConfig = {
+            ...ProductTableConfig,
+            rows: response.data.result,
+            totalRecords: response.data.rowCount,
+            rowsActions: ['EDIT', 'DELETE'],
+          };
+          this.totalRecords = response.data.rowCount;
+        }
+      });
   }
-
-
+  openProductDetail(product: Product) {
+    this._popup
+      .open(ProductDetailsComponent, {
+        title: '',
+        position: this._translate.currentLang === 'ar' ? 'left' : 'right',
+        data: product,
+        styles: { 
+          width: '900px', 
+          height: '800px', 
+          backgroundColor: '#f0f0f0' // Example dynamic styles
+        }
+      })
+      .afterClosed.subscribe(
+        (refresh) =>
+          refresh &&
+          this.getProducts({
+            pageSize: this.rows,
+            pageNumber: this.currentPage,
+          })
+      );
+  }
   ngOnDestroy(): void {
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
