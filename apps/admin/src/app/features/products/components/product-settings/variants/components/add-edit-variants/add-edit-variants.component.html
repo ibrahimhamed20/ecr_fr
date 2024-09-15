@@ -1,11 +1,10 @@
 <div [formGroup]="addVariantForm" class="p-fluid  formgrid">
   <div class="p-grid mb-1">
     <div class="p-col-6">
-      <p-multiSelect [options]="classifications" optionLabel="name" formControlName="classificationIds" [filter]="true"
-        [placeholder]="'FIELDS.CLASSIFICATION' | translate">
-        <ng-template let-item pTemplate="item">
-          {{ item.name }}
-        </ng-template>
+      <label for="classificationIds">{{ 'FIELDS.CLASSIFICATION' | translate }}</label>
+      <p-multiSelect [options]="classifications" formControlName="classificationIds" optionLabel="name"
+          optionValue="id" [filter]="true" filterBy="name" [showClear]="true"
+          (onChange)="onClassificationChange($event)" [placeholder]="'FIELDS.CLASSIFICATION' | translate">
       </p-multiSelect>
       <div *ngIf="control['classificationIds'].touched && control['classificationIds'].errors?.['required']"
         class="error-message">

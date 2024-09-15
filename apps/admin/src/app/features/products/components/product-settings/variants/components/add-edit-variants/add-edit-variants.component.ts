@@ -21,6 +21,7 @@ import { VariantsService } from '../../services/variants.service';
 import { Subject, takeUntil } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { ProductsService } from '@admin-features/products/services/products.service';
+import { DropdownEvent } from '@admin-features/products/interfaces';
 
 @Component({
   selector: 'admin-add-edit-variants',
@@ -89,12 +90,7 @@ export class AddEditVariantsComponent implements OnInit {
   setdataInform() {
     if (this.variantsData) {
       this.addVariantForm.patchValue(this.variantsData);
-      const selectedClassifications = this.getSelectedOptions(
-        this.variantsData.classificationIds
-      );
-      this.addVariantForm.patchValue({
-        classificationIds: selectedClassifications,
-      });
+      
       this.variantValues.clear();
       for (let i = 0; i < this.variantsData.variantValues.length; i++) {
         this.variantValues.push(
@@ -107,13 +103,9 @@ export class AddEditVariantsComponent implements OnInit {
       }
     }
   }
-  
-
-  getSelectedOptions(selectedIds: number[]): any[] {
-   
-    return  this.classifications.filter((option) =>
-      selectedIds.includes(option.id)
-    );
+  onClassificationChange(event: DropdownEvent) {
+    this.addVariantForm.get('classificationId')?.setValue(event.value.id);
+    this.addVariantForm.get('classification')?.setValue(event.value);
   }
 
   get variantValues(): FormArray {
