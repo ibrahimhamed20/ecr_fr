@@ -16,6 +16,11 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MenuItem } from 'primeng/api';
+import { PopupService } from '@shared-ui';
+import { VariantsService } from '../../services/variants.service';
+import { Subject, takeUntil } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { ProductsService } from '@admin-features/products/services/products.service';
 
 @Component({
   selector: 'admin-add-edit-variants',
@@ -35,18 +40,43 @@ import { MenuItem } from 'primeng/api';
   styleUrl: './add-edit-variants.component.scss',
 })
 export class AddEditVariantsComponent implements OnInit {
-  @Output() save = new EventEmitter<void>();
-  @Output() closeVariantValue = new EventEmitter<void>();
-
+  private destroy$: Subject<void> = new Subject<void>();
   addVariantForm!: FormGroup;
-  @Input() classifications: Classification[] = [];
+  classifications: Classification[] = [];
   breadcrumb!: MenuItem[];
-  @Input() variantsData!: variantsData | null; // Properly typed as UnitData or null
-  constructor(private fb: FormBuilder) {}
+  public variantsData!: variantsData;
+  constructor(
+    private fb: FormBuilder,
+    private _popup: PopupService,
+    private _varaints: VariantsService,
+    private _translate: TranslateService,
+    private _toastr: ToastrService,    
+    private _product: ProductsService,
+  ) {}
   ngOnInit(): void {
     this.initForm();
-    this.setdataInform();
+    this.getClassifications();
+    this.variantsData = this._popup.getData<variantsData>();
+    this.variantsData.id && this.getVariantsDataDetails();
   }
+  getClassifications(): void {
+    this._product
+      .getClassifications()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: any) => {
+        this.classifications = res.data.classifications;
+      });
+  }
+  private getVariantsDataDetails() {
+    this._varaints
+      .getVariantById(this.variantsData.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res) => {
+        this.variantsData = res.data;
+        this.variantsData.id && this.setdataInform();
+      });
+  }
+
   initForm() {
     this.addVariantForm = this.fb.group({
       id: [0],
@@ -77,8 +107,11 @@ export class AddEditVariantsComponent implements OnInit {
       }
     }
   }
+  
+
   getSelectedOptions(selectedIds: number[]): any[] {
-    return this.classifications.filter((option) =>
+   
+    return  this.classifications.filter((option) =>
       selectedIds.includes(option.id)
     );
   }
@@ -107,14 +140,37 @@ export class AddEditVariantsComponent implements OnInit {
     index && this.variantValues.removeAt(index);
   }
 
-  onSave() {
-    if (this.addVariantForm.valid) {
-      this.save.emit(this.addVariantForm.value);
-    } else {
-      this.addVariantForm.markAllAsTouched();
+  save() {
+    const variant = this.addVariantForm.getRawValue();
+    if (variant.classificationIds) {
+      variant.classificationIds = variant.classificationIds.map((item: any) =>
+        item.id ? item.id : item
+      );
     }
+    (variant.id
+      ? this._varaints.editVariant(variant)
+      : this._varaints.addVariant(variant)
+    )
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() =>
+        this.afterSavingDone(variant.id ? 'edit' : 'add', variant)
+      );
   }
-  onClose() {
-    this.closeVariantValue.emit();
+  private afterSavingDone(type: 'add' | 'edit', classification: variantsData) {
+    const nameToUse =
+      this._translate.currentLang === 'ar'
+        ? classification?.arabicName
+        : classification?.englishName;
+    this._translate
+      .get(type ? 'GENERAL.ADDED_SUCCESSFULLY' : 'UPDATED_SUCCESSFULLY', {
+        name: nameToUse,
+      })
+      .subscribe((msg: string) => this._toastr.success(msg));
+    this._popup.close(true);
+  }
+  close = () => this._popup.close();
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

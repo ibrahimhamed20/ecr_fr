@@ -11,11 +11,21 @@ import { CustomHttpClient } from '@shared-utils';
 export class VariantsService {
 
   constructor(private _http: CustomHttpClient,) { }
+
+
   getAllVariants(page: variantParam) {
     return this._http.get<{ data: ProductsPagingInteface }>(
-      `${environment.URL_API}Variants?PageSize=${page.size}&PageNumber=${page.number}`
+      // `${environment.URL_API}Variants?PageSize=${page.size}&PageNumber=${page.number}`
+      `${environment.URL_API}Variants?Pagination.PageSize=${page.size}&Pagination.PageNumber=${page.number}&Keyword=${page.keyword}`
     );
   }
+
+
+  // getAllUnits(pageSize: number, pageNumber: number, keyword: string) {
+  //   return this._http.get<ApiResponse<UnitData>>(
+  //     `${environment.URL_API}Units?Pagination.PageSize=${pageSize}&Pagination.PageNumber=${pageNumber}&Keyword=${keyword}`
+  //   );
+  // }
 
   getVariantById(id: number): Observable<Data<variantsData>> {
     return this._http.get<Data<variantsData>>(

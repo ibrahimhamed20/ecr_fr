@@ -8,7 +8,7 @@ export interface variantsResponse {
 }
 
 export interface variantsData {
-  id?: number | string;
+  id: number
   arabicName: string;
   englishName: string;
   classificationIds: number[];
@@ -18,9 +18,10 @@ export interface variants {
   id: number;
   arabicName: string;
   englishName: string;
-  name :string
+  name: string;
 }
 export interface variantParam {
-  number?: number;
+  number: number;
   size: number;
+  keyword :string
 }
