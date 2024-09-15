@@ -36,7 +36,7 @@ import { ToastrService } from 'ngx-toastr';
 export class AddVariantsValueComponent implements OnInit,OnDestroy {
   addVariantValueForm!: FormGroup;
   private destroy$: Subject<void> = new Subject<void>();
-  @Input() variantsData!: variantsData | null; // Properly typed as UnitData or null
+  public variantsData!: variantsData;
   constructor(
     private fb: FormBuilder,
     private _popup: PopupService,
@@ -46,6 +46,7 @@ export class AddVariantsValueComponent implements OnInit,OnDestroy {
   ) {}
   ngOnInit(): void {
     this.initForm();
+    this.variantsData = this._popup.getData<variantsData>();
   }
   initForm() {
     this.addVariantValueForm = this.fb.group({
@@ -77,6 +78,7 @@ export class AddVariantsValueComponent implements OnInit,OnDestroy {
  
   save() {
     const variant = this.addVariantValueForm.getRawValue();
+    variant.id = this.variantsData?.id
     if (variant.classificationIds) {
       variant.classificationIds = variant.classificationIds.map((item: any) =>
         item.id ? item.id : item
@@ -85,13 +87,13 @@ export class AddVariantsValueComponent implements OnInit,OnDestroy {
     this._variants
       .addVariantValue(variant)
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.afterSavingDone(variant));
+      .subscribe(() => this.afterSavingDone(this.variantsData));
   }
-  private afterSavingDone(classification: variantsData) {
+  private afterSavingDone(variantsData: variantsData) {
     const nameToUse =
       this._translate.currentLang === 'ar'
-        ? classification?.arabicName
-        : classification?.englishName;
+        ? variantsData?.arabicName
+        : variantsData?.englishName;
     this._translate
       .get('GENERAL.ADDED_SUCCESSFULLY', {
         name: nameToUse,

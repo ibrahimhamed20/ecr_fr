@@ -185,7 +185,7 @@ export class VariantsComponent implements OnInit, OnDestroy {
         this.createVariants();
         break;
       case 'ADD_VARIANT_VALUE':
-        this.createVariantsValue();
+        this.createVariantsValue(ev.data);
         break;
       case 'DELETE':
         this.ondeleteVariant(ev.data);
@@ -209,11 +209,12 @@ export class VariantsComponent implements OnInit, OnDestroy {
       );
   }
 
-  createVariantsValue() {
+  createVariantsValue(variantsData: variantsData) {
     this._popup
       .open(AddVariantsValueComponent, {
         title: this._translate.instant('VARIANTS.ADD_NEW_VARIANT'),
         position: this._translate.currentLang === 'ar' ? 'left' : 'right',
+        data: variantsData,
       })
       .afterClosed.subscribe(
         (refresh) => refresh && this.getAllVariants(this.filters)
@@ -232,13 +233,10 @@ export class VariantsComponent implements OnInit, OnDestroy {
       );
   }
 
-
-
   onClassificationChange(event: DropdownEvent) {
     this.selectedClassification = event.value as Classification;
     this.filterVariants(this.filters);
   }
- 
 
   ondeleteVariant(data: variantsData) {
     this._confirm.confirm('delete').subscribe((res) => {
@@ -257,8 +255,6 @@ export class VariantsComponent implements OnInit, OnDestroy {
       }
     });
   }
-
-
 
   ngOnDestroy(): void {
     this._unsubscribeAll.next();

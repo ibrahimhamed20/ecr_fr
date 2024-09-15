@@ -90,7 +90,7 @@
   </div>
   <div class="flex gap-2 align-items-center justify-content-end">
     <p-button [label]="'GENERAL.CANCEL'|translate" severity="danger" (onClick)="close()" />
-    <p-button [disabled]="addVariantForm.invalid" [label]="variantsData ? ('GENERAL.UPDATE' | translate) : ('GENERAL.SAVE' | translate)" severity="primary"
+    <p-button [disabled]="addVariantForm.invalid"  [label]="variantsData.id ? ('GENERAL.UPDATE' | translate) : ('GENERAL.SAVE' | translate)" severity="primary"
       (onClick)="save()" />
   </div>
 </div>
