@@ -1,7 +1,7 @@
 import { DialogModule } from 'primeng/dialog';
 import { Component, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PopupConfig } from './config/popup.config';
+import { PopupConfig, PopupConfigIntialData } from './config/popup.config';
 import { PopupService } from './service/popup.service';
 import { first, Subject } from 'rxjs';
 import { NavigationEnd, Router } from '@angular/router';
@@ -18,7 +18,7 @@ export class PopupComponent {
   private dynamicContainer!: ViewContainerRef;
 
   toggle: boolean = false;
-  config: PopupConfig = { position: 'right', title: 'Dialog', width: '40rem', isModal: true, dismissableMask: true };
+  config: PopupConfig = PopupConfigIntialData;
 
   private closed$: Subject<any> = new Subject<any>();
 
@@ -31,10 +31,9 @@ export class PopupComponent {
 
   open(component: Type<any>, config: PopupConfig) {
     this.toggle = true;
-    this.config = config;
+    this.config = { ...this.config, ...config, isModal: config.isModal == false ? false : true, dismissableMask: config.dismissableMask === false ? false : true };
     this.dynamicContainer.clear();
     component && this.dynamicContainer.createComponent(component);
-
     const afterClosed = this.closed$.asObservable().pipe(first());
     return { afterClosed };
   }

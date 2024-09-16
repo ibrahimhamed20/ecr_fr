@@ -31,7 +31,12 @@ $gutter: 1rem; //for primeflex grid system
 @import 'assets/system/styles/flags/flags.css';
 @import 'assets/system/styles/badges.scss';
 @import 'assets/system/styles/code.scss';
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap');
+
+.arabic {
+  font-family: 'Cairo', sans-serif !important;
+}
+
 :dir(rtl) .p-datatable .p-datatable-thead > tr > th,
 :dir(rtl) .p-datatable .p-datatable-tbody > tr > td {
   text-align: right;
@@ -43,7 +48,12 @@ $gutter: 1rem; //for primeflex grid system
   display: flex;
   flex-wrap: wrap;
 }
-admin-units,admin-tags,admin-brands , admin-variants,admin-classifications , .dialog-side{
+admin-units,
+admin-tags,
+admin-brands,
+admin-variants,
+admin-classifications,
+.dialog-side {
   .p-dialog {
     max-height: 100% !important;
   }
@@ -90,14 +100,13 @@ admin-units,admin-tags,admin-brands , admin-variants,admin-classifications , .di
     font-size: 0.875em;
     margin-top: 0.5em;
   }
-   .form-content {
-    .p-dropdown, .p-inputnumber ,.p-multiselect {
+  .form-content {
+    .p-dropdown,
+    .p-inputnumber,
+    .p-multiselect {
       width: 100%;
     }
-
   }
-
-
 }
 .filters {
   display: flex;
@@ -130,29 +139,10 @@ admin-units,admin-tags,admin-brands , admin-variants,admin-classifications , .di
     color: #222222;
   }
 }
-.activate-part{
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  justify-content: space-evenly;
-  padding: 5px 5px 3px 5px;
-  width: 11rem;
-  height: 2.5rem;
-  margin: 0 1rem;
-  border: 2px solid #2563eb;
-  color: #2563eb;
-  border-radius: 0.375rem;
-}
-.deActivate-part{
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  justify-content: space-evenly;
-  padding: 5px 5px 3px 5px;
-  width: 11rem;
-  height: 2.5rem;
-  margin: 0 1rem;
-  border: 2px solid #8f9195;
-  color:  #8f9195;
-  border-radius: 0.375rem;
+
+.product-image {
+  img,
+  button {
+    border-radius: 12px;
+  }
 }
