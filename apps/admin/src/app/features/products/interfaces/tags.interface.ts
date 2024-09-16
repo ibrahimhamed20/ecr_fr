@@ -3,6 +3,8 @@
 //     size: number;
 //   }
 
+import { Classification } from "./products.interface";
+
 //   export interface TagsResponse {
 //     data: {
 //       pageNumber: number;
@@ -63,12 +65,4 @@ export interface TagsData {
   tagTypeId?: any;
   classifications?: Classification[];
   classificationModels?: any[]; // تأكد من تطابق هذا مع بياناتك
-}
-
-export interface Classification {
-  id: number;
-  name: string;
-  arabicName: string;
-  englishName: string;
-  icon?: string | null;
 }

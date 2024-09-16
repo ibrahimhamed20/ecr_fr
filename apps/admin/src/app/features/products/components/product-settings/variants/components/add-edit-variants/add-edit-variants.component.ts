@@ -1,14 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
-import {
-  FormArray,
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { variantsData } from '@admin-features/products/interfaces/variants.interface';
+import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { VariantsData } from '@admin-features/products/interfaces/variants.interface';
 import { Classification } from '@admin-features/products/interfaces/product.interface';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
@@ -17,7 +10,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MenuItem } from 'primeng/api';
 import { PopupService } from '@shared-ui';
-import { VariantsService } from '../../services/variants.service';
+import { VariantsService } from '../../../../../services/variants.service';
 import { Subject, takeUntil } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { ProductsService } from '@admin-features/products/services/products.service';
@@ -45,19 +38,19 @@ export class AddEditVariantsComponent implements OnInit {
   addVariantForm!: FormGroup;
   classifications: Classification[] = [];
   breadcrumb!: MenuItem[];
-  public variantsData!: variantsData;
+  public variantsData!: VariantsData;
   constructor(
     private fb: FormBuilder,
     private _popup: PopupService,
     private _varaints: VariantsService,
     private _translate: TranslateService,
-    private _toastr: ToastrService,    
+    private _toastr: ToastrService,
     private _product: ProductsService,
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.initForm();
     this.getClassifications();
-    this.variantsData = this._popup.getData<variantsData>();
+    this.variantsData = this._popup.getData<VariantsData>();
     this.variantsData.id && this.getVariantsDataDetails();
   }
   getClassifications(): void {
@@ -70,7 +63,7 @@ export class AddEditVariantsComponent implements OnInit {
   }
   private getVariantsDataDetails() {
     this._varaints
-      .getVariantById(this.variantsData.id)
+      .getById(this.variantsData.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res) => {
         this.variantsData = res.data;
@@ -90,7 +83,7 @@ export class AddEditVariantsComponent implements OnInit {
   setdataInform() {
     if (this.variantsData) {
       this.addVariantForm.patchValue(this.variantsData);
-      
+
       this.variantValues.clear();
       for (let i = 0; i < this.variantsData.variantValues.length; i++) {
         this.variantValues.push(
@@ -134,17 +127,14 @@ export class AddEditVariantsComponent implements OnInit {
 
   save() {
     const variant = this.addVariantForm.getRawValue();
-   
-    (variant.id
-      ? this._varaints.editVariant(variant)
-      : this._varaints.addVariant(variant)
-    )
+
+    (variant.id ? this._varaints.update(variant) : this._varaints.create(variant))
       .pipe(takeUntil(this.destroy$))
       .subscribe(() =>
         this.afterSavingDone(variant.id ? 'edit' : 'add', variant)
       );
   }
-  private afterSavingDone(type: 'add' | 'edit', classification: variantsData) {
+  private afterSavingDone(type: 'add' | 'edit', classification: VariantsData) {
     const nameToUse =
       this._translate.currentLang === 'ar'
         ? classification?.arabicName
@@ -156,7 +146,9 @@ export class AddEditVariantsComponent implements OnInit {
       .subscribe((msg: string) => this._toastr.success(msg));
     this._popup.close(true);
   }
+
   close = () => this._popup.close();
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

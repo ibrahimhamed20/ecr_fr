@@ -14,14 +14,11 @@ import { ToastrService } from 'ngx-toastr';
 import { PopupService, TableComponent, TableConfig } from '@shared-ui';
 import { ConfirmDialogService } from 'libs/shared/ui/src/lib/confirm-dialog/confirm-dialog.service';
 
-import {
-  DropdownEvent,
-
-} from '@admin-features/products/interfaces/products.interface';
+import { DropdownEvent } from '@admin-features/products/interfaces/products.interface';
 import { TagsService } from './services/tags.service';
 import { TagsFormComponent } from './tags-form/tags-form.component';
 import { TagsTableConfig } from './tags.config';
-import { Classification, TagsData, TagsParam, TagsResponse } from '@admin-features/products/interfaces/tags.interface';
+import { Classification, TagsData, TagsParam, TagsResponse } from '@admin-features/products/interfaces';
 
 @Component({
   selector: 'admin-tags',
@@ -58,7 +55,7 @@ export class TagsComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private popupService: PopupService,
     private toastrService: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getTags(this.filters);
@@ -81,8 +78,8 @@ export class TagsComponent implements OnInit, OnDestroy {
       next: tableConfig => this.tableConfig$ = of(tableConfig)
     });
   }
-  
-  
+
+
 
   onActionClicked(ev: { action: string; data?: any }) {
     switch (ev.action) {
@@ -155,7 +152,7 @@ export class TagsComponent implements OnInit, OnDestroy {
               classification.id === this.selectedClassification?.id
             ) ?? false
           );
-  
+
           this.tableConfig$ = of({
             ...TagsTableConfig,
             rows: filteredTags.map((tag: TagsData) => ({
@@ -171,7 +168,7 @@ export class TagsComponent implements OnInit, OnDestroy {
       this.getTags({ size: this.rows, number: this.currentPage });
     }
   }
-  
+
 
 
   onPageChange(event: PaginatorState): void {

@@ -1,5 +1,5 @@
 import { environment } from '@admin-env/environment';
-import { ApiResponse, BrandData, ClassificationsResponse, Data, PaginationParams, ProductsPagingInteface, UnitData } from '@admin-features/products/interfaces/products.interface';
+import { ApiResponse, ClassificationsResponse, ProductsPagingInteface } from '@admin-features/products/interfaces';
 import { TagsParam, TagsData } from '@admin-features/products/interfaces/tags.interface';
 import { Injectable } from '@angular/core';
 import { CustomHttpClient } from '@shared-utils';
@@ -15,7 +15,7 @@ export class TagsService {
   getClassifications(): Observable<ClassificationsResponse> {
     return this._http.get<ClassificationsResponse>(`${environment.URL_API}Classifications`);
   }
-  getAllTags(page:TagsParam) {
+  getAllTags(page: TagsParam) {
     return this._http.get<{ data: ProductsPagingInteface }>(
       `${environment.URL_API}Tags?TagTypeIds=2&PageSize=${page.size}&PageNumber=${page.number}`
     );

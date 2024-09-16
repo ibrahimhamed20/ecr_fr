@@ -36,7 +36,6 @@ export class TableComponent {
   allowedActions: MenuItem[] = [];
 
   onFilter(table: Table, event: Event) {
-    debugger
     const keyword = (event.target as HTMLInputElement).value;
     if (this.config?.dataLoading === 'server') this.onSearch.emit(keyword);
     else table.filterGlobal(keyword, 'contains');

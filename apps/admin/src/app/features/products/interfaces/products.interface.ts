@@ -26,7 +26,7 @@ export interface ProductInterface {
 export interface PaginationParams {
   pageSize: number;
   pageNumber: number;
-  Keyword?:string
+  Keyword?: string
 }
 
 export interface ProductsPagingInteface {
@@ -37,6 +37,7 @@ export interface ProductsPagingInteface {
   result: ProductInterface[];
   [key: string]: any;
 }
+
 export interface Classification {
   id: number;
   name: string;
@@ -67,7 +68,6 @@ export interface UnitResponse {
   };
 }
 
-
 export interface UnitData {
   id: number | string;
   arabicName: string;
@@ -91,20 +91,6 @@ export interface TagInterface {
   tagTypeName: string;
   classifications: string;
 }
-
-
-export interface BrandData {
-  
-    id: number;
-    arabicName: string;
-    englishName: string;
-    classification: Classification[];
-    icon: any;
-    countryIds: number[];
-    classificationIds: number[];
-  };
-
-  
 
 export interface OriginalEvent {
   isTrusted: boolean;

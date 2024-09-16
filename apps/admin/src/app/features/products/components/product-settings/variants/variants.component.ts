@@ -1,263 +1,143 @@
+import { ConfirmDialogService, PopupService, TableConfig } from '@shared-ui';
+import { debounceTime, filter, Subject, switchMap, takeUntil, Observable, map } from 'rxjs';
+import { SHARED_MODULES, VariantsTableConfig } from './variants.config';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {
-  BreadcrumbComponent,
-  PopupService,
-  TableComponent,
-  TableConfig,
-} from '@shared-ui';
-import { ConfirmDialogService } from 'libs/shared/ui/src/lib/confirm-dialog/confirm-dialog.service';
-import {
-  debounceTime,
-  filter,
-  Subject,
-  switchMap,
-  takeUntil,
-  Observable,
-} from 'rxjs';
-import { DropdownModule } from 'primeng/dropdown';
-import { DialogModule } from 'primeng/dialog';
-import {
-  Classification,
-  Data,
-  DropdownEvent,
-} from '@admin-features/products/interfaces/products.interface';
-import { ProductsService } from '@admin-features/products/services/products.service';
-import { MenuItem } from 'primeng/api';
-import {
-  variantParam,
-  variants,
-  variantsData,
-  variantsResponse,
-} from '@admin-features/products/interfaces/variants.interface';
-import { ButtonModule } from 'primeng/button';
-import { AddEditVariantsComponent } from './components/add-edit-variants/add-edit-variants.component';
-import { ToastrService } from 'ngx-toastr';
-import { FormControl } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 import { PaginatorState } from 'primeng/paginator';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { AddVariantsValueComponent } from './components/add-variants-value/add-variants-value.component';
-import { VariantsTableConfig } from './variants.config';
-import { VariantsService } from '@admin-features/products/components/product-settings/variants/services/variants.service';
+import { FormControl } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+
+import { AddEditVariantsComponent, AddVariantsValueComponent } from './components';
+import { VariantsService, ProductsService } from '@admin-features/products/services';
+import { Classification, ProductsPagingInteface, VariantParam, VariantsData, VariantsResponse } from '@admin-features/products/interfaces';
+
 
 @Component({
   selector: 'admin-variants',
   standalone: true,
-  imports: [
-    CommonModule,
-    TableComponent,
-    ButtonModule,
-    AddEditVariantsComponent,
-    DropdownModule,
-    DialogModule,
-    TranslateModule,
-    BreadcrumbComponent,
-    AddVariantsValueComponent,
-  ],
+  imports: [...SHARED_MODULES, AddEditVariantsComponent, AddVariantsValueComponent],
   templateUrl: './variants.component.html',
 })
 export class VariantsComponent implements OnInit, OnDestroy {
-  private _unsubscribeAll: Subject<void> = new Subject<void>();
+  private destroy$: Subject<void> = new Subject<void>();
 
-  classifications: Classification[] = [];
+  public classifications$!: Observable<Classification[]>;
+  public tableConfig$!: Observable<TableConfig>;
 
-  selectedClassification: Classification | null = null;
-  searchControl: FormControl = new FormControl();
-  breadcrumb!: MenuItem[];
+  public searchControl: FormControl = new FormControl();
 
-  filters: variantParam = { number: 1, size: 10, keyword: '' };
-  selectedVariant: variantsData | null = null; // Use the defined interfaces
-  tableConfig!: TableConfig;
-  displayDialog = false;
-  displayVariantValueDialog = false;
+  public filters: VariantParam = { PageNumber: 1, PageSize: 10, name: '', classification: null };
+
   constructor(
     private _confirm: ConfirmDialogService,
     private _product: ProductsService,
     private _variants: VariantsService,
     private _popup: PopupService,
     private _toastr: ToastrService,
-    private _translate: TranslateService
-  ) {}
+    private _translate: TranslateService) { }
 
   ngOnInit(): void {
     this.getClassifications();
     this.getAllVariants(this.filters);
     this.onSearchData();
   }
-  getClassifications(): void {
-    this._product
-      .getClassifications()
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((res: any) => {
-        this.classifications = res.data.classifications;
-      });
-  }
-  onSearchData() {
-    this.searchControl.valueChanges
-      .pipe(
-        filter((k: string) => k.trim().length > 0),
-        debounceTime(400),
-        switchMap((term) => {
-          this.filters.keyword = term;
-          return this._variants.getAllVariants(this.filters);
-        })
-      )
-      .subscribe((res) => {
-        this.tableConfig.rows =
-          res.data.result.map((el: any) => ({
-            ...el,
-            classification: el.classificationIds
-              .map((v: any) => v.name)
-              .join(', '),
-            variantsValueProp: el.variantValues
-              .map((v: any) => v.name)
-              .join(', '),
-          })) || [];
-      });
+
+  private getClassifications(): void {
+    this.classifications$ = this._product.getClassifications().pipe(map(res => res.data.classifications));
   }
 
-  filterVariants(params: variantParam): void {
-    if (this.selectedClassification) {
-      this._variants
-        .getAllVariants(params)
-        .pipe(takeUntil(this._unsubscribeAll))
-        .subscribe((res: variantsResponse) => {
-          const filteredvariants = res.data.result.filter((variant) =>
-            variant.classificationIds.find(
-              (value: any) => value.name == this.selectedClassification?.name
-            )
-          );
-
-          this.tableConfig.rows = filteredvariants.map((el) => ({
-            ...el,
-            classification: el.classificationIds
-              .map((v: any) => v.name)
-              .join(', '),
-            variantsValueProp: el.variantValues
-              .map((v: any) => v.name)
-              .join(', '),
-          }));
-        });
-    } else {
-      // If no classification is selected, reset the table to show all units
-      this.getAllVariants(this.filters);
-    }
+  private onSearchData() {
+    this.tableConfig$ = this.searchControl.valueChanges.pipe(
+      filter((k: string) => k.trim().length > 0),
+      debounceTime(400),
+      switchMap((term) => this._variants.getAll(this.filters = { ...this.filters, name: term }))
+    ).pipe(map(res => this.mappedVariants(res)));
   }
-  onPageChange(event: PaginatorState): void {
+
+
+  public onPageChange(event: PaginatorState): void {
     this.filters = {
-      size: event.rows || 10,
-      number: event.page || 1,
-      keyword: '',
+      ...this.filters,
+      PageSize: event.rows || 10,
+      PageNumber: event.page || 1
     };
-    if (this.selectedClassification) {
-      this.filterVariants(this.filters);
-    } else {
-      this.getAllVariants(this.filters);
-    }
-  }
-  getAllVariants(params: any): void {
-    this._variants
-      .getAllVariants(params)
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((res: variantsResponse) => {
-        this.tableConfig = {
-          ...VariantsTableConfig,
-          rows: res.data.result,
-          totalRecords: res.data.rowCount,
-          rowsPerPage: this.filters.size,
-        };
-        this.tableConfig.rows =
-          res.data.result.map((el: any) => ({
-            ...el,
-            classification: el.classificationIds
-              .map((v: Classification) => v.name)
-              .join(', '),
-            variantsValueProp: el.variantValues
-              .map((v: variants) => v.name)
-              .join(', '),
-          })) || [];
-      });
+    this.getAllVariants(this.filters);
   }
 
-  onActionClicked(ev: { action: string; data?: any }) {
+  public getAllVariants(params: VariantParam): void {
+    this.tableConfig$ = this._variants.getAll(params).pipe(map(res => this.mappedVariants(res)));
+  }
+
+  public onActionClicked(ev: { action: string; data?: any }) {
     switch (ev.action) {
       case 'CREATE':
-        this.createVariants();
+        this.createVariant();
         break;
       case 'ADD_VARIANT_VALUE':
-        this.createVariantsValue(ev.data);
+        ev.data && this.createVariantValues(ev.data);
         break;
       case 'DELETE':
-        this.ondeleteVariant(ev.data);
+        ev.data && this.deleteVariant(ev.data);
         break;
       case 'EDIT':
-        this.editVariants(ev.data);
+        ev.data && this.editVariant(ev.data);
         break;
       default:
         break;
     }
   }
 
-  createVariants() {
-    this._popup
-      .open(AddEditVariantsComponent, {
-        title: this._translate.instant('VARIANTS.ADD_NEW_VARIANT'),
-        position: this._translate.currentLang === 'ar' ? 'left' : 'right',
-      })
-      .afterClosed.subscribe(
-        (refresh) => refresh && this.getAllVariants(this.filters)
-      );
+  private createVariant() {
+    this._popup.open(AddEditVariantsComponent, {
+      title: this._translate.instant('VARIANTS.ADD_NEW_VARIANT'),
+      position: this._translate.currentLang === 'ar' ? 'left' : 'right',
+    }).afterClosed.subscribe((refresh) => refresh && this.getAllVariants(this.filters));
   }
 
-  createVariantsValue(variantsData: variantsData) {
-    this._popup
-      .open(AddVariantsValueComponent, {
-        title: this._translate.instant('VARIANTS.ADD_NEW_VARIANT'),
-        position: this._translate.currentLang === 'ar' ? 'left' : 'right',
-        data: variantsData,
-      })
-      .afterClosed.subscribe(
-        (refresh) => refresh && this.getAllVariants(this.filters)
-      );
+  private createVariantValues(variantsData: VariantsData) {
+    this._popup.open(AddVariantsValueComponent, {
+      title: this._translate.instant('VARIANTS.ADD_NEW_VARIANT'),
+      position: this._translate.currentLang === 'ar' ? 'left' : 'right',
+      data: variantsData,
+    }).afterClosed.subscribe((refresh) => refresh && this.getAllVariants(this.filters));
   }
 
-  editVariants(variantsData: variantsData) {
-    this._popup
-      .open(AddEditVariantsComponent, {
-        title: this._translate.instant('VARIANTS.EDIT_VARIANT'),
-        position: this._translate.currentLang === 'ar' ? 'left' : 'right',
-        data: variantsData,
-      })
-      .afterClosed.subscribe(
-        (refresh) => refresh && this.getAllVariants(this.filters)
-      );
+  private editVariant(variantsData: VariantsData) {
+    this._popup.open(AddEditVariantsComponent, {
+      title: this._translate.instant('VARIANTS.EDIT_VARIANT'),
+      position: this._translate.currentLang === 'ar' ? 'left' : 'right',
+      data: variantsData,
+    }).afterClosed.subscribe((refresh) => refresh && this.getAllVariants(this.filters));
   }
 
-  onClassificationChange(event: DropdownEvent) {
-    this.selectedClassification = event.value as Classification;
-    this.filterVariants(this.filters);
-  }
-
-  ondeleteVariant(data: variantsData) {
-    this._confirm.confirm('delete').subscribe((res) => {
-      if (res) {
-        if (data.id)
-          this._variants
-            .deleteVariant(data.id)
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((response: variantsResponse) => {
-              if (response.data) {
-                // Successful deletion, fetch the updated list of variants
-                this._toastr.success('Variant Deleted Successfully');
-                this.getAllVariants(this.filters);
-              }
-            });
-      }
+  private deleteVariant(data: VariantsData) {
+    this._confirm.confirm('delete').subscribe((confirmed) => {
+      confirmed && this._variants.delete(data.id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((response: VariantsResponse) => {
+          if (response.data) {
+            this._toastr.success('Variant Deleted Successfully');
+            this.getAllVariants(this.filters);
+          }
+        });
     });
   }
 
+  private mappedVariants(res: { data: ProductsPagingInteface; }): any {
+    return {
+      ...VariantsTableConfig,
+      totalRecords: res.data.rowCount,
+      rowsPerPage: this.filters.PageSize,
+      rows: res.data.result.map((el: any) => ({
+        ...el,
+        classification: el.classificationIds.map((v: any) => v.name).join(', '),
+        variantsValueProp: el.variantValues.map((v: any) => v.name).join(', '),
+      })) || []
+    };
+  }
+
   ngOnDestroy(): void {
-    this._unsubscribeAll.next();
-    this._unsubscribeAll.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

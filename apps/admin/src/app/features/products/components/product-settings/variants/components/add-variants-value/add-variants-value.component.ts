@@ -11,11 +11,11 @@ import {
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 import { Classification } from '@admin-features/products/interfaces/products.interface';
-import { variantsData } from '@admin-features/products/interfaces/variants.interface';
+import { VariantsData } from '@admin-features/products/interfaces/variants.interface';
 import { MenuItem } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
 import { PopupService } from '@shared-ui';
-import { VariantsService } from '../../services/variants.service';
+import { VariantsService } from '../../../../../services/variants.service';
 import { Subject, takeUntil } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
@@ -33,20 +33,20 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './add-variants-value.component.html',
   styleUrl: './add-variants-value.component.scss',
 })
-export class AddVariantsValueComponent implements OnInit,OnDestroy {
+export class AddVariantsValueComponent implements OnInit, OnDestroy {
   addVariantValueForm!: FormGroup;
   private destroy$: Subject<void> = new Subject<void>();
-  public variantsData!: variantsData;
+  public variantsData!: VariantsData;
   constructor(
     private fb: FormBuilder,
     private _popup: PopupService,
     private _variants: VariantsService,
     private _translate: TranslateService,
     private _toastr: ToastrService
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.initForm();
-    this.variantsData = this._popup.getData<variantsData>();
+    this.variantsData = this._popup.getData<VariantsData>();
   }
   initForm() {
     this.addVariantValueForm = this.fb.group({
@@ -75,7 +75,7 @@ export class AddVariantsValueComponent implements OnInit,OnDestroy {
   get control() {
     return this.addVariantValueForm.controls;
   }
- 
+
   save() {
     const variant = this.addVariantValueForm.getRawValue();
     variant.id = this.variantsData?.id
@@ -85,11 +85,11 @@ export class AddVariantsValueComponent implements OnInit,OnDestroy {
       );
     }
     this._variants
-      .addVariantValue(variant)
+      .create(variant)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.afterSavingDone(this.variantsData));
   }
-  private afterSavingDone(variantsData: variantsData) {
+  private afterSavingDone(variantsData: VariantsData) {
     const nameToUse =
       this._translate.currentLang === 'ar'
         ? variantsData?.arabicName
@@ -102,7 +102,7 @@ export class AddVariantsValueComponent implements OnInit,OnDestroy {
     this._popup.close(true);
   }
   close = () => this._popup.close();
-  
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
