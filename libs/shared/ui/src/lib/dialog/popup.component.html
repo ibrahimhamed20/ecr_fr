@@ -1,16 +1,19 @@
 <section class="custom-dialog">
-    <p-dialog [(visible)]="toggle" [modal]="config.isModal || true" [dismissableMask]="config.dismissableMask || true"
-        [position]="config.position || 'right'" [draggable]="config.draggable || false" [blockScroll]="true"
-        [style]="{width: config.width || '40rem', height: '100vh', top: '0', margin: '0', padding: '0'}"
-        [baseZIndex]="10000" [closable]="config.closable || false" closeIcon="pi pi-times">
+    <p-dialog [(visible)]="toggle" [modal]="config.isModal" [dismissableMask]="config.dismissableMask"
+        [closeOnEscape]="true" [position]="config.position || 'right'" [draggable]="config.draggable || false"
+        [blockScroll]="true" [baseZIndex]="10000" [closable]="false"
+        [style]="{width: config.width || '40rem', height: '100vh', top: '0', margin: '0', padding: '0'}">
         <ng-template pTemplate="header">
+            @if (config.customHeader) {
             <div class="dialog-header">
                 <div class="dialog-header__title">{{config.title}}</div>
                 <button class="dialog-header__close-button" (click)="toggle = false">
                     <img src="assets/layout/images/close-icon.svg" alt="Close" class="dialog-header__close-icon" />
                 </button>
             </div>
+            }
         </ng-template>
+
         <ng-template pTemplate="content" #dynamicContainer></ng-template>
     </p-dialog>
 </section>

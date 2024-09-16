@@ -61,9 +61,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     private _route: ActivatedRoute,
     private _confirm: ConfirmDialogService,
     private productService: ProductsService,
-    private _popup: PopupService,
-    private _translate: TranslateService
-  ) { }
+    private _popup: PopupService) { }
 
   ngOnInit(): void {
     this.getProducts({ pageSize: this.rows, pageNumber: this.currentPage });
@@ -207,12 +205,12 @@ export class ProductComponent implements OnInit, OnDestroy {
   openProductDetail(product: Product) {
     this._popup
       .open(ProductDetailsComponent, {
-        title: '',
+        title: 'Product Details',
         position: 'right',//this._translate.currentLang === 'ar' ? 'left' : 'right',
         data: product,
         width: '70%',
-        isModal :false,
-        dismissableMask :false
+        closable: true,
+        customHeader: false
       })
       .afterClosed.subscribe(
         (refresh) =>
