@@ -1,13 +1,11 @@
-<section class="dialog-side">
-  <shared-ui-table [config]="tableConfig$ | async" (actionClicked)="onActionClicked($event)"
-    (onPage)="onPageChange($event)" (onSearch)="searchControl.patchValue($event)">
-    <div class="filters p-grid" filters-area>
-      <div class="filters-item col-2 p-0">{{'GENERAL.FILTERS' | translate}}</div>
-      <div class="filters-actions col-4 p-0">
-        <p-dropdown [options]="(classifications$ | async) || []" class="w-full" [(ngModel)]="filters.classification"
-          optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" (onChange)="getAllVariants(filters)"
-          placeholder="Select a classifications"></p-dropdown>
-      </div>
+<shared-ui-table [config]="tableConfig$ | async" (actionClicked)="onActionClicked($event)"
+  (onPage)="onPageChange($event)" (onSearch)="searchControl.patchValue($event)">
+  <div class="filters p-grid" filters-area>
+    <div class="filters-item col-2 p-0">{{'GENERAL.FILTERS' | translate}}</div>
+    <div class="filters-actions col-4 p-0">
+      <p-dropdown [options]="(classifications$ | async) || []" class="w-full" [(ngModel)]="filters.classification"
+        optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" (onChange)="getAllVariants(filters)"
+        placeholder="Select a classifications"></p-dropdown>
     </div>
-  </shared-ui-table>
-</section>
+  </div>
+</shared-ui-table>
