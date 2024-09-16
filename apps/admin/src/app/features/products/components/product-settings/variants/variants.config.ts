@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { TranslateModule } from '@ngx-translate/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 export const VariantsTableConfig: TableConfig = {
   columns: [
@@ -47,5 +47,6 @@ export const SHARED_MODULES = [
   ButtonModule,
   TableComponent,
   TranslateModule,
-  FormsModule
+  FormsModule,
+  ReactiveFormsModule
 ];
