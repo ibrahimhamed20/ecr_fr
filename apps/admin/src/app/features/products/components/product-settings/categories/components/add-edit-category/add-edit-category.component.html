@@ -14,8 +14,8 @@
       </div>
     </div>
     <div class="col-6">
-      <label for="barcodeNumber" appOnlyNumbers class="mb-2 block">{{ 'FIELDS.BAR_CODE_NO' | translate }}</label>
-      <input   pInputText  formControlName="barcodeNumber" class="w-full"
+      <label for="barcodeNumber"  class="mb-2 block">{{ 'FIELDS.BAR_CODE_NO' | translate }}</label>
+      <input  pInputText appOnlyNumbers formControlName="barcodeNumber" class="w-full"
         [placeholder]="'FIELDS.BAR_CODE_NO' | translate"/>
       <div *ngIf="control['barcodeNumber'].touched && control['barcodeNumber'].errors?.['required']" class="error-message">
         {{ 'GENERAL.FIELD_REQUIRED' | translate: { fieldName: ('FIELDS.BAR_CODE_NO' | translate) } }}

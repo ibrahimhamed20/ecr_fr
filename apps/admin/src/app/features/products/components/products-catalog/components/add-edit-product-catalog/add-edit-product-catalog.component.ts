@@ -56,8 +56,6 @@ export class AddEditProductCatalogComponent implements OnInit, OnDestroy {
   allProductsList: any[] = [];
   selectedProductsList: any[] = [];
   tempSelectedProductsList: any[] = [];
-  searchControl: FormControl = new FormControl();
-  keyword = "";
 
   constructor(private _fb: FormBuilder,
     private _catalog: CatalogService,
@@ -72,7 +70,6 @@ export class AddEditProductCatalogComponent implements OnInit, OnDestroy {
     this.prepareCatalogForm();
     this.getCatalogInfoByClassification();
     this.activateTab(this.items[0]);
-    this.onSearch();
   }
 
   prepareCatalogForm() {
@@ -105,7 +102,7 @@ export class AddEditProductCatalogComponent implements OnInit, OnDestroy {
 
 
   getAllPaidProduct(): void {
-    this._catalog.getAllPaidProduct(this.classId, this.pageNumber, this.pageSize,this.keyword)
+    this._catalog.getAllPaidProduct(this.classId, this.pageNumber, this.pageSize)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((response: ApiResponse<any>) => {
         // Process the response data
@@ -232,30 +229,7 @@ export class AddEditProductCatalogComponent implements OnInit, OnDestroy {
     );
   }
 
-  onSearch() {
-    this.searchControl.valueChanges.pipe(
-      filter((k: string) => k.trim().length >= 0),
-      debounceTime(400),
-      switchMap(word => this._catalog.getAllPaidProduct(
-        this.classId,
-        this.pageSize,
-        this.pageNumber,
-        word.trim()
-      ))
-    ).subscribe((response:ApiResponse<UnitData>) => {
-      if (response && response.data) {
-        this.tableConfig = {
-          ...ProductSelectedTableConfig,
-          rows: response.data.result.map(el => ({
-            ...el,
-            brandName: el.brand?.name,
-            categoryName: el.category?.name,
-          })) || [],
-          totalRecords: response.data.rowCount,
-        };
-      }
-    });
-  }
+
 
   goBack() {
     this._router.navigate(['/products/products-catalog']);

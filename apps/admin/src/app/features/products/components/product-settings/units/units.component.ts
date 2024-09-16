@@ -154,16 +154,13 @@ export class UnitsComponent implements OnInit, OnDestroy {
         .subscribe(() => {
           this.getAllUnits();
           this.displayDialog = false;
-          this._toastr.success(this._translate.instant('GENERAL.ADDED_SUCCESSFULLY', { name: 'UNITS.NAME' }));
-
+          this._toastr.success(this._translate.instant('GENERAL.ADDED_SUCCESSFULLY', { name: this._translate.instant('UNITS.NAME')  }));
         });
     } else {
-      this._product
-        .editUnit({ ...data, id: this.selectedUnit.id })
-        .pipe(takeUntil(this._unsubscribeAll))
+      this._product.editUnit({ ...data, id: this.selectedUnit.id }).pipe(takeUntil(this._unsubscribeAll))
         .subscribe((response) => {
           if (response.data) {
-            this._toastr.success(this._translate.instant('GENERAL.UPDATED_SUCCESSFULLY', { name: 'UNITS.NAME' }));
+            this._toastr.success(this._translate.instant('GENERAL.UPDATED_SUCCESSFULLY', { name: this._translate.instant('UNITS.NAME')}));
             this.getAllUnits();
             this.displayDialog = false;
           }

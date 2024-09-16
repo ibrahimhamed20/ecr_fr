@@ -67,7 +67,8 @@ export const ProductSelectedTableConfig: TableConfig = {
   rowsPerPageOptions: [5, 10, 15, 20, 25, 50, 100],
   selectionMode: 'single',
   rowsActions: [],
-  dataLoading: 'server',
+  globalFilterFields:['productName','categoryName'],
+  dataLoading: 'client',
   locale:'FIELDS.',
   paginator: true,
 };

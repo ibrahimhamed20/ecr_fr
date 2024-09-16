@@ -10,8 +10,8 @@ export class CatalogService {
 
   constructor(private _http: CustomHttpClient) { }
 
-  getAllPaidProduct(id:number,pageNumber: number,pageSize: number,keyword: string){
-    return this._http.get<ApiResponse<any>>(`${environment.URL_API}Products/paid-product/classification/${id}?PageSize=${pageSize}&PageNumber=${pageNumber}&Keyword=${keyword}`);
+  getAllPaidProduct(id:number,pageNumber: number,pageSize: number){
+    return this._http.get<ApiResponse<any>>(`${environment.URL_API}Products/paid-product/classification/${id}?PageSize=${pageSize}&PageNumber=${pageNumber}`);
   }
   getAllFreeProduct(id:number,pageNumber:number,pageSize:number) {
     return this._http.get<ApiResponse<any>>(`${environment.URL_API}Products/free-product/classification/${id}?PageSize=${pageSize}&PageNumber=${pageNumber}`)
