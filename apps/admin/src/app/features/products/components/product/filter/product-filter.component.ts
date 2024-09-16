@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, Output, ChangeDetectionStrategy } from
 import { CommonModule } from '@angular/common';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable, forkJoin, map } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { ProductsService } from '@admin-features/products/services/products.service';
 import { Classification, Brand, Category } from '@admin-features/products/interfaces/products.interface';
@@ -52,7 +52,7 @@ export class ProductFilterComponent implements OnInit {
 
   private getData(): Observable<FilterData> {
     return forkJoin({
-      classifications: this._product.getClassifications(),
+      classifications: this._product.getClassifications().pipe(map(res => res.data.classifications)),
       categories: this._product.getCategories(),
       brands: this._product.getAllBrands(100000, 1),
     });

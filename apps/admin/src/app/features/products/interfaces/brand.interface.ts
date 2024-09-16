@@ -19,7 +19,8 @@ export interface BrandData {
   icon: any;
   countryIds: number[];
   classificationIds: number[];
-}
+};
+
 
 export interface Classification {
   id: number;

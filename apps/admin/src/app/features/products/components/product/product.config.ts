@@ -53,7 +53,8 @@ export const ProductTableConfig: TableConfig = {
   rowsActions: ['EDIT', 'DELETE'],
   paginator: true,
   dataLoading: 'server',
-  locale: 'FIELDS.'
+  locale: 'FIELDS.',
+  hasFilters: true
 };
 
 // Configuration for the Merchant Products table

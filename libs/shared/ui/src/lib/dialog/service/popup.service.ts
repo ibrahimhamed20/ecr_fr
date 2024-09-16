@@ -1,4 +1,4 @@
-import { PopupConfig } from "../config/popup.config";
+import { PopupConfig, PopupConfigIntialData } from "../config/popup.config";
 import { Injectable, Type } from "@angular/core";
 import { Observable, of } from "rxjs";
 
@@ -7,7 +7,7 @@ import { Observable, of } from "rxjs";
 })
 export class PopupService {
 
-    open(component: Type<any>, config: PopupConfig): { afterClosed: Observable<any> } { return { afterClosed: of(null) } }
+    open(component: Type<any>, config: PopupConfig): { afterClosed: Observable<any> } { return { afterClosed: of(PopupConfigIntialData) } }
 
     getData<T>(): T { return <T>{} }
 

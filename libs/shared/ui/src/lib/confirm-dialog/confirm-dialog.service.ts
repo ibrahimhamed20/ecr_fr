@@ -5,5 +5,5 @@ import { Observable, of } from "rxjs";
     providedIn: 'root'
 })
 export class ConfirmDialogService {
-    confirm(type: 'delete' | 'warn' | 'confirm'|'Approve'|'Reject'): Observable<boolean> { return of(false); }
+    confirm(type: 'delete' | 'warn' | 'confirm' | 'approve' | 'reject'): Observable<boolean> { return of(false); }
 }

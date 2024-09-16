@@ -56,8 +56,7 @@
     "PRODUCT_NO": "رقم المنتج",
     "PRODUCT_PRICE": "سعر المنتج",
      "FREE_PRODUCT_NO": "عدد المنتجات المجانية",
-     "PAID_PRODUCT": "المنتج المدفوع",
-     "SERVICE_TYPE": "نوع الخدمة"
+     "PAID_PRODUCT": "المنتج المدفوع"
   },
   "VARIANTS": {
     "NAME": "متغيرات",

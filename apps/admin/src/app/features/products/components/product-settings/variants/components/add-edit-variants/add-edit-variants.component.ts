@@ -1,14 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
-import {
-  FormArray,
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { variantsData } from '@admin-features/products/interfaces/variants.interface';
+import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { VariantsData } from '@admin-features/products/interfaces/variants.interface';
 import { Classification } from '@admin-features/products/interfaces/product.interface';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
@@ -16,6 +9,12 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MenuItem } from 'primeng/api';
+import { PopupService } from '@shared-ui';
+import { VariantsService } from '../../../../../services/variants.service';
+import { Subject, takeUntil } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { ProductsService } from '@admin-features/products/services/products.service';
+import { DropdownEvent } from '@admin-features/products/interfaces';
 
 @Component({
   selector: 'admin-add-edit-variants',
@@ -35,18 +34,43 @@ import { MenuItem } from 'primeng/api';
   styleUrl: './add-edit-variants.component.scss',
 })
 export class AddEditVariantsComponent implements OnInit {
-  @Output() save = new EventEmitter<void>();
-  @Output() closeVariantValue = new EventEmitter<void>();
-
+  private destroy$: Subject<void> = new Subject<void>();
   addVariantForm!: FormGroup;
-  @Input() classifications: Classification[] = [];
+  classifications: Classification[] = [];
   breadcrumb!: MenuItem[];
-  @Input() variantsData!: variantsData | null; // Properly typed as UnitData or null
-  constructor(private fb: FormBuilder) {}
+  public variantsData!: VariantsData;
+  constructor(
+    private fb: FormBuilder,
+    private _popup: PopupService,
+    private _varaints: VariantsService,
+    private _translate: TranslateService,
+    private _toastr: ToastrService,
+    private _product: ProductsService,
+  ) { }
   ngOnInit(): void {
     this.initForm();
-    this.setdataInform();
+    this.getClassifications();
+    this.variantsData = this._popup.getData<VariantsData>();
+    this.variantsData.id && this.getVariantsDataDetails();
   }
+  getClassifications(): void {
+    this._product
+      .getClassifications()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: any) => {
+        this.classifications = res.data.classifications;
+      });
+  }
+  private getVariantsDataDetails() {
+    this._varaints
+      .getById(this.variantsData.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res) => {
+        this.variantsData = res.data;
+        this.variantsData.id && this.setdataInform();
+      });
+  }
+
   initForm() {
     this.addVariantForm = this.fb.group({
       id: [0],
@@ -59,12 +83,7 @@ export class AddEditVariantsComponent implements OnInit {
   setdataInform() {
     if (this.variantsData) {
       this.addVariantForm.patchValue(this.variantsData);
-      const selectedClassifications = this.getSelectedOptions(
-        this.variantsData.classificationIds
-      );
-      this.addVariantForm.patchValue({
-        classificationIds: selectedClassifications,
-      });
+
       this.variantValues.clear();
       for (let i = 0; i < this.variantsData.variantValues.length; i++) {
         this.variantValues.push(
@@ -77,10 +96,9 @@ export class AddEditVariantsComponent implements OnInit {
       }
     }
   }
-  getSelectedOptions(selectedIds: number[]): any[] {
-    return this.classifications.filter((option) =>
-      selectedIds.includes(option.id)
-    );
+  onClassificationChange(event: DropdownEvent) {
+    this.addVariantForm.get('classificationId')?.setValue(event.value.id);
+    this.addVariantForm.get('classification')?.setValue(event.value);
   }
 
   get variantValues(): FormArray {
@@ -107,14 +125,32 @@ export class AddEditVariantsComponent implements OnInit {
     index && this.variantValues.removeAt(index);
   }
 
-  onSave() {
-    if (this.addVariantForm.valid) {
-      this.save.emit(this.addVariantForm.value);
-    } else {
-      this.addVariantForm.markAllAsTouched();
-    }
+  save() {
+    const variant = this.addVariantForm.getRawValue();
+
+    (variant.id ? this._varaints.update(variant) : this._varaints.create(variant))
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() =>
+        this.afterSavingDone(variant.id ? 'edit' : 'add', variant)
+      );
   }
-  onClose() {
-    this.closeVariantValue.emit();
+  private afterSavingDone(type: 'add' | 'edit', classification: VariantsData) {
+    const nameToUse =
+      this._translate.currentLang === 'ar'
+        ? classification?.arabicName
+        : classification?.englishName;
+    this._translate
+      .get(type ? 'GENERAL.ADDED_SUCCESSFULLY' : 'UPDATED_SUCCESSFULLY', {
+        name: nameToUse,
+      })
+      .subscribe((msg: string) => this._toastr.success(msg));
+    this._popup.close(true);
+  }
+
+  close = () => this._popup.close();
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

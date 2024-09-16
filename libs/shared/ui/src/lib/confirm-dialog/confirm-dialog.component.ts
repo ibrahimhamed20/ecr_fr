@@ -22,7 +22,7 @@ export class ConfirmDialogComponent {
     this._confirm.confirm = this.confirm.bind(this);
   }
 
-  private confirm(type: 'delete' | 'warn' | 'confirm') {
+  private confirm(type: 'delete' | 'warn' | 'confirm' | 'approve' | 'reject') {
     let config: any = {};
 
     switch (type) {
