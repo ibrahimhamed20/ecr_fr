@@ -19,7 +19,6 @@ import { ProductSelectedTableConfig, SelectedProductTableConfig } from '../../ca
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { PaginatorState } from 'primeng/paginator';
-import { UnitsTableConfig } from '@admin-features/products/components/product-settings/units/units.config';
 
 @Component({
   selector: 'admin-add-edit-product-catalog',
@@ -76,6 +75,22 @@ export class AddEditProductCatalogComponent implements OnInit, OnDestroy {
     this.onSearch();
   }
 
+  prepareCatalogForm() {
+    this.catalogFormGroup = this._fb.group(
+      {
+        id: [this.classId],
+        catalogProductCount: [null, Validators.required],
+        catalogProductCountPrice: [null, Validators.required]
+      }
+    )
+  }
+
+  getCatalogInfoByClassification() {
+    this._catalog.getCatalogInfoByClassification(Number(this.classId)).subscribe((response: any) => {
+      this.catalogFormGroup.patchValue(response.data);
+    })
+  }
+
   activateTab(item: MenuItem): void {
     this.activeItem = item;
     // Fetch data based on the tab label
@@ -99,7 +114,6 @@ export class AddEditProductCatalogComponent implements OnInit, OnDestroy {
           brandName: el.brand?.name,
           categoryName: el.category?.name,
         })) || [];
-        console.log('tempSelectedProductsList', this.tempSelectedProductsList);
         if (this.activeItem?.label === 'All products') {
           // Combine the tempSelectedProductsList with productsFromResponse
           const combinedList = [...this.tempSelectedProductsList, ...productsFromResponse];
@@ -117,10 +131,7 @@ export class AddEditProductCatalogComponent implements OnInit, OnDestroy {
       });
   }
 
-
-
-
-  getAllFreeProduct(): void {
+  getAllFreeProduct(callback?: (freeProducts: any[]) => void): void {
     this._catalog.getAllFreeProduct(this.classId, this.pageNumber, 10000)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((response: ApiResponse<any>) => {
@@ -129,21 +140,28 @@ export class AddEditProductCatalogComponent implements OnInit, OnDestroy {
           brandName: el.brand?.name, // Optionally include brand name
           categoryName: el.category?.name, // Optionally include category name
         })) || [];
+
         // Combine with existing selected products and remove duplicates
         const updatedProductsList = [...this.selectedProductsList, ...freeProducts];
         const uniqueProducts = Array.from(new Map(updatedProductsList.map(product => [product.productId, product])).values());
 
         // Update the selectedProductsList
         this.selectedProductsList = uniqueProducts;
+        // Invoke the callback if provided
+        if (callback) {
+          callback(freeProducts);
+        }
 
         // Check if we are on the 'Selected' tab and update tableConfig
         if (this.activeItem?.label === 'Selected') {
-          this.tableConfig = { ...this.tableConfig, rows: [...this.selectedProductsList], totalRecords: this.selectedProductsList.length };
-          console.log('Updated tableConfig rows:', this.tableConfig.rows);
+          this.tableConfig = {
+            ...this.tableConfig,
+            rows: [...this.selectedProductsList],
+            totalRecords: this.selectedProductsList.length
+          };
         }
       });
   }
-
 
   private updateProductLists(sourceList: any[], targetList: any[], productId: number) {
     const index = sourceList.findIndex(product => product.productId === productId);
@@ -156,16 +174,34 @@ export class AddEditProductCatalogComponent implements OnInit, OnDestroy {
   onActionClicked(ev: any): void {
     if (ev.action === 'ROW_SELECTED') {
       const selectedProduct = ev.data;
+
       if (this.activeItem?.label === 'All products') {
         this.updateProductLists(this.allProductsList, this.tempSelectedProductsList, selectedProduct.productId);
-        this.selectedProductsList = [...this.tempSelectedProductsList];
-        this.tableConfig.rows = [...this.allProductsList];
+
+        // Fetch free products and merge with the selected products
+        this.getAllFreeProduct((freeProducts) => {
+          // Merge the free products with the selected products list
+          this.selectedProductsList = [
+            ...new Set([...this.tempSelectedProductsList, ...freeProducts])
+          ];
+
+          this.tableConfig.rows = [...this.allProductsList];
+        });
+
       } else if (this.activeItem?.label === 'Selected') {
         this.updateProductLists(this.selectedProductsList, this.tempSelectedProductsList, selectedProduct.productId);
-        this.allProductsList = [...this.tempSelectedProductsList];
-        this.tableConfig.rows = [...this.selectedProductsList];
-        console.log('rows',this.allProductsList)
+
+        // Fetch free products and merge with the selected products
+        this.getAllFreeProduct((freeProducts) => {
+          // Merge the free products with the selected products list
+          this.allProductsList = [
+            ...new Set([...this.tempSelectedProductsList, ...freeProducts])
+          ];
+
+          this.tableConfig.rows = [...this.selectedProductsList];
+        });
       }
+
       this.tableConfig.totalRecords = this.tableConfig?.rows?.length;
     }
   }
@@ -177,22 +213,6 @@ export class AddEditProductCatalogComponent implements OnInit, OnDestroy {
     if (this.activeItem.label === 'All products') {
       this.getAllPaidProduct();
     }
-  }
-
-  prepareCatalogForm() {
-    this.catalogFormGroup = this._fb.group(
-      {
-        id: [this.classId],
-        catalogProductCount: [null, Validators.required],
-        catalogProductCountPrice: [null, Validators.required]
-      }
-    )
-  }
-
-  getCatalogInfoByClassification() {
-    this._catalog.getCatalogInfoByClassification(Number(this.classId)).subscribe((response: any) => {
-      this.catalogFormGroup.patchValue(response.data);
-    })
   }
 
   save() {
@@ -236,6 +256,7 @@ export class AddEditProductCatalogComponent implements OnInit, OnDestroy {
       }
     });
   }
+
   goBack() {
     this._router.navigate(['/products/products-catalog']);
   }

@@ -94,6 +94,7 @@ export const SelectedProductTableConfig: TableConfig = {
   selectionMode: 'single',
   rowsActions: [],
   dataKey:'id',
+  globalFilterFields:['productName','categoryName'],
   dataLoading: 'client',
   locale:'FIELDS.',
   paginator: true,

@@ -11,7 +11,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { MessageService } from 'primeng/api';
 import { ProductsService } from '@admin-features/products/services/products.service';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { PopupService } from '@shared-ui';
+import { OnlyNumbersDirective, PopupService } from '@shared-ui';
 import { ClassificationsData } from '@admin-features/products/interfaces';
 import { Subject, takeUntil } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
@@ -29,6 +29,7 @@ import { ToastrService } from 'ngx-toastr';
     InputNumberModule,
     ReactiveFormsModule,
     InputTextModule,
+    OnlyNumbersDirective,
     ButtonModule
   ],
   providers: [MessageService],
