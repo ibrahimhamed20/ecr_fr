@@ -208,9 +208,11 @@ export class ProductComponent implements OnInit, OnDestroy {
     this._popup
       .open(ProductDetailsComponent, {
         title: '',
-        position: this._translate.currentLang === 'ar' ? 'left' : 'right',
+        position: 'right',//this._translate.currentLang === 'ar' ? 'left' : 'right',
         data: product,
-        width: '70%'
+        width: '70%',
+        isModal :false,
+        dismissableMask :false
       })
       .afterClosed.subscribe(
         (refresh) =>

@@ -1,5 +1,5 @@
 import { ConfirmDialogService, PopupService, TableConfig } from '@shared-ui';
-import { debounceTime, filter, Subject, switchMap, takeUntil, Observable, map } from 'rxjs';
+import { debounceTime, filter, Subject, switchMap, takeUntil, Observable, map, of } from 'rxjs';
 import { SHARED_MODULES, VariantsTableConfig } from './variants.config';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
@@ -37,6 +37,7 @@ export class VariantsComponent implements OnInit, OnDestroy {
     private _translate: TranslateService) { }
 
   ngOnInit(): void {
+    //console.log(this.tableConfig$)
     this.getClassifications();
     this.getAllVariants(this.filters);
     this.onSearchData();
@@ -47,13 +48,16 @@ export class VariantsComponent implements OnInit, OnDestroy {
   }
 
   private onSearchData() {
-    this.tableConfig$ = this.searchControl.valueChanges.pipe(
+     this.searchControl.valueChanges.pipe(
       filter((k: string) => k.trim().length > 0),
       debounceTime(400),
       switchMap((term) => this._variants.getAll(this.filters = { ...this.filters, name: term }))
-    ).pipe(map(res => this.mappedVariants(res)));
+    ).subscribe((response:any) => {
+      this.tableConfig$ = of(
+        this.mappedVariants(response)
+      )}
+    );
   }
-
 
   public onPageChange(event: PaginatorState): void {
     this.filters = {
@@ -124,6 +128,7 @@ export class VariantsComponent implements OnInit, OnDestroy {
   }
 
   private mappedVariants(res: { data: ProductsPagingInteface; }): any {
+    console.log('API Response:', res);
     return {
       ...VariantsTableConfig,
       totalRecords: res.data.rowCount,
