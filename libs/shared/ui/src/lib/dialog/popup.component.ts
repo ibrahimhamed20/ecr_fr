@@ -18,7 +18,7 @@ export class PopupComponent {
   private dynamicContainer!: ViewContainerRef;
 
   toggle: boolean = false;
-  config: PopupConfig = { position: 'right', title: 'Dialog', width: '37.5rem' };
+  config: PopupConfig = { position: 'right', title: 'Dialog', width: '37.5rem', isModal: true, dismissableMask: true };
 
   private closed$: Subject<any> = new Subject<any>();
 

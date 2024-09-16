@@ -1,9 +1,8 @@
 <section class="custom-dialog">
-    <!-- [style]="{ width: '600px', height: '100vh', top: '0', margin: '0', padding: '0' }" -->
-    <p-dialog [(visible)]="toggle" [modal]="true" [dismissableMask]="true" [position]="config.position || 'right'"
+    <p-dialog [(visible)]="toggle" [modal]="config.isModal || true" [dismissableMask]="config.dismissableMask || true"
+        [position]="config.position || 'right'" [draggable]="config.draggable || false" [blockScroll]="true"
         [style]="{width: config.width || '40rem', height: '100vh', top: '0', margin: '0', padding: '0'}"
-        [baseZIndex]="10000" [draggable]="config.draggable || false" [blockScroll]="true"
-        [closable]="config.closable || false" closeIcon="pi pi-times">
+        [baseZIndex]="10000" [closable]="config.closable || false" closeIcon="pi pi-times">
         <ng-template pTemplate="header">
             <div class="dialog-header">
                 <div class="dialog-header__title">{{config.title}}</div>
