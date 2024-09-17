@@ -44,6 +44,7 @@ export const CatalogTableConfig: TableConfig = {
   locale:'FIELDS.',
   paginator: true,
 };
+
 export const ProductSelectedTableConfig: TableConfig = {
   columns: [
     { field: 'catalog', header: 'catalog', type: 'checkbox', exported: false },
@@ -62,10 +63,12 @@ export const ProductSelectedTableConfig: TableConfig = {
     },
   ],
   rowsPerPage: 10,
+  dataKey:'productId',
   rowsPerPageOptions: [5, 10, 15, 20, 25, 50, 100],
   selectionMode: 'single',
   rowsActions: [],
-  dataLoading: 'server',
+  globalFilterFields:['productName','categoryName'],
+  dataLoading: 'client',
   locale:'FIELDS.',
   paginator: true,
 };
@@ -91,7 +94,9 @@ export const SelectedProductTableConfig: TableConfig = {
   rowsPerPageOptions: [5, 10, 15, 20, 25, 50, 100],
   selectionMode: 'single',
   rowsActions: [],
-  dataLoading: 'server',
+  dataKey:'id',
+  globalFilterFields:['productName','categoryName'],
+  dataLoading: 'client',
   locale:'FIELDS.',
   paginator: true,
 };

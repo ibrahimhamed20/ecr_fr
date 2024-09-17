@@ -8,7 +8,8 @@
     "NAME": "Category",
     "PRODUCT_MANAGEMENT": "Products Management",
     "ADD_NEW_CATEGORY": "Add New Category",
-    "EDIT_NEW_CATEGORY": "Edit Category"
+    "EDIT_NEW_CATEGORY": "Edit Category",
+    "ADD_SUB_CATEGORY":"Add Subcategory"
   },
   "BRANDS": {
     "ADD_NEW_BRAND": "Add New Brand",
@@ -24,12 +25,14 @@
     "SHORT_ARABIC_NAME": "Short Arabic Name",
     "SHORT_ENGLISH_NAME": "Short English Name",
     "SHORT_NAME": "Short Name",
+    "CATALOG": "Product catalog",
     "UNIT_NAME": "Unit Name",
     "ENGLISH_NAME": "English Name",
     "ARABIC_NAME": "Arabic Name",
     "CLASSIFICATION": "Classification",
     "ALLOW_DECIMAL": "Allow Decimal",
     "BAR_CODE_NO": "Barcode Number",
+    "PARENT_CATEGORY": "Parent Category",
     "PRODUCTNAME": "Product Name",
     "PRICE": "Price",
     "NO_PRODUCTS": "Number of products",

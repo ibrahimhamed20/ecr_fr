@@ -21,3 +21,20 @@
     border-radius: 50%;
   }
 }
+
+.table-container {
+  max-height: 400px; /* Set the maximum height for the container */
+  overflow-y: auto; /* Enable vertical scrolling */
+  display: block; /* Ensure the container is displayed as a block element */
+}
+
+.p-table {
+  width: 100%; /* Full width for the table */
+}
+
+.p-table thead th {
+  position: sticky;
+  top: 0;
+  background: #f9f9f9; /* Set background color to ensure header is visible */
+  z-index: 2; /* Ensure the header cells stay on top */
+}

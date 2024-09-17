@@ -1,6 +1,7 @@
 @if (config) {
-<p-table #dt [value]="config.rows || []" [columns]="exportedColumns || []" responsiveLayout="scroll"
-    [(rows)]="config.rowsPerPage" (onRowSelect)="onRowSelect($event)" [lazy]="config.dataLoading === 'server'"
+<p-table #dt [value]="config.rows || []"
+    [columns]="exportedColumns || []" responsiveLayout="scroll"
+    [(rows)]="config.rowsPerPage"  (onRowUnselect)="onRowSelect($event,false)" [lazy]="config.dataLoading === 'server'"
     [paginator]="true" [totalRecords]="config.totalRecords || config.rows?.length || 0" [(selection)]="selectedRows"
     [selectionMode]="config.selectionMode" [exportFilename]="config.exportFilename ||'products'"
     [globalFilterFields]="config.globalFilterFields" [rowsPerPageOptions]="config.rowsPerPageOptions"
@@ -51,7 +52,9 @@
         <tr>
             @for (col of config.columns; track $index) {
             @if (col.type === 'checkbox') {
-            <th style="width: 3rem"><p-tableHeaderCheckbox /></th>
+            <th style="width: 3rem;  text-align: center;">
+              <!--   <p-tableHeaderCheckbox></p-tableHeaderCheckbox> -->
+            </th>
             } @else {
             @if (col.sortable) {
             <th [pSortableColumn]="col.field">
@@ -68,7 +71,10 @@
         <tr>
             @for (col of config.columns; track $index) {
             @if (col.type === 'checkbox') {
-            <td style="width:2%; min-width:1rem;"><p-tableCheckbox [value]="row" [index]="$index" /></td>
+              <td style="width:1%; min-width:1rem; text-align: center;">
+                <input type="checkbox" (change)="onRowSelect(row,true)"  [checked]="row.checked" />
+              </td>
+
             } @else if (col.type === 'link') {
             <td style="width:14%; min-width:10rem;">
                 <span class="p-column-title">{{col.header}}</span>

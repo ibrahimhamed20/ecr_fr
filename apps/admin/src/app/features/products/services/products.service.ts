@@ -111,10 +111,10 @@ export class ProductsService {
     );
   }
   getUnitById(id: number): Observable<Data<UnitData>> {
-    return this._http.get<Data<UnitData>>(`/api/units/${id}`);
+    return this._http.get<Data<UnitData>>(`${environment.URL_API}units/${id}`);
   }
   getCategoryById(id: number): Observable<Data<CategoriesData>> {
-    return this._http.get<Data<CategoriesData>>(`/api/Categories/${id}`);
+    return this._http.get<Data<CategoriesData>>(`${environment.URL_API}Categories/${id}`);
   }
   getAllCategories(pageSize: number, pageNumber: number, keyword: string) {
     return this._http.get<ApiResponse<Category>>(

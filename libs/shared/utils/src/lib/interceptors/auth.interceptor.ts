@@ -15,7 +15,6 @@ export const AuthInterceptorFn: HttpInterceptorFn = (req, next) => {
 
     return next(req).pipe(
         catchError(error => {
-            debugger
             if (error instanceof HttpErrorResponse && error.status === 401) {
                 // Access token expired, try refreshing
                 return _auth.refreshToken({ accessToken, refreshToken, mId: 'tg' }).pipe(

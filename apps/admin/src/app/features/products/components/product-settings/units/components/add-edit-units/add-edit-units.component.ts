@@ -7,6 +7,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { TranslateModule } from '@ngx-translate/core';
+import { EliminateSpecialCharsDirective } from '@shared-ui';
 
 @Component({
   selector: 'admin-add-edit-units',
@@ -19,6 +20,7 @@ import { TranslateModule } from '@ngx-translate/core';
     CheckboxModule,
     ReactiveFormsModule,
     InputTextModule,
+    EliminateSpecialCharsDirective,
     ButtonModule
   ],
   templateUrl: './add-edit-units.component.html',
@@ -51,12 +53,12 @@ export class AddEditUnitsComponent implements OnInit {
   prepareForm() {
     this.addUnitForm = this._fb.group({
       childId: [],
-      arabicName: [null, [Validators.required,Validators.maxLength(50)]],
-      englishName: [null, [Validators.required,Validators.maxLength(50)]],
+      arabicName: [null, [Validators.required,Validators.maxLength(20)]],
+      englishName: [null, [Validators.required,Validators.maxLength(20)]],
       classificationId: [null, Validators.required],
       classification: [null, Validators.required],
-      shortArabicName: [null, [Validators.required,Validators.maxLength(50)]],
-      shortEnglishName: [null, [Validators.required,Validators.maxLength(50)]],
+      shortArabicName: [null, [Validators.required,Validators.maxLength(20)]],
+      shortEnglishName: [null, [Validators.required,Validators.maxLength(20)]],
       isDecimal: [true],
     });
   }

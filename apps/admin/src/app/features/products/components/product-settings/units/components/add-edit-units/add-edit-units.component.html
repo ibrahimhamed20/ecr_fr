@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="col-6">
-      <input type="text" pInputText  formControlName="arabicName" class="w-full"
+      <input type="text" pInputText  appEliminateSpecialChars formControlName="arabicName" class="w-full"
         [placeholder]="'FIELDS.SHORT_ARABIC_NAME' | translate"/>
       <div *ngIf="control['arabicName'].touched && control['arabicName'].errors?.['required']" class="error-message">
         {{ 'GENERAL.FIELD_REQUIRED' | translate: { fieldName: ('FIELDS.SHORT_ARABIC_NAME' | translate) } }}
@@ -29,7 +29,7 @@
       </div>
     </div>
     <div class="col-6">
-      <input type="text" pInputText  formControlName="englishName" class="w-full"
+      <input type="text" pInputText  appEliminateSpecialChars formControlName="englishName" class="w-full"
         [placeholder]="'FIELDS.ENGLISH_NAME' | translate"/>
       <div *ngIf="control['englishName'].touched && control['englishName'].errors?.['required']" class="error-message">
         {{ 'GENERAL.FIELD_REQUIRED' | translate: { fieldName: ('FIELDS.ENGLISH_NAME' | translate) } }}
@@ -40,7 +40,7 @@
       </div>
     </div>
     <div class="col-6">
-      <input type="text" pInputText formControlName="shortArabicName" class="w-full"
+      <input type="text" pInputText appEliminateSpecialChars formControlName="shortArabicName" class="w-full"
       [placeholder]="'FIELDS.SHORT_ARABIC_NAME' | translate"/>
       <div *ngIf="control['shortArabicName'].touched && control['shortArabicName'].errors?.['required']"
         class="error-message">
@@ -51,7 +51,7 @@
      </div>
     </div>
     <div class="col-6">
-      <input type="text" pInputText formControlName="shortEnglishName" class="w-full"
+      <input type="text" pInputText appEliminateSpecialChars formControlName="shortEnglishName" class="w-full"
       [placeholder]="'FIELDS.SHORT_ENGLISH_NAME' | translate"/>
       <div *ngIf="control['shortEnglishName'].touched && control['shortEnglishName'].errors?.['required']"
         class="error-message">
