@@ -1,24 +1,23 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {  FileEvent, Classification, CategoriesData } from '@admin-features/products/interfaces/products.interface';
-import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputNumberModule } from 'primeng/inputnumber';
 import { FileUploadModule } from 'primeng/fileupload';
-import { MessageService } from 'primeng/api';
-import { ProductsService } from '@admin-features/products/services/products.service';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { ConfirmDialogService, OnlyNumbersDirective, PopupService } from '@shared-ui';
-import { ClassificationsData } from '@admin-features/products/interfaces';
-import { Subject, takeUntil } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
 import { TableModule } from 'primeng/table';
+import { Classification, CategoriesData, ClassificationsData, FileEvent } from '@admin-features/products/interfaces';
+import { ProductsService } from '@admin-features/products/services/products.service';
+import { PopupService } from '@shared-ui';
+import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
+import { DropdownModule } from 'primeng/dropdown';
 
 @Component({
-  selector: 'admin-add-edit-category',
+  selector: 'admin-add-edit-subcategory',
   standalone: true,
   imports: [
     CommonModule,
@@ -30,37 +29,35 @@ import { TableModule } from 'primeng/table';
     InputNumberModule,
     ReactiveFormsModule,
     InputTextModule,
-    OnlyNumbersDirective,
     ButtonModule,
+    DropdownModule,
     TableModule
   ],
-  providers: [MessageService],
-  templateUrl: './add-edit-category.component.html',
-  styleUrl: './add-edit-category.component.scss',
+  templateUrl: './add-edit-subcategory.component.html',
+  styleUrl: './add-edit-subcategory.component.scss',
 })
-export class AddEditCategoryComponent implements OnInit {
+export class AddEditSubcategoryComponent implements OnInit {
   private destroy$: Subject<void> = new Subject<void>();
   classifications: Classification[] = [];
+  categories: any[] = [];
   data!: any | null;
-  subCatagory:any[] =[];
   dialogForm!: FormGroup;
-  private _unsubscribeAll: Subject<void> = new Subject<void>();
   constructor(
     private _fb: FormBuilder,
     private _popup: PopupService,
     private _translate: TranslateService,
-    private _confirm: ConfirmDialogService,
     private _toastr: ToastrService,
     private _product: ProductsService) { }
 
   ngOnInit() {
-    this.prepareForm();
     this.data = this._popup.getData();
+    this.prepareForm();
     this.classifications = this.data?.classifications as Classification[];
+    console.log('this.data?.response',this.data)
     if (this.data?.response) {
       this.dialogForm.patchValue(this.data?.response);
       this.setPreSelectedValues();
-      this.getAllCategories();;
+      this.getAllCategories();
     }
   }
   prepareForm() {
@@ -68,8 +65,9 @@ export class AddEditCategoryComponent implements OnInit {
       arabicName: [null, [Validators.required,Validators.maxLength(50)]],
       englishName: [null, [Validators.required,Validators.maxLength(50)]],
       classificationsIds: [null],
-      id: [this.data?.response?.id],
       classifications: [null, Validators.required],
+      parentId: [this.data?.id],
+      id: [this.data?.response ? this.data.response.id : null], // Conditionally set the id
       barcodeNumber: [null, Validators.required],
       icon: this._fb.group({
         externalStorageId: "",
@@ -82,14 +80,14 @@ export class AddEditCategoryComponent implements OnInit {
   get control() {
     return this.dialogForm.controls;
   }
+  subCatagory:any;
   getAllCategories() {
     this._product.getAllCategories(100000, 1,'').subscribe((res: any) => {
       let data = res.data.result;
-      let parentId = this.data?.response?.id;
+      let parentId = this.data?.response?.id
       let childCategories = data.filter((x:any) => x.id == parentId);
       if(childCategories){
         this.subCatagory = childCategories[0]?.subCategories ? childCategories[0]?.subCategories : [];
-      console.log('this.subCatagorythis.subCatagorythis.subCatagory',this.subCatagory)
       }
     });
   }
@@ -111,10 +109,14 @@ export class AddEditCategoryComponent implements OnInit {
   }
 
   save() {
-    const category = this.dialogForm.getRawValue();
+     // Check if the id is null and remove the control if necessary
+      if (!this.dialogForm.get('id')?.value) {
+        this.dialogForm.removeControl('id');
+      }
+    const updatedCategory = this.dialogForm.getRawValue();
     (this.data?.response ?
-      this._product.editCategory(category) : this._product.addCategory(category))
-      .pipe(takeUntil(this.destroy$)).subscribe(() => this.afterSavingDone(this.data?.response ? 'edit' : 'add', category));
+      this._product.editCategory(updatedCategory) : this._product.addCategory(updatedCategory))
+      .pipe(takeUntil(this.destroy$)).subscribe(() => this.afterSavingDone(this.data?.response ? 'edit' : 'add', updatedCategory));
   }
 
   private afterSavingDone(type: 'add' | 'edit', classification: ClassificationsData) {
@@ -159,36 +161,9 @@ export class AddEditCategoryComponent implements OnInit {
     });
   }
   //#endregion
-
-  onActionClicked(ev: { action: string; data?: any }) {
-    switch (ev.action) {
-      case 'ADD_SUB_CATEGORY': this.addSubcategory(ev.data); break;
-      case 'EDIT_SUB_CATEGORY': this.editSubcategory(ev.data); break;
-      case 'DELETE': this.onActionDelete(ev.data); break;
-    }
-  }
-  editSubcategory(data:any) {
-    console.log('data',data)
-    this._product.getCategoryById(Number(data?.id)).subscribe(response => {
-      this._popup.close({action:'EDIT_SUB_CATEGORY',data:response});
-    })
-  }
-  addSubcategory(data:any) {
-    this._popup.close({action:'ADD_SUB_CATEGORY',data:data?.response});
-  }
-  onActionDelete(data: { id: number }): void {
-    this._confirm.confirm('delete').subscribe((res) => {
-      if (res) {
-        this._product
-          .deleteCategory(data.id)
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe((response) => {
-            if (response.data) {
-              this.close();
-            }
-          });
-      }
-    });
+  onActionClicked(item?:any) {
+    this._popup.close(item);
   }
   close = () => this._popup.close();
 }
+

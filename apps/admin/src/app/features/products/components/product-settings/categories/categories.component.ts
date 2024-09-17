@@ -19,6 +19,7 @@ import { AddEditCategoryComponent } from './components/add-edit-category/add-edi
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CategoryTableConfig } from './categories.config';
 import { ProductsService } from '@admin-features/products/services/products.service';
+import { AddEditSubcategoryComponent } from './components/add-edit-subcategory/add-edit-subcategory.component';
 
 @Component({
   selector: 'admin-categories',
@@ -204,18 +205,47 @@ export class CategoriesComponent implements OnInit, OnDestroy {
       },
     }).afterClosed.subscribe((refresh) => refresh && this.getAllCategories());
   }
+  id!:number;
   getCategoryById(data: CategoriesData) {
-      this._product.getCategoryById(Number(data.id)).subscribe((res) => {
+    this.id = data.id;
+      this._product.getCategoryById(Number(data.id)).subscribe((res:any) => {
         if (res.data) {
           this._popup.open(AddEditCategoryComponent, {
             title: this._translate.instant('CATEGORY.EDIT_NEW_CATEGORY'),
             position: this._translate.currentLang === 'ar' ? 'left' : 'right',
             data: {
               response:res.data,
-              classifications:this.classifications}
-          }).afterClosed.subscribe((refresh) => refresh && this.getAllCategories());
+              classifications:this.classifications
+            }
+          }).afterClosed.subscribe((response) => {
+            if(response?.action == "EDIT_SUB_CATEGORY") {
+              this.openSubCategoryDialog(response?.data?.data)
+            } else if(response?.action == "ADD_SUB_CATEGORY"){
+              this.openSubCategoryDialog()
+            } 
+            this.getAllCategories();
+
+          });
         }
       });
+  }
+
+  openSubCategoryDialog(item?:any) {
+        this._popup.open(AddEditSubcategoryComponent, {
+          title: this._translate.instant('CATEGORY.EDIT_NEW_CATEGORY'),
+          position: this._translate.currentLang === 'ar' ? 'left' : 'right',
+          data: {
+            response:item,
+            id:this.id,
+            categories:this.tableConfig.rows,
+            classifications:this.classifications
+          }
+        }).afterClosed.subscribe((response) => {
+          if(response) {
+            this.getAllCategories();
+          }
+        });
+ 
   }
   ngOnDestroy(): void {
     this._unsubscribeAll.next();

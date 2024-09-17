@@ -1,6 +1,32 @@
 <div class="form-content" [formGroup]="dialogForm">
   <div class="row">
-
+    <div class="col-12" *ngIf="data?.categories?.length > 0">
+      <label for="parentCategory"  class="mb-2 block">{{ 'FIELDS.PARENT_CATEGORY' | translate }}</label>
+      <p-dropdown 
+      [options]="data.categories"
+      formControlName="parentId"  
+      optionLabel="name"
+      optionValue="id" 
+      [filter]="true" 
+      filterBy="name"
+      [showClear]="true"
+      [placeholder]="'FIELDS.PARENT_CATEGORY' | translate">
+      <!-- Template to show the selected item -->
+      <ng-template pTemplate="selectedItem" let-selectedOption>
+        <div class="flex align-items-center gap-2">
+          <div>{{ selectedOption.name }}</div>
+        </div>
+      </ng-template>
+      
+      <!-- Template to show items in the dropdown -->
+      <ng-template pTemplate="item" let-category>
+        <div class="flex align-items-center gap-2">
+          <div>{{ category.name }}</div>
+        </div>
+      </ng-template>
+    </p-dropdown>
+    
+    </div>
     <div class="col-6">
       <label for="classification" class="mb-2 block">{{ 'FIELDS.CLASSIFICATION' | translate }}</label>
       <p-multiSelect
@@ -16,7 +42,11 @@
     </div>
     <div class="col-6">
       <label for="barcodeNumber"  class="mb-2 block">{{ 'FIELDS.BAR_CODE_NO' | translate }}</label>
-      <input  pInputText appOnlyNumbers formControlName="barcodeNumber" class="w-full"
+      <p-inputNumber
+      mode="decimal"
+      inputId="withoutgrouping"
+      [useGrouping]="false"
+       formControlName="barcodeNumber" class="w-full"
         [placeholder]="'FIELDS.BAR_CODE_NO' | translate"/>
       <div *ngIf="control['barcodeNumber'].touched && control['barcodeNumber'].errors?.['required']" class="error-message">
         {{ 'GENERAL.FIELD_REQUIRED' | translate: { fieldName: ('FIELDS.BAR_CODE_NO' | translate) } }}
@@ -32,7 +62,6 @@
       <div *ngIf="control['arabicName'].touched && control['arabicName'].errors?.['required']" class="error-message">
         {{ 'GENERAL.FIELD_REQUIRED' | translate: { fieldName: ('FIELDS.SHORT_ARABIC_NAME' | translate) } }}
       </div>
-        <!-- Max length validation -->
       <div *ngIf="control['arabicName'].touched && control['arabicName'].errors?.['maxlength']" class="error-message">
         {{ 'GENERAL.MAX_LENGTH_EXCEEDED' | translate: { maxLength: 50 } }}
       </div>
@@ -44,13 +73,12 @@
       <div *ngIf="control['englishName'].touched && control['englishName'].errors?.['required']" class="error-message">
         {{ 'GENERAL.FIELD_REQUIRED' | translate: { fieldName: ('FIELDS.ENGLISH_NAME' | translate) } }}
       </div>
-      <!-- Max length validation -->
       <div *ngIf="control['englishName'].touched && control['englishName'].errors?.['maxlength']" class="error-message">
          {{ 'GENERAL.MAX_LENGTH_EXCEEDED' | translate: { maxLength: 50 } }}
       </div>
     </div>
     <div class="col-12">
-       <ng-container *ngIf="!data?.response?.icon?.blobUrI">
+       <ng-container *ngIf="!data?.selectedSubCategory?.icon?.blobUrI">
         <p-fileUpload
         mode="basic"
         [chooseLabel]="'GENERAL.CHOOSE' | translate"
@@ -60,56 +88,17 @@
         maxFileSize="1000000"
         (onSelect)="onFileSelect($event)" />
        </ng-container>
-       <ng-container *ngIf="data?.response?.icon?.blobUrI">
+       <ng-container *ngIf="data?.selectedSubCategory?.icon?.blobUrI">
         <div class="container-img">
-          <img [src]="data?.response?.icon?.blobUrI" [alt]="data?.response?.icon?.id">
+          <img [src]="data.selectedSubCategory?.icon?.blobUrI" [alt]="data.parentId">
           <img src="assets/layout/images/close-icon.svg" alt="close-icon" class="close" (click)="removeImage()">
         </div>
        </ng-container>
     </div>
-    <div class="col-12" *ngIf="subCatagory.length == 0">
-      <p-button label="{{'CATEGORY.ADD_SUB_CATEGORY' | translate}}" (click)="onActionClicked({action: 'ADD_SUB_CATEGORY', data})"/>
-    </div>
-    <div class="col-12" *ngIf="subCatagory.length > 0">
-      <div class="table-container">
-        <p-table [value]="subCatagory" class="p-table">
-          <ng-template pTemplate="header">
-            <tr>
-              <th>#</th>
-              <th>{{'FIELDS.CATEGORY_NAME' | translate}}</th>
-              <th>{{'FIELDS.ACTIONS' | translate}}</th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-product>
-            <tr>
-              <td>{{ product.id }}</td>
-              <td>{{ product.name }}</td>
-              <td>
-                <div class="flex align-items-center gap-2">
-                  <button pButton type="button" severity="danger" class="flex align-items-center gap-2"
-                    (click)="onActionClicked({ action: 'DELETE', data: product })">
-                    <i class="pi pi-trash"></i>
-                    <span>{{'GENERAL.DELETE' | translate}}</span>
-                  </button>
-                  <button pButton type="button" class="flex align-items-center gap-2"
-                    (click)="onActionClicked({ action: 'EDIT_SUB_CATEGORY', data: product })">
-                    <i class="pi pi-pencil"></i>
-                    <span>{{'GENERAL.UPDATE' | translate}}</span>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
-      </div>
-    </div>
-    <div class="col-12">
-        <div class="flex gap-2 align-items-center justify-content-end">
-          <p-button [label]="'GENERAL.CANCEL'|translate" severity="danger" (onClick)="close()" />
-              <p-button [label]="data?.response ? ('GENERAL.UPDATE' | translate) : ('GENERAL.SAVE' | translate)"
-              severity="primary"[disabled]="dialogForm.invalid"
-              (onClick)="save()"></p-button>
-      </div>
+    <div class="col-3">
+      <p-button [label]="data ? ('GENERAL.UPDATE' | translate) : ('GENERAL.SAVE' | translate)" class="p-element btn-tasheel btn-primary w-full"
+      (onClick)="save()"></p-button>
     </div>
   </div>
+
 </div>
