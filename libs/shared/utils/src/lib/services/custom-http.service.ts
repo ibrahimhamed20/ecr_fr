@@ -9,8 +9,8 @@ export class CustomHttpClient {
 
     constructor(private _http: HttpClient) { }
 
-    get<T>(url: string, params?: HttpParams): Observable<T> {
-        return this._http.get<T>(url, { params });
+    get<T>(url: string, params?: any): Observable<T> {
+        return this._http.get<T>(url, { params: { ...params } });
     }
 
     post<T>(url: string, body: T): Observable<T> {

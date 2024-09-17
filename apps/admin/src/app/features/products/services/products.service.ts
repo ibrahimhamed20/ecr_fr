@@ -151,11 +151,8 @@ export class ProductsService {
     );
   }
 
-  deleteVariant(id: string | number) {
-    return this._http.delete<{ data: ProductsPagingInteface }>(
-      `${environment.URL_API}Variants/${id}`
-    );
+  getProductById(id:number) {
+    return this._http.get(`${environment.URL_API}Products/${id}`);
   }
-
  
 }

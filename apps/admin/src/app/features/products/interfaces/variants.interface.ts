@@ -1,4 +1,6 @@
-export interface variantsResponse {
+import { Classification } from "./products.interface";
+
+export interface VariantsResponse {
   data: {
     result: any[];
     rowCount: number;
@@ -7,20 +9,22 @@ export interface variantsResponse {
   };
 }
 
-export interface variantsData {
-  id?: number | string;
+export interface VariantsData {
+  id: number
   arabicName: string;
   englishName: string;
   classificationIds: number[];
-  variantValues: variants[];
+  variantValues: Variants[];
 }
-export interface variants {
+export interface Variants {
   id: number;
   arabicName: string;
   englishName: string;
-  name :string
+  name: string;
 }
-export interface variantParam {
-  number?: number;
-  size: number;
+export interface VariantParam {
+  PageNumber: number;
+  PageSize: number;
+  name: string;
+  classification?: Classification | null;
 }
