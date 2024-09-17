@@ -1,120 +1,3 @@
-@if (false) {
-<div class="p-fluid">
-    <div class="grid">
-        <div class="col-8">
-            <div class="flex flex-column">
-                <div class="flex gap-2 mb-3 align-items-center">
-                    <label style="font-weight: bold;">{{productData.productDefinition.arabicName}}</label>
-                    <label style="border: 1px solid; border-radius: 5px;padding: 10px;">Available for sale </label>
-                    <div class="toggler">
-                        <label for="check-active" style="margin-bottom: 5px;">Activated</label>
-                        <p-inputSwitch id="check-active" />
-                    </div>
-                    <!-- <p-button icon="pi pi-bookmark" [rounded]="true" severity="secondary" /> -->
-                    <!-- <p-button label="Success" [outlined]="true" severity="success" /> -->
-                </div>
-                <p>
-                    <!-- Chepsi is a refreshing, fizzy soft drink perfect for quenching your thirst. With its bold, crisp
-                    flavor and light carbonation, Chepsi delivers a burst of taste in every sip. Whether you're enjoying
-                    it on a hot day, pairing it with your favorite meal, or serving it at a party -->
-                    {{productData.productDefinition.arabicDescription}}
-                </p>
-                <p-divider layout="horizontal" styleClass="hidden md:flex"></p-divider>
-            </div>
-        </div>
-        <div class="col-4">
-            <div class="flex justify-content-end">
-                <img width="100" height="100" src="./../././../../../../../assets/layout/images/themes/arya-purple.png"
-                    alt="image">
-
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="flex justify-content-between align-items-center">
-                <label style="
-                font-size: 20px;
-                font-weight: 600;
-                line-height: 24.38px;
-                text-align: left;
-                ">Varaiants</label>
-                <p-button label="GenrateBarcode" class="text-black" severity="warning" />
-            </div>
-        </div>
-        <div class="col-12">
-            <ul style="list-style-type: none;" class="flex justify-content-between ">
-                <li>
-                    <p style="font-weight: bold; font-size: 14px; color: rgba(152, 152, 152, 1);">
-                        {{"FIELDS.UINT"|translate}} </p>
-                    <p>kilogram</p>
-                </li>
-                <li>
-                    <p style="font-weight: bold; font-size: 14px; color: rgba(152, 152, 152, 1);">
-                        {{"FIELDS.EXPEIRATIONPERIOD"|translate}} </p>
-                    <p>kilogram</p>
-                </li>
-                <li>
-                    <p style="font-weight: bold; font-size: 14px; color: rgba(152, 152, 152, 1);">
-                        {{"FIELDS.SERIALNUMBER"|translate}} </p>
-                    <p>kilogram</p>
-                </li>
-                <li>
-                    <p style="font-weight: bold; font-size: 14px; color: rgba(152, 152, 152, 1);">
-                        {{"FIELDS.TAGS"|translate}} </p>
-                    <p>kilogram</p>
-                </li>
-                <li>
-                    <p style="font-weight: bold; font-size: 14px; color: rgba(152, 152, 152, 1);">
-                        {{"FIELDS.BRAND"|translate}} </p>
-                    <p>kilogram</p>
-                </li>
-                <li>
-                    <p style="font-weight: bold; font-size: 14px; color: rgba(152, 152, 152, 1);">
-                        {{"FIELDS.CATEGORY"|translate}} </p>
-                    <p>kilogram</p>
-                </li>
-
-            </ul>
-        </div>
-        <div class="col-12">
-            <p-table [value]="productData.products" #dt2 [tableStyle]="{ 'min-width': '30rem' }"
-                styleClass="p-datatable-gridlines">
-
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th>{{"FIELDS.PRODUCTNAME"|translate}}</th>
-                        <th>{{"FIELDS.SKU"|translate}}</th>
-                        <th>{{"FIELDS.UINT"|translate}}</th>
-                        <th>{{"FIELDS.COST"|translate}}</th>
-                        <th>{{"FIELDS.PRICE"|translate}}</th>
-                        <th>{{"FIELDS.IMAGES"|translate}}</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-product>
-                    <tr>
-
-                        <td>{{ product.arabicName }}</td>
-                        <td>{{ product.sku }}</td>
-                        <td>{{ product.unit }}</td>
-                        <td>{{ product.cost }}</td>
-                        <td>{{ product.price }}</td>
-                        <td>
-                            @for (item of product.productImages; track $index) {
-                            <img [src]="item.blobUrI" [alt]="item.id" width="100" class="shadow-4" />
-                            }
-                        </td>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="emptymessage">
-                    <tr>
-                        <td colspan="5">{{'GENERAL.NODATA'|translate}}</td>
-                    </tr>
-                </ng-template>
-            </p-table>
-        </div>
-    </div>
-
-</div>
-}
 
 <header class="grid">
     <div class="col-12 pt-0">
@@ -173,5 +56,50 @@
     <div class="col-2 product-metadata">
         <span class="text-secondary">Category</span>
         <strong>Food</strong>
+    </div>
+</section>
+<section>
+    <div class="col-12">
+        <div class="flex justify-content-between align-items-center">
+            <label
+                style=" font-size: 20px;   font-weight: 600; line-height: 24.38px;  text-align: left; ">Varaiants</label>
+            <p-button label="GenrateBarcode" class="text-black" severity="warning" />
+        </div>
+    </div>
+    <div class="col-12">
+        <p-table [value]="productData.products" #dt2 [tableStyle]="{ 'min-width': '30rem' }"
+            styleClass="p-datatable-gridlines">
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>{{"FIELDS.PRODUCTNAME"|translate}}</th>
+                    <th>{{"FIELDS.SKU"|translate}}</th>
+                    <th>{{"FIELDS.UINT"|translate}}</th>
+                    <th>{{"FIELDS.COST"|translate}}</th>
+                    <th>{{"FIELDS.PRICE"|translate}}</th>
+                    <th>{{"FIELDS.IMAGES"|translate}}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product>
+                <tr>
+
+                    <td>{{ product.arabicName }}</td>
+                    <td>{{ product.sku }}</td>
+                    <td>{{ product.unit }}</td>
+                    <td>{{ product.cost }}</td>
+                    <td>{{ product.price }}</td>
+                    <td>
+                        @for (item of product.productImages; track $index) {
+                        <img [src]="item.blobUrI" [alt]="item.id" width="100" class="shadow-4" />
+                        }
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="5">{{'GENERAL.NODATA'|translate}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
     </div>
 </section>

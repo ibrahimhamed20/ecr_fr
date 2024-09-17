@@ -58,8 +58,13 @@
             } @else {
             <label for="icon">Classification Icon</label>
             <p-fileUpload name="icon" [showUploadButton]="false" [showCancelButton]="false" id="icon"
-                (onSelect)="uploadFile($event)" accept="image/*" [maxFileSize]="1000000"></p-fileUpload>
+                (onSelect)="uploadFile($event)"invalidFileTypeMessageSummary="Invalid Type" invalidFileLimitMessageDetail="Invalid Type" accept="image/*" [maxFileSize]="1000000"></p-fileUpload>
             }
+            @if (formError.hasSpecificError('icon', 'required')) {
+                <small id="serviceType-error" class="text-error">
+                    {{ 'GENERAL.FIELD_REQUIRED' | translate: { maxLength: 50 } }}
+                </small>
+                }
         </div>
     </div>
 </form>

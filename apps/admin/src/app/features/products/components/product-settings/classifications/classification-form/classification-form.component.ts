@@ -1,9 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { PopupService } from '@shared-ui';
-import { ClassificationsData, ClassificationServiceType } from '@admin-features/products/interfaces';
+import {
+  ClassificationsData,
+  ClassificationServiceType,
+} from '@admin-features/products/interfaces';
 import { FormHelper } from '@shared-utils';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
@@ -18,9 +26,17 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'admin-classification-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, DropdownModule, InputTextModule, FileUploadModule, ButtonModule, TranslateModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    DropdownModule,
+    InputTextModule,
+    FileUploadModule,
+    ButtonModule,
+    TranslateModule,
+  ],
   templateUrl: './classification-form.component.html',
-  styleUrl: './classification-form.component.scss'
+  styleUrl: './classification-form.component.scss',
 })
 export class ClassificationFormComponent implements OnInit {
   private destroy$: Subject<void> = new Subject<void>();
@@ -36,7 +52,8 @@ export class ClassificationFormComponent implements OnInit {
     private _popup: PopupService,
     private _translate: TranslateService,
     private _toastr: ToastrService,
-    private _fb: FormBuilder) { }
+    private _fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.classification = this._popup.getData<ClassificationsData>();
@@ -47,28 +64,31 @@ export class ClassificationFormComponent implements OnInit {
   }
 
   private getClassificationDetails() {
-    this._classifications.getClassificationById(this.classification.id)
+    this._classifications
+      .getClassificationById(this.classification.id)
       .pipe(takeUntil(this.destroy$))
-      .subscribe(res => {
+      .subscribe((res) => {
         this.classification = res.data;
-        this.classification.id && this.patchFormData()
-      })
+        this.classification.id && this.patchFormData();
+      });
   }
 
   private initForm(): FormGroup {
     return this._fb.group({
       id: [0],
-      arabicName: ['', [Validators.required]],
-      englishName: ['', [Validators.required]],
+      arabicName: ['', [Validators.required, Validators.maxLength(50)]],
+      englishName: ['', [Validators.required, Validators.maxLength(50)]],
       serviceType: [null, [Validators.required]],
-      icon: this._fb.group({
-        id: 0,
-        externalStorageId: '',
-        mimeType: '',
-        has360View: false,
-        sizeInBytes: 0,
-        blobUrI: '',
-      }),
+      icon: this._fb.group(
+        {
+          id: 0,
+          externalStorageId: '',
+          mimeType: '',
+          has360View: false,
+          sizeInBytes: 0,
+          blobUrI: '',
+        }
+      ),
     });
   }
 
@@ -78,17 +98,18 @@ export class ClassificationFormComponent implements OnInit {
       arabicName: this.classification.arabicName,
       englishName: this.classification.englishName,
       serviceType: this.classification.serviceType,
-      icon: this.classification.icon
+      icon: this.classification.icon,
     });
     const iconFormGroup = this.classificationsForm.get('icon') as FormGroup;
-    this.classification.icon && iconFormGroup.patchValue({
-      id: this.classification.icon.id,
-      externalStorageId: this.classification.icon.externalStorageId,
-      mimeType: this.classification.icon.mimeType,
-      has360View: this.classification.icon.has360View,
-      sizeInBytes: this.classification.icon.sizeInBytes,
-      blobUrI: this.classification.icon.blobUrI
-    });
+    this.classification.icon &&
+      iconFormGroup.patchValue({
+        id: this.classification.icon.id,
+        externalStorageId: this.classification.icon.externalStorageId,
+        mimeType: this.classification.icon.mimeType,
+        has360View: this.classification.icon.has360View,
+        sizeInBytes: this.classification.icon.sizeInBytes,
+        blobUrI: this.classification.icon.blobUrI,
+      });
   }
 
   uploadFile(event: FileSelectEvent) {
@@ -114,15 +135,29 @@ export class ClassificationFormComponent implements OnInit {
 
   save() {
     const classification = this.classificationsForm.getRawValue();
-    (classification.id ?
-      this._classifications.editClassification(classification) : this._classifications.addClassification(classification))
-      .pipe(takeUntil(this.destroy$)).subscribe(() => this.afterSavingDone(classification.id ? 'edit' : 'add', classification));
+    (classification.id
+      ? this._classifications.editClassification(classification)
+      : this._classifications.addClassification(classification)
+    )
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() =>
+        this.afterSavingDone(classification.id ? 'edit' : 'add', classification)
+      );
   }
 
-  private afterSavingDone(type: 'add' | 'edit', classification: ClassificationsData) {
-    const nameToUse = this._translate.currentLang === 'ar' ? classification?.arabicName : classification?.englishName;
+  private afterSavingDone(
+    type: 'add' | 'edit',
+    classification: ClassificationsData
+  ) {
+    const nameToUse =
+      this._translate.currentLang === 'ar'
+        ? classification?.arabicName
+        : classification?.englishName;
 
-    this._translate.get(type ? 'GENERAL.ADDED_SUCCESSFULLY' : 'UPDATED_SUCCESSFULLY', { name: nameToUse })
+    this._translate
+      .get(type ? 'GENERAL.ADDED_SUCCESSFULLY' : 'UPDATED_SUCCESSFULLY', {
+        name: nameToUse,
+      })
       .subscribe((msg: string) => this._toastr.success(msg));
 
     this._popup.close(true);

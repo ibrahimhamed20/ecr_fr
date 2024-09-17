@@ -5,7 +5,7 @@
     <div class="grid mt-2">
         <div class="col-6">
             <p-table [value]="merchantProducts" #dt1 [globalFilterFields]="['name']" styleClass="p-datatable-gridlines">
-                <ng-template pTemplate="caption">
+                <!-- <ng-template pTemplate="caption">
                     <div class="flex">
                         <p-iconField iconPosition="left" class="ml-auto">
                             <p-inputIcon><i class="pi pi-search"></i></p-inputIcon>
@@ -13,7 +13,7 @@
                                 (input)="dt1.filterGlobal(mprodsearch.value, 'contains')" />
                         </p-iconField>
                     </div>
-                </ng-template>
+                </ng-template> -->
                 <ng-template pTemplate="header">
                     <tr>
                         <th>{{"FIELDS.PRODUCTNAME"|translate}}</th>
